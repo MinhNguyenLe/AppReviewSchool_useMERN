@@ -22,7 +22,7 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    console.log("Connect Mongo successful");
+    console.log("Connect Mongo successfulllll");
   }
 );
 
