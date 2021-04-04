@@ -9,6 +9,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/register1",require("./routes/LoginRouter"))
+
 const port = process.env.PORT || 5000;
 
 const uri = process.env.MONGODB_URL;
@@ -30,6 +32,9 @@ app.get("/", (req, res) => {
   res.json({ dm: "hihi" });
 });
 
+
 app.listen(port, () => {
   console.log(`server running in port ${port}`);
 });
+
+console.log("server");
