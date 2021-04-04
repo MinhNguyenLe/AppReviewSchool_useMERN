@@ -1,5 +1,5 @@
-const Users = require("../models/useModels");
-const jwt = require("jsonwebtoken");
+const Users = require("../models/LoginModel");
+//const jwt = require("jsonwebtoken");
 
 const userCtrl = {
   register: async (req, res) => {
@@ -27,6 +27,7 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
 };
 
 const createAccessToken = (user) => {
@@ -34,3 +35,5 @@ const createAccessToken = (user) => {
 };
 
 module.exports = userCtrl;
+
+console.log("Login controller");
