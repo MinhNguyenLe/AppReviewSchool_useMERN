@@ -4,3 +4,7 @@
 html {
   scroll-behavior: smooth;
 }
+i{
+  outline: none;
+  text-decoration: none;
+}
