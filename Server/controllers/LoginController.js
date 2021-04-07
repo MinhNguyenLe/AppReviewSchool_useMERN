@@ -1,4 +1,4 @@
-const Users = require("../models/useModels");
+const Users = require("../models/LoginModel");
 const jwt = require("json-web-token");
 
 const userCtrl = {
@@ -25,13 +25,6 @@ const userCtrl = {
       res.json({ user: newUser });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
-    }
-  },
-  login : async(req, res)=>{
-    try{
-
-    }catch(err){
-      return 
     }
   }
 };
