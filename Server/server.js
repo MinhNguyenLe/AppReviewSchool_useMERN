@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/user',require('./routes/LoginRouter.js'))
 
 const port = process.env.PORT || 5000;
 
