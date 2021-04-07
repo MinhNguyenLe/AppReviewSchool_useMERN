@@ -67,8 +67,8 @@ const Footer =()=>{
           </div>
           <div className="footer-body-sub">
             <div className="footer-body-sub-topic">
-              <span>Fill Address</span>
-              <span>Check your mail.</span>
+              <span>Please fill Email-address</span>
+              <span>And check your mail now.</span>
             </div>
             <input placeholder="Your E-mail" onInput={fillEmail} className="footer-body-sub-input"></input>
             <button className="footer-body-sub-btn" onClick={SubEmail}>SUBMIT</button>

@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/user',require('./routes/LoginRouter.js'))
 
 app.use("/register1",require("./routes/LoginRouter"))
 

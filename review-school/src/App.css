@@ -8,3 +8,16 @@ i{
   outline: none;
   text-decoration: none;
 }
+body {
+  background: #f7f7f7;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+button {
+  outline: none;
+}
+input {
+  outline: none;
+}
