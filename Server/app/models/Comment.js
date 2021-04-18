@@ -1,0 +1,38 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+const Review = new Schema(
+    {
+        idSchool: {
+            type: String,
+            required: true,
+        },
+        idUser: {
+            type: String,
+        },
+        name: {
+            type: String,
+            default: 'Anonymous',
+        },
+        positive: {
+            type: String,
+        },
+        negative: {
+            type: String,
+        },
+        rateValue: {
+            up: {
+                count: Number,
+                idUser: [String],
+            },
+            down: {
+                count: Number,
+                idUser: [String],
+            },
+        },
+    },
+    { timestamps: true, collection: 'reviews' }
+);
+
+module.exports = mongoose.model('Review', Review);
