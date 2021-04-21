@@ -7,6 +7,15 @@ const userCtrl = {
     getAll(req, res) {
         User.find({})
             .then((users) => {
+                users = users.map(function (item) {
+                    item.avatar =
+                        req.protocol +
+                        '://' +
+                        req.get('host') +
+                        '/avatar/' +
+                        item.avatar;
+                    return item;
+                });
                 return res.json(users);
             })
             .catch((err) => {
@@ -17,6 +26,12 @@ const userCtrl = {
         const username = req.params.username;
         User.findOne({ username })
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -27,6 +42,12 @@ const userCtrl = {
         const email = req.params.email;
         User.findOne({ email })
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -37,6 +58,12 @@ const userCtrl = {
         const id = req.params.id;
         User.findById(id)
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -50,6 +77,15 @@ const userCtrl = {
         }
         User.find({ permission })
             .then((users) => {
+                users = users.map(function (item) {
+                    item.avatar =
+                        req.protocol +
+                        '://' +
+                        req.get('host') +
+                        '/avatar/' +
+                        item.avatar;
+                    return item;
+                });
                 return res.json(users);
             })
             .catch((err) => {
@@ -90,13 +126,13 @@ const userCtrl = {
             });
             await newUser.save();
 
-            // const accessToken = createAccessToken({ id: newUser._id });
-            // const refreshToken = createRefreshToken({ id: newUser._id });
+            const accessToken = createAccessToken({ id: newUser._id });
+            const refreshToken = createRefreshToken({ id: newUser._id });
 
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     path: '/user/refresh_token',
-            // });
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                path: '/user/refresh_token',
+            });
 
             res.json({ user: newUser });
         } catch (err) {

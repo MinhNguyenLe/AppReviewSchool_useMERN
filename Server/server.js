@@ -27,6 +27,4 @@ app.listen(port, () => {
     console.log(`server running in port ${port}`);
 });
 
-console.log(window.location.hostname);
-
 console.log('server');
