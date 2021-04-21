@@ -72,10 +72,8 @@ const commentCtrl = {
     },
     detele: async (req, res) => {
         try {
-
             let id = req.params;
             const comment = await Comment.findById(id);
-            console.log(comment);
             if(comment === null){
                return res.status(404).json({msg: "Can't find comment"});
             } 

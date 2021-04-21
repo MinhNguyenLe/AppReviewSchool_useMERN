@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('json-web-token');
+const jwt = require('jsonwebtoken');
 const { json } = require('express');
 
 const userCtrl = {
@@ -66,7 +66,8 @@ const userCtrl = {
                 permission,
                 avatar,
             } = req.body; // FrontEnd submit object to BackEnd
-            const user = await User.findOne({ username });
+            let user = await User.findOne({ username });
+            console.log(user)
             if (!user) {
                 user = await User.findOne({ email });
             }
@@ -88,14 +89,17 @@ const userCtrl = {
                 permission: permission,
                 avatar: avatar,
             });
-            await newUser.save();
+            //await newUser.save();
 
-            // const accessToken = createAccessToken({ id: newUser._id });
-            // const refreshToken = createRefreshToken({ id: newUser._id });
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     path: '/user/refresh_token',
-            // });
+            const accessToken = createAccessToken({ id: newUser._id });
+            console.log(accessToken);
+            const refreshToken = createRefreshToken({ id: newUser._id });
+            console.log(refreshToken);
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                path: '/user/refresh_token',
+            });
+
 
             res.json({ user: newUser });
         } catch (err) {
@@ -104,9 +108,11 @@ const userCtrl = {
     },
     refreshToken: (req, res) => {
         try {
-            const rf_token = req.cookies.refreshtoken;
+            const rf_token = req.headers['x-refresh-token']
+            // const rf_token = req.cookies.refreshToken;
+            //console.log(rf_token)
             if (!rf_token)
-                res.status(400).json({ msg: 'please login or register' });
+                return res.status(400).json({ msg: 'please login or register' });
 
             jwt.verify(
                 rf_token,
@@ -118,7 +124,7 @@ const userCtrl = {
                             .json({ msg: 'please login or register' });
                     const accessToken = createAccessToken({ id: user.id });
 
-                    res.json({ user, accessToken });
+                    return res.json({ user, accessToken });
                 }
             );
         } catch (err) {
@@ -127,29 +133,36 @@ const userCtrl = {
     },
     login: async (req, res) => {
         try {
-            const { email, pass } = req.body;
-            const user = await Users.findOne({ email });
-
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+           console.log({ email, password } )
             if (!user) return res.status(400).json({ msg: 'User not exist' });
-            const isMatch = await bcrypt.compare(pass, user.passWord);
-
+            const isMatch = await bcrypt.compare(password, user.password);
+            console.log(isMatch)
             if (!isMatch)
                 return res.status(400).json({ msg: 'Incorrect password' });
 
             const accessToken = createAccessToken({ id: user._id });
             const refreshToken = createRefreshToken({ id: user._id });
 
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                path: '/user/refresh_token',
-            });
+            // access token saved at header and refresh token saved at cookie
+            res.set({'x-access-token': accessToken,
+            })
+            res.set({'x-refresh-token': refreshToken});
+            // res.cookie('refreshToken', refreshToken, {
+            //     httpOnly: true,
+            //     path: '/users/refresh_token',
+            // });
+
+            return res.status(200).json({msg: "Login successful!"})
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
     },
     logout: async (req, res) => {
         try {
-            res.clearCookie('refreshtoken', { path: '/user/refresh_token' });
+            // We don't have db to save token, I think clear token in client.
+            return res.status(200).json({msg: "Log out succesful."});
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
@@ -157,10 +170,10 @@ const userCtrl = {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expires: '1d' });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
 };
 const createRefreshToken = (user) => {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expires: '7d' });
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 };
 
 module.exports = userCtrl;

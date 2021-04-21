@@ -1,11 +1,16 @@
 const router = require('express').Router();
 const commentController = require('../app/controllers/CommentController');
 
+const authMiddleWare = require('../app/middleware/auth');
+
 router.get('/', commentController.getAll);
 
 router.get('/id/:_id', commentController.getById);
 
 router.post('/create', commentController.create);
+
+
+router.use(authMiddleWare);
 
 router.put('/update/:_id', commentController.update);
 
