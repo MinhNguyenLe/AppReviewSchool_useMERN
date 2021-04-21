@@ -66,7 +66,7 @@ const userCtrl = {
                 permission,
                 avatar,
             } = req.body; // FrontEnd submit object to BackEnd
-            const user = await User.findOne({ username });
+            let user = await User.findOne({ username });
             if (!user) {
                 user = await User.findOne({ email });
             }
