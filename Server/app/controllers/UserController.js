@@ -92,7 +92,6 @@ const userCtrl = {
 
             // const accessToken = createAccessToken({ id: newUser._id });
             // const refreshToken = createRefreshToken({ id: newUser._id });
-
             // res.cookie('refreshToken', refreshToken, {
             //     httpOnly: true,
             //     path: '/user/refresh_token',

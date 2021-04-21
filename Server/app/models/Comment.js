@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const Review = new Schema(
+const Comment = new Schema(
     {
-        idSchool: {
+        idReview: {
             type: String,
             required: true,
         },
@@ -15,24 +15,12 @@ const Review = new Schema(
             type: String,
             default: 'Anonymous',
         },
-        positive: {
+        content: {
             type: String,
-        },
-        negative: {
-            type: String,
-        },
-        rateValue: {
-            up: {
-                count: Number,
-                idUser: [String],
-            },
-            down: {
-                count: Number,
-                idUser: [String],
-            },
-        },
+            required: true
+        }
     },
-    { timestamps: true, collection: 'reviews' }
+    { timestamps: true, collection: 'comments' }
 );
 
-module.exports = mongoose.model('Review', Review);
+module.exports = mongoose.model('Comment', Comment);
