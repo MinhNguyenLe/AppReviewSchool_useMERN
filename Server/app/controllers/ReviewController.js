@@ -94,13 +94,16 @@ const reviewCtrl = {
     upvote: async (req, res) => {
         try {
             let id = req.params;
-
+            let {idUser} = req.body;
             const review = await Review.findById(id);
 
             if(review === null){
                return res.status(404).json({msg: "Can't find review"});
             } 
             ++review.rateValue.up.count;
+            if(idUser !== null && idUser !== undefined){
+                review.rateValue.up.idUser.push(idUser);
+            }
             await review.save();
             return res.json({msg: "Updated upvote in rateValue."}); 
            
@@ -111,13 +114,16 @@ const reviewCtrl = {
     downvote: async (req, res) => {
         try {
             let id = req.params;
-
+            let {idUser} = req.body;
             const review = await Review.findById(id);
 
             if(review === null){
                return res.status(404).json({msg: "Can't find review"});
             } 
             ++review.rateValue.down.count;
+            if(idUser !== null && idUser !== undefined){
+                review.rateValue.down.idUser.push(idUser);
+            }
             await review.save();
             return res.json({msg: "Updated downvote in rateValue."}); 
            

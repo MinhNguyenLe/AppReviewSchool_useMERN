@@ -109,10 +109,12 @@ const userCtrl = {
     refreshToken: (req, res) => {
         try {
             const rf_token = req.headers['x-refresh-token']
-            // const rf_token = req.cookies.refreshToken;
-            //console.log(rf_token)
+            
             if (!rf_token)
-                return res.status(400).json({ msg: 'please login or register' });
+                return res.status(400).json({ msg: 'you need provide refresh token' });
+
+            if(blackListRT.has(rf_token))
+                return res.status(400).json({msg: "you are logout, please login again."});
 
             jwt.verify(
                 rf_token,
@@ -121,7 +123,7 @@ const userCtrl = {
                     if (err)
                         return res
                             .status(400)
-                            .json({ msg: 'please login or register' });
+                            .json({ msg: err });
                     const accessToken = createAccessToken({ id: user.id });
 
                     return res.json({ user, accessToken });
@@ -148,11 +150,11 @@ const userCtrl = {
             // access token saved at header and refresh token saved at cookie
             res.set({'x-access-token': accessToken,
             })
-            res.set({'x-refresh-token': refreshToken});
-            // res.cookie('refreshToken', refreshToken, {
-            //     httpOnly: true,
-            //     path: '/users/refresh_token',
-            // });
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                path: '/users/refresh_token',
+            });
 
             return res.status(200).json({msg: "Login successful!"})
         } catch (err) {
@@ -161,7 +163,9 @@ const userCtrl = {
     },
     logout: async (req, res) => {
         try {
-            // We don't have db to save token, I think clear token in client.
+            const rf_token = req.headers['x-refresh-token']
+            blackListRT.add(rf_token);
+            res.clearCookie('refreshToken',{path : '/users/refresh_token'})
             return res.status(200).json({msg: "Log out succesful."});
         } catch (err) {
             res.status(500).json({ msg: err.message });
@@ -170,10 +174,10 @@ const userCtrl = {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' }); // access token expires in 5 minutes
 };
 const createRefreshToken = (user) => {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' }); // refresh token expires in 1 hour => need login again
 };
 
 module.exports = userCtrl;
