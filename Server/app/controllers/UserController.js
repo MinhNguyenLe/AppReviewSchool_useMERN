@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('json-web-token');
+const Resize = require('../../util/resize');
+const path = require('path');
 const { json } = require('express');
 
 const userCtrl = {
@@ -12,7 +14,7 @@ const userCtrl = {
                         req.protocol +
                         '://' +
                         req.get('host') +
-                        '/avatar/' +
+                        '/images/avatar/' +
                         item.avatar;
                     return item;
                 });
@@ -30,7 +32,7 @@ const userCtrl = {
                     req.protocol +
                     '://' +
                     req.get('host') +
-                    '/avatar/' +
+                    '/images/avatar/' +
                     user.avatar;
                 return res.json(user);
             })
@@ -46,7 +48,7 @@ const userCtrl = {
                     req.protocol +
                     '://' +
                     req.get('host') +
-                    '/avatar/' +
+                    '/images/avatar/' +
                     user.avatar;
                 return res.json(user);
             })
@@ -62,7 +64,7 @@ const userCtrl = {
                     req.protocol +
                     '://' +
                     req.get('host') +
-                    '/avatar/' +
+                    '/images/avatar/' +
                     user.avatar;
                 return res.json(user);
             })
@@ -82,7 +84,7 @@ const userCtrl = {
                         req.protocol +
                         '://' +
                         req.get('host') +
-                        '/avatar/' +
+                        '/images/avatar/' +
                         item.avatar;
                     return item;
                 });
@@ -94,14 +96,7 @@ const userCtrl = {
     },
     register: async (req, res) => {
         try {
-            const {
-                username,
-                name,
-                password,
-                email,
-                permission,
-                avatar,
-            } = req.body; // FrontEnd submit object to BackEnd
+            const { username, name, password, email } = req.body; // FrontEnd submit object to BackEnd
             let user = await User.findOne({ username });
             if (!user) {
                 user = await User.findOne({ email });
@@ -116,14 +111,27 @@ const userCtrl = {
 
             const passwordHash = await bcrypt.hash(password, 10);
 
+            let avatarName;
+            if (req.file) {
+                const imagePath = path.join(__dirname);
+                let splitPath = imagePath.split('\\');
+                splitPath = splitPath.slice(0, -2);
+                let newImagePath = splitPath.join('\\');
+                newImagePath += '\\public\\images\\avatar';
+                const fileUpload = new Resize(newImagePath);
+                const filename = await fileUpload.save(req.file.buffer);
+                avatarName = filename;
+            }
+
             const newUser = new User({
                 username: username,
                 name: name,
                 email: email,
                 password: passwordHash,
-                permission: permission,
-                avatar: avatar,
             });
+            if (req.file) {
+                newUser.avatar = avatarName;
+            }
             await newUser.save();
 
             const accessToken = createAccessToken({ id: newUser._id });

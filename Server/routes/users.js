@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const upload = require('../app/middleware/uploadMiddleware');
 const userController = require('../app/controllers/UserController');
 
-router.post('/register', userController.register);
+router.post('/register', upload.single('avatar'), userController.register);
 
 router.post('/login', userController.login);
 
