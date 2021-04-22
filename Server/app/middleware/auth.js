@@ -12,6 +12,7 @@ const auth =(req, res, next)=>{
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,(err, user)=>{
       if(err) res.status(500).json({msg : err})
+
       req.user = user
       next()
     })

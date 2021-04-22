@@ -1,12 +1,23 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Resize = require('../../util/resize');
+const path = require('path');
 const { json } = require('express');
 
 const userCtrl = {
     getAll(req, res) {
         User.find({})
             .then((users) => {
+                users = users.map(function (item) {
+                    item.avatar =
+                        req.protocol +
+                        '://' +
+                        req.get('host') +
+                        '/images/avatar/' +
+                        item.avatar;
+                    return item;
+                });
                 return res.json(users);
             })
             .catch((err) => {
@@ -17,6 +28,12 @@ const userCtrl = {
         const username = req.params.username;
         User.findOne({ username })
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/images/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -27,6 +44,12 @@ const userCtrl = {
         const email = req.params.email;
         User.findOne({ email })
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/images/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -37,6 +60,12 @@ const userCtrl = {
         const id = req.params.id;
         User.findById(id)
             .then((user) => {
+                user.avatar =
+                    req.protocol +
+                    '://' +
+                    req.get('host') +
+                    '/images/avatar/' +
+                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -50,6 +79,15 @@ const userCtrl = {
         }
         User.find({ permission })
             .then((users) => {
+                users = users.map(function (item) {
+                    item.avatar =
+                        req.protocol +
+                        '://' +
+                        req.get('host') +
+                        '/images/avatar/' +
+                        item.avatar;
+                    return item;
+                });
                 return res.json(users);
             })
             .catch((err) => {
@@ -67,7 +105,7 @@ const userCtrl = {
                 avatar,
             } = req.body; // FrontEnd submit object to BackEnd
             let user = await User.findOne({ username });
-            console.log(user)
+  
             if (!user) {
                 user = await User.findOne({ email });
             }
@@ -81,25 +119,37 @@ const userCtrl = {
 
             const passwordHash = await bcrypt.hash(password, 10);
 
+            let avatarName;
+            if (req.file) {
+                const imagePath = path.join(__dirname);
+                let splitPath = imagePath.split('\\');
+                splitPath = splitPath.slice(0, -2);
+                let newImagePath = splitPath.join('\\');
+                newImagePath += '\\public\\images\\avatar';
+                const fileUpload = new Resize(newImagePath);
+                const filename = await fileUpload.save(req.file.buffer);
+                avatarName = filename;
+            }
+
             const newUser = new User({
                 username: username,
                 name: name,
                 email: email,
                 password: passwordHash,
-                permission: permission,
-                avatar: avatar,
             });
-            //await newUser.save();
+
+            if (req.file) {
+                newUser.avatar = avatarName;
+            }
+            await newUser.save();
 
             const accessToken = createAccessToken({ id: newUser._id });
-            console.log(accessToken);
             const refreshToken = createRefreshToken({ id: newUser._id });
-            console.log(refreshToken);
+
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
                 path: '/user/refresh_token',
             });
-
 
             res.json({ user: newUser });
         } catch (err) {
