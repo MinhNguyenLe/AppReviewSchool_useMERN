@@ -17,7 +17,7 @@ const School = new Schema(
             required: true,
         },
         website: {
-            type: String,
+            type: String,s
             trim: true,
         },
         typeOfSchool: {

@@ -2,7 +2,7 @@ const usersRouter = require('./users');
 const reviewRouter = require('./reviews')
 const commentRouter = require('./comments')
 
-function route(app) {
+function router(app) {
     app.use('/api/users', usersRouter);
 
     app.use('/api/reviews', reviewRouter);
@@ -14,4 +14,4 @@ function route(app) {
     });
 }
 
-module.exports = route;
+module.exports = router;

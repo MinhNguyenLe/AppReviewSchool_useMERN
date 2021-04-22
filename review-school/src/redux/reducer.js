@@ -17,7 +17,7 @@ export default function reducer(state =[] , action){
   }
 }
 
-const getData =()=> async(dispatch, getState)=>{
+export const getData =()=> async(dispatch, getState)=>{
   const cmt = getState().cmt
   await fetch('http://localhost:4000/cmt',{
     method : "POST",
