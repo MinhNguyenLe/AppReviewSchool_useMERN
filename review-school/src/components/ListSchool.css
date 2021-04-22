@@ -1,0 +1,19 @@
+.card-text{
+  margin : 0;
+}
+.school-name{
+  color : black;
+}
+.school-img{
+  width : 200px;
+  height : 200px;
+  max-width: 300px;
+  max-height: 300px;
+  overflow: hidden;
+  object-fit: contain;
+}
+.school-badge{
+  width: 40px;
+  height : 40px;
+  font-size: 16px !important;
+}
