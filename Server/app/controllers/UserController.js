@@ -224,7 +224,7 @@ const userCtrl = {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' }); // access token expires in 5 minutes
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' }); // access token expires in 5 minutes
 };
 const createRefreshToken = (user) => {
     return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' }); // refresh token expires in 1 hour => need login again
