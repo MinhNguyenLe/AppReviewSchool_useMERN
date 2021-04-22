@@ -1,8 +1,11 @@
 import React from 'react';
+import {Button} from 'react-bootstrap';
 
 const Navbar =()=>{
   return(
-    <div>Navbar</div>
+    <div>
+      <Button>Navbar</Button>
+    </div>
   )
 }
 
