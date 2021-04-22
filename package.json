@@ -23,11 +23,14 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.3",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.7",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "sharp": "^0.28.1",
+    "uuid": "^8.3.2"
   }
 }

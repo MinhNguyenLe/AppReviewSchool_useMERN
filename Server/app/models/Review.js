@@ -23,11 +23,11 @@ const Review = new Schema(
         },
         rateValue: {
             up: {
-                count: Number,
+                count: {type: Number, default: 0},
                 idUser: [String],
             },
             down: {
-                count: Number,
+                count:  {type: Number, default: 0},
                 idUser: [String],
             },
         },
