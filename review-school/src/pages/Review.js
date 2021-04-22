@@ -4,7 +4,7 @@ import {useSelector, useDispatch, connect} from 'react-redux'
 
 const Review =()=>{
   const dispatch = useDispatch();
-  const sumCmt = useSelector(state => state.cmt).length
+  const sumCmt = useSelector(state => state.cmt)
 
   return(
     <div>
