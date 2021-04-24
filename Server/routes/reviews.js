@@ -6,6 +6,8 @@ router.get('/', reviewController.getAll);
 
 router.get('/id/:_id', reviewController.getById);
 
+router.get('/school/:_id', reviewController.getByIdSchool)
+
 router.post('/create', reviewController.create);
 
 router.post('/upvote/:_id', reviewController.upvote);
