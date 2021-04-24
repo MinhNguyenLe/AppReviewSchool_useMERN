@@ -6,7 +6,12 @@ router.get('/', reviewController.getAll);
 
 router.get('/id/:_id', reviewController.getById);
 
+router.get('/school/:_id', reviewController.getByIdSchool)
+
+router.post('/create', reviewController.create);
+
 router.post('/anonymous', reviewController.createAnonymous);
+
 
 router.use(authMiddleWare);
 
