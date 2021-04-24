@@ -10,13 +10,18 @@ router.get('/school/:_id', reviewController.getByIdSchool)
 
 router.post('/create', reviewController.create);
 
-router.post('/upvote/:_id', reviewController.upvote);
+router.post('/anonymous', reviewController.createAnonymous);
 
-router.post('/downvote/:_id', reviewController.downvote);
 
 router.use(authMiddleWare);
 
+router.post('/auth', reviewController.createAuth);
+
 router.put('/update/:_id', reviewController.update);
+
+router.put('/upvote/:_id', reviewController.upvote);
+
+router.put('/downvote/:_id', reviewController.downvote);
 
 router.delete('/delete/:_id', reviewController.detele);
 

@@ -105,7 +105,7 @@ const userCtrl = {
                 avatar,
             } = req.body; // FrontEnd submit object to BackEnd
             let user = await User.findOne({ username });
-  
+
             if (!user) {
                 user = await User.findOne({ email });
             }
@@ -143,14 +143,6 @@ const userCtrl = {
             }
             await newUser.save();
 
-            const accessToken = createAccessToken({ id: newUser._id });
-            const refreshToken = createRefreshToken({ id: newUser._id });
-
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                path: '/user/refresh_token',
-            });
-
             res.json({ user: newUser });
         } catch (err) {
             return res.status(500).json({ msg: err.message });
@@ -158,22 +150,23 @@ const userCtrl = {
     },
     refreshToken: (req, res) => {
         try {
-            const rf_token = req.headers['x-refresh-token']
-            
-            if (!rf_token)
-                return res.status(400).json({ msg: 'you need provide refresh token' });
+            const rf_token = req.headers['x-refresh-token'];
 
-            if(blackListRT.has(rf_token))
-                return res.status(400).json({msg: "you are logout, please login again."});
+            if (!rf_token)
+                return res
+                    .status(400)
+                    .json({ msg: 'you need provide refresh token' });
+
+            if (blackListRT.has(rf_token))
+                return res
+                    .status(400)
+                    .json({ msg: 'you are logout, please login again.' });
 
             jwt.verify(
                 rf_token,
                 process.env.REFRESH_TOKEN_SECRET,
                 (err, user) => {
-                    if (err)
-                        return res
-                            .status(400)
-                            .json({ msg: err });
+                    if (err) return res.status(400).json({ msg: err });
                     const accessToken = createAccessToken({ id: user.id });
 
                     return res.json({ user, accessToken });
@@ -185,12 +178,12 @@ const userCtrl = {
     },
     login: async (req, res) => {
         try {
-            const { email, password } = req.body;
-            const user = await User.findOne({ email });
-           console.log({ email, password } )
+            const { username, password } = req.body;
+            const user = await User.findOne({ username });
+            console.log({ username, password });
             if (!user) return res.status(400).json({ msg: 'User not exist' });
             const isMatch = await bcrypt.compare(password, user.password);
-            console.log(isMatch)
+            console.log(isMatch);
             if (!isMatch)
                 return res.status(400).json({ msg: 'Incorrect password' });
 
@@ -198,25 +191,24 @@ const userCtrl = {
             const refreshToken = createRefreshToken({ id: user._id });
 
             // access token saved at header and refresh token saved at cookie
-            res.set({'x-access-token': accessToken,
-            })
+            res.set({ 'x-access-token': accessToken });
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
                 path: '/users/refresh_token',
             });
 
-            return res.status(200).json({msg: "Login successful!"})
+            return res.status(200).json({ msg: 'Login successful!' });
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
     },
     logout: async (req, res) => {
         try {
-            const rf_token = req.headers['x-refresh-token']
+            const rf_token = req.headers['x-refresh-token'];
             blackListRT.add(rf_token);
-            res.clearCookie('refreshToken',{path : '/users/refresh_token'})
-            return res.status(200).json({msg: "Log out succesful."});
+            res.clearCookie('refreshToken', { path: '/users/refresh_token' });
+            return res.status(200).json({ msg: 'Log out succesful.' });
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
@@ -224,10 +216,14 @@ const userCtrl = {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' }); // access token expires in 5 minutes
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '30m',
+    }); // access token expires in 5 minutes
 };
 const createRefreshToken = (user) => {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' }); // refresh token expires in 1 hour => need login again
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: '1h',
+    }); // refresh token expires in 1 hour => need login again
 };
 
 module.exports = userCtrl;
