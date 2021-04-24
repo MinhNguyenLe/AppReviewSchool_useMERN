@@ -16,3 +16,15 @@ export default function reducer(state =[] , action){
     default: return state;
   }
 }
+
+export const getData =()=> async(dispatch, getState)=>{
+  const cmt = getState().cmt
+  await fetch('http://localhost:4000/cmt',{
+    method : "POST",
+    headers :{
+    },
+    body : JSON.stringify(cmt)
+  },
+  )
+  alert("success")
+}
