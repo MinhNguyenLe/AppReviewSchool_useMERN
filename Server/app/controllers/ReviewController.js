@@ -46,7 +46,6 @@ const reviewCtrl = {
     createAnonymous: async (req, res) => {
         try {
             const { idSchool, name, ratePoint, positive, negative } = req.body;
-
             const newReview = new Review({
                 idSchool: idSchool,
                 name: name,
@@ -157,6 +156,19 @@ const reviewCtrl = {
 
             await review.save();
             return res.json({ review });
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
+    getByIdSchool: async (req, res) => {
+        try {
+            let id = req.params;
+            const reviews = await Review.find({idSchool : id});
+            if(reviews === null || reviews === undefined || reviews.length === 0){
+               return res.status(404).json({msg: "Can't find reviews"});
+            } 
+            return res.json(reviews); 
+           
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }

@@ -84,6 +84,19 @@ const commentCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
+    getCommentsByReviewId: async (req, res) => {
+        try {
+            let id = req.params;
+            const comments = await Comment.find({ idReview : id});
+            if(comments === null || comments.length === 0 || comments === undefined){
+               return res.status(404).json({msg: "Can't find comments in review"});
+            } 
+            return res.json(comments); 
+           
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
  
 };
 
