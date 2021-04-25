@@ -9,6 +9,8 @@ router.get('/id/:_id', commentController.getById);
 
 router.post('/create', commentController.create);
 
+router.get('/reviews/:_id', commentController.getCommentsByReviewId);
+
 router.use(authMiddleWare);
 
 router.put('/update/:_id', commentController.update);

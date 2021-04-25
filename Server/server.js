@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const multer  = require('multer');
 const route = require('./routes');
 const port = process.env.PORT || 5000;
 const db = require('./config/db');
@@ -14,6 +15,7 @@ db.connect();
 
 app.use(cors());
 app.use(express.json());
+app.use(multer().array());
 // app.use('/user', require('./routes/LoginRouter.js'));
 // app.use('/register1', require('./routes/LoginRouter'));
 
