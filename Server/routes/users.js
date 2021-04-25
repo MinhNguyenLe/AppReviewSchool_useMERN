@@ -14,9 +14,9 @@ router.get('/username/:username', userController.getByUsername);
 
 router.get('/email/:email', userController.getByEmail);
 
-router.get('/id/:id', userController.getById);
-
 router.get('/permission/:permission', userController.getByPermission);
+
+router.get('/:id', userController.getById);
 
 router.get('/', userController.getAll);
 
