@@ -1,9 +1,14 @@
 const router = require('express').Router();
 const userController = require('../app/controllers/UserController');
-var multer = require('multer');
-var upload = multer({ dest: 'uploads/' });
+const multer = require('multer');
+const fileUploader = require('../app/middleware/uploadMiddleware');
+const auth = require('../app/middleware/auth');
 
-router.post('/register', upload.single('avatar'), userController.register);
+router.post(
+    '/register',
+    fileUploader.single('avatar'),
+    userController.register
+);
 
 router.use(multer().none());
 
@@ -12,6 +17,8 @@ router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 
 router.get('/refresh_token', userController.refreshToken);
+
+router.get('/me', auth, userController.getMe);
 
 router.get('/username/:username', userController.getByUsername);
 

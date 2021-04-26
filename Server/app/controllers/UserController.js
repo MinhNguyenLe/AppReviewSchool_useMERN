@@ -8,15 +8,6 @@ const userController = {
     getAll(req, res) {
         User.find({})
             .then((users) => {
-                users = users.map(function (user) {
-                    user.avatar =
-                        req.protocol +
-                        '://' +
-                        req.get('host') +
-                        '/images/avatar/' +
-                        user.avatar;
-                    return user;
-                });
                 return res.json(users);
             })
             .catch((err) => {
@@ -27,12 +18,6 @@ const userController = {
         const username = req.params.username;
         User.findOne({ username })
             .then((user) => {
-                user.avatar =
-                    req.protocol +
-                    '://' +
-                    req.get('host') +
-                    '/images/avatar/' +
-                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -43,12 +28,6 @@ const userController = {
         const email = req.params.email;
         User.findOne({ email })
             .then((user) => {
-                user.avatar =
-                    req.protocol +
-                    '://' +
-                    req.get('host') +
-                    '/images/avatar/' +
-                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -59,12 +38,6 @@ const userController = {
         const id = req.params.id;
         User.findById(id)
             .then((user) => {
-                user.avatar =
-                    req.protocol +
-                    '://' +
-                    req.get('host') +
-                    '/images/avatar/' +
-                    user.avatar;
                 return res.json(user);
             })
             .catch((err) => {
@@ -78,16 +51,17 @@ const userController = {
         }
         User.find({ permission })
             .then((users) => {
-                users = users.map(function (item) {
-                    item.avatar =
-                        req.protocol +
-                        '://' +
-                        req.get('host') +
-                        '/images/avatar/' +
-                        item.avatar;
-                    return item;
-                });
                 return res.json(users);
+            })
+            .catch((err) => {
+                return res.status(500).json({ msg: err.message });
+            });
+    },
+    getMe(req, res) {
+        const id = req.user.id;
+        User.findById(id)
+            .then((user) => {
+                return res.json(user);
             })
             .catch((err) => {
                 return res.status(500).json({ msg: err.message });
@@ -96,8 +70,6 @@ const userController = {
     register: async (req, res) => {
         try {
             const { username, name, password, email, permission } = req.body; // FrontEnd submit object to BackEnd
-
-            console.log(req.file);
 
             let user = await User.findOne({ username });
 
@@ -120,6 +92,9 @@ const userController = {
                 email: email,
                 password: passwordHash,
             });
+
+            if (req.file) newUser.avatar = req.file.path;
+
             await newUser.save();
 
             return res.json({ user: newUser });
