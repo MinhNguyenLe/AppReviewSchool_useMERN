@@ -7,9 +7,9 @@ router.use(multer().none());
 
 router.get('/', reviewController.getAll);
 
-router.get('/id/:_id', reviewController.getById);
+router.get('/:id', reviewController.getById);
 
-router.get('/school/:_id', reviewController.getByIdSchool);
+router.get('/:id/comments', reviewController.getCommentsByIdReview);
 
 router.post('/anonymous', reviewController.createAnonymous);
 
@@ -17,12 +17,12 @@ router.use(authMiddleWare);
 
 router.post('/auth', reviewController.createAuth);
 
-router.put('/update/:_id', reviewController.update);
+router.put('/update/:id', reviewController.update);
 
-router.put('/upvote/:_id', reviewController.upvote);
+router.patch('/:id/upvote', reviewController.upvote);
 
-router.put('/downvote/:_id', reviewController.downvote);
+router.patch('/:id/downvote', reviewController.downvote);
 
-router.delete('/delete/:_id', reviewController.detele);
+router.delete('/:id', reviewController.delete);
 
 module.exports = router;

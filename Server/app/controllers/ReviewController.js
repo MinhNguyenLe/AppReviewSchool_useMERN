@@ -1,4 +1,5 @@
 const Review = require('../models/Review');
+const Comment = require('../models/Comment');
 const User = require('../models/User');
 
 const reviewCtrl = {
@@ -13,13 +14,28 @@ const reviewCtrl = {
     },
     getById: async (req, res) => {
         try {
-            let id = req.params;
+            let id = req.params.id;
             const review = await Review.findById(id);
 
             if (review === null) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
             return res.json(review);
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
+    getCommentsByIdReview: async (req, res) => {
+        try {
+            let id = req.params.id;
+            const review = await Review.findById(id);
+
+            if (review === null) {
+                return res.status(404).json({ msg: "Can't find review" });
+            }
+
+            const comments = await Comment.find({ idReview: id });
+            return res.json(comments);
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }
@@ -62,7 +78,7 @@ const reviewCtrl = {
     },
     update: async (req, res) => {
         try {
-            let id = req.params;
+            let id = req.params.id;
             console.log(id);
             const { idSchool, idUser, name, positive, negative } = req.body;
             const review = await Review.findById(id);
@@ -79,9 +95,9 @@ const reviewCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
-    detele: async (req, res) => {
+    delete: async (req, res) => {
         try {
-            let id = req.params;
+            let id = req.params.id;
             const review = await Review.findById(id);
 
             if (review === null) {
@@ -95,7 +111,7 @@ const reviewCtrl = {
     },
     upvote: async (req, res) => {
         try {
-            let id = req.params;
+            let id = req.params.id;
             let idUser = req.user.id;
             const review = await Review.findById(id);
 
@@ -128,7 +144,7 @@ const reviewCtrl = {
     },
     downvote: async (req, res) => {
         try {
-            let id = req.params;
+            let id = req.params.id;
             let idUser = req.user.id;
             const review = await Review.findById(id);
 
@@ -156,19 +172,6 @@ const reviewCtrl = {
 
             await review.save();
             return res.json({ review });
-        } catch (err) {
-            res.status(500).json({ msg: err.message });
-        }
-    },
-    getByIdSchool: async (req, res) => {
-        try {
-            let id = req.params;
-            const reviews = await Review.find({idSchool : id});
-            if(reviews === null || reviews === undefined || reviews.length === 0){
-               return res.status(404).json({msg: "Can't find reviews"});
-            } 
-            return res.json(reviews); 
-           
         } catch (err) {
             res.status(500).json({ msg: err.message });
         }

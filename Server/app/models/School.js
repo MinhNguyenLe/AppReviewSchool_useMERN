@@ -14,7 +14,6 @@ const School = new Schema(
         },
         logo: {
             type: String,
-            default: 'logo.svg',
         },
         location: {
             type: String,
