@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const commentController = require('../app/controllers/CommentController');
-
 const authMiddleWare = require('../app/middleware/auth');
+
+const multer = require('multer');
+
+router.use(multer().none());
 
 router.get('/', commentController.getAll);
 

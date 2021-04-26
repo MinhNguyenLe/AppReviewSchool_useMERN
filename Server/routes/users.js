@@ -1,8 +1,11 @@
 const router = require('express').Router();
-const upload = require('../app/middleware/uploadMiddleware');
 const userController = require('../app/controllers/UserController');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 router.post('/register', upload.single('avatar'), userController.register);
+
+router.use(multer().none());
 
 router.post('/login', userController.login);
 

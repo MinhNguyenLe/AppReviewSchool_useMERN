@@ -1,11 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Resize = require('../../util/resize');
 const path = require('path');
 const { json } = require('express');
 
-const userCtrl = {
+const userController = {
     getAll(req, res) {
         User.find({})
             .then((users) => {
@@ -96,14 +95,10 @@ const userCtrl = {
     },
     register: async (req, res) => {
         try {
-            const {
-                username,
-                name,
-                password,
-                email,
-                permission,
-                avatar,
-            } = req.body; // FrontEnd submit object to BackEnd
+            const { username, name, password, email, permission } = req.body; // FrontEnd submit object to BackEnd
+
+            console.log(req.file);
+
             let user = await User.findOne({ username });
 
             if (!user) {
@@ -119,26 +114,12 @@ const userCtrl = {
 
             const passwordHash = await bcrypt.hash(password, 10);
 
-            let avatarName;
-            if (req.file) {
-                const imagePath = path.join(
-                    `${__dirname}/../../public/images/avatar`
-                );
-                const fileUpload = new Resize(imagePath);
-                const filename = await fileUpload.save(req.file.buffer);
-                avatarName = filename;
-            }
-
             const newUser = new User({
                 username: username,
                 name: name,
                 email: email,
                 password: passwordHash,
             });
-
-            if (req.file) {
-                newUser.avatar = avatarName;
-            }
             await newUser.save();
 
             return res.json({ user: newUser });
@@ -224,4 +205,4 @@ const createRefreshToken = (user) => {
     }); // refresh token expires in 1 hour => need login again
 };
 
-module.exports = userCtrl;
+module.exports = userController;
