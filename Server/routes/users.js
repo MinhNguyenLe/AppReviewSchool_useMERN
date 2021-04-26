@@ -1,8 +1,11 @@
 const router = require('express').Router();
-const upload = require('../app/middleware/uploadMiddleware');
 const userController = require('../app/controllers/UserController');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 router.post('/register', upload.single('avatar'), userController.register);
+
+router.use(multer().none());
 
 router.post('/login', userController.login);
 
@@ -14,9 +17,9 @@ router.get('/username/:username', userController.getByUsername);
 
 router.get('/email/:email', userController.getByEmail);
 
-router.get('/id/:id', userController.getById);
-
 router.get('/permission/:permission', userController.getByPermission);
+
+router.get('/:id', userController.getById);
 
 router.get('/', userController.getAll);
 

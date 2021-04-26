@@ -29,8 +29,6 @@
     "nodemon": "^2.0.7",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
-    "sharp": "^0.28.1",
-    "uuid": "^8.3.2"
+    "redux": "^4.0.5"
   }
 }
