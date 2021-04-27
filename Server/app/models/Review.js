@@ -25,6 +25,9 @@ const Review = new Schema(
         negative: {
             type: String,
         },
+        advice: {
+            type: String,
+        },
         rateValue: {
             up: {
                 count: { type: Number, default: 0 },

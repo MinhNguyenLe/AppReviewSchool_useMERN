@@ -24,5 +24,3 @@ route(app);
 app.listen(port, () => {
     console.log(`server running in port ${port}`);
 });
-
-console.log('server');

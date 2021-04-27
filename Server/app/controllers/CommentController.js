@@ -16,7 +16,7 @@ const commentCtrl = {
             let id = req.params;
             const comment = await Comment.findById(id);
 
-            if(comment === null){
+            if(comment === null || comment.length === 0 || comment === undefined){
                return res.status(404).json({msg: "Can't find comment"});
             } 
             return res.json(comment); 
@@ -58,7 +58,7 @@ const commentCtrl = {
             } = req.body;
             const comment = await Comment.findById(id);
 
-            if(comment === null){
+            if(comment === null || comment.length === 0 || comment === undefined){
                return res.status(404).json({msg: "Can't find comment"});
             }
             comment.name = name;
@@ -74,7 +74,7 @@ const commentCtrl = {
         try {
             let id = req.params;
             const comment = await Comment.findById(id);
-            if(comment === null){
+            if(comment === null || comment.length === 0 || comment === undefined){
                return res.status(404).json({msg: "Can't find comment"});
             } 
             await Comment.deleteOne(id);
