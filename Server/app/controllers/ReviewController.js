@@ -62,13 +62,14 @@ const reviewCtrl = {
     },
     createAnonymous: async (req, res) => {
         try {
-            const { idSchool, name, ratePoint, positive, negative } = req.body;
+            const { idSchool, name, ratePoint, positive, negative, advice } = req.body;
             const newReview = new Review({
                 idSchool: idSchool,
                 name: name,
                 ratePoint: ratePoint,
                 positive: positive,
                 negative: negative,
+                advice: advice
             });
             await newReview.save();
 
