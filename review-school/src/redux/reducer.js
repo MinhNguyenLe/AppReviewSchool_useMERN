@@ -18,12 +18,12 @@ export default function reducer(state =[] , action){
 }
 
 export const getData =()=> async(dispatch, getState)=>{
-  const cmt = getState().cmt
-  await fetch('http://localhost:4000/cmt',{
-    method : "POST",
+  const listReview = getState().listReview
+  await fetch('http://localhost:9000/api/reviews/',{
+    method : "GET",
     headers :{
     },
-    body : JSON.stringify(cmt)
+    body : JSON.stringify(listReview)
   },
   )
   alert("success")
