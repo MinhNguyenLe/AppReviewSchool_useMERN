@@ -1,6 +1,6 @@
 const Comment = require('../models/Comment');
 const axios = require('axios');
-
+const rCaptcha = require('../utils/recaptcha');
 
 const commentCtrl = {
     getAll:  async (req, res) => {
@@ -30,12 +30,10 @@ const commentCtrl = {
         if(!req.body.token){
             return res.status(400).json({msg: "Token is missing!"});
         }
-
         try {
-            const urlVerify = "https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&respone=${req.body.token}";
-            const gRespone = await axios.post(urlVerify);
-            if(gRespone.data.result === true){
-                
+            let captchaValue = await rCaptcha.recaptcha(req.body.token);
+            if(captchaValue === false){
+                return res.status(400).json({msg: "Invalid token"});
             }
             const {
                 idReview,
