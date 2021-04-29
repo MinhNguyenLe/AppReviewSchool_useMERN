@@ -2,12 +2,12 @@ import "./App.css";
 import { Route, Switch} from "react-router-dom";
 import Review from "./pages/Review.js"
 import Navbar from "./components/Navbar.js"
-import ListSchool from "./components/ListSchool.js"
+import ListSchool from "./components/ListSchool.js" 
 import FilterType1 from "./components/FilterType1.js"
 import ListReview from "./components/ListReview.js"
 import Footer from "./components/Footer.js"
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import Captcha from "./components/Captcha"
 function App() {
   return (
     <div>
@@ -15,6 +15,7 @@ function App() {
       <FilterType1></FilterType1>
       <ListSchool></ListSchool>
       <ListReview></ListReview>
+      <Captcha></Captcha>
       <Switch>
         <Route exact path="/review/nameSchool" component={Review}></Route>
         <Route exact path="/list-school" component={ListSchool}></Route>

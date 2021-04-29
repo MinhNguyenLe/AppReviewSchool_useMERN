@@ -12,8 +12,6 @@ router.get('/:_id', commentController.getById);
 
 router.post('/', commentController.create);
 
-router.get('/reviews/:_id', commentController.getCommentsByReviewId);
-
 router.use(authMiddleWare);
 
 router.put('/:_id', commentController.update);
