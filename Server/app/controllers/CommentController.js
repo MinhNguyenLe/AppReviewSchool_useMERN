@@ -26,7 +26,7 @@ const commentCtrl = {
             res.status(500).json({ msg: err.message });
         }
     },
-    create: async (req, res) => {
+    createAuth: async (req, res) => {
         if(!req.body.token){
             return res.status(400).json({msg: "Token is missing!"});
         }
@@ -35,6 +35,28 @@ const commentCtrl = {
             if(captchaValue === false){
                 return res.status(400).json({msg: "Invalid token"});
             }
+            const {
+                idReview,
+                idUser,
+                name,
+                content
+            } = req.body;
+
+            const newComment = new Comment({
+                idReview: idReview,
+                idUser: req.user.id,
+                name: name,
+                content: content
+            });
+            await newComment.save();
+
+            res.status(201).json({ comment: newComment });
+        } catch (err) {
+            res.status(500).json({ msg: err.message });
+        }
+    },
+    createAnonymous: async (req, res) => {
+        try {
             const {
                 idReview,
                 idUser,

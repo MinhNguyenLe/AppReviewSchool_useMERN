@@ -10,9 +10,11 @@ router.get('/', commentController.getAll);
 
 router.get('/:_id', commentController.getById);
 
-router.post('/', commentController.create);
+router.post('/anonymous', commentController.createAnonymous);
 
 router.use(authMiddleWare);
+
+router.post('/auth', commentController.createAuth);
 
 router.put('/:_id', commentController.update);
 
