@@ -17,7 +17,7 @@ router.use(authMiddleWare);
 
 router.post('/auth', reviewController.createAuth);
 
-router.put('/update/:id', reviewController.update);
+router.put('/:id', reviewController.update);
 
 router.patch('/:id/upvote', reviewController.upvote);
 

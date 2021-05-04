@@ -17,7 +17,7 @@ const reviewCtrl = {
             let id = req.params.id;
             const review = await Review.findById(id);
 
-            if (review === null) {
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
             return res.json(review);
@@ -30,7 +30,7 @@ const reviewCtrl = {
             let id = req.params.id;
             const review = await Review.findById(id);
 
-            if (review === null) {
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
 
@@ -42,7 +42,7 @@ const reviewCtrl = {
     },
     createAuth: async (req, res) => {
         try {
-            const { idSchool, name, ratePoint, positive, negative } = req.body;
+            const { idSchool, name, ratePoint, positive, negative, advice } = req.body;
 
             const newReview = new Review({
                 idSchool: idSchool,
@@ -51,6 +51,7 @@ const reviewCtrl = {
                 ratePoint: ratePoint,
                 positive: positive,
                 negative: negative,
+                advice: advice
             });
             await newReview.save();
 
@@ -61,13 +62,14 @@ const reviewCtrl = {
     },
     createAnonymous: async (req, res) => {
         try {
-            const { idSchool, name, ratePoint, positive, negative } = req.body;
+            const { idSchool, name, ratePoint, positive, negative, advice } = req.body;
             const newReview = new Review({
                 idSchool: idSchool,
                 name: name,
                 ratePoint: ratePoint,
                 positive: positive,
                 negative: negative,
+                advice: advice
             });
             await newReview.save();
 
@@ -80,15 +82,16 @@ const reviewCtrl = {
         try {
             let id = req.params.id;
             console.log(id);
-            const { idSchool, idUser, name, positive, negative } = req.body;
+            const { idSchool, idUser, name, positive, negative, advice } = req.body;
             const review = await Review.findById(id);
-            console.log(review);
-            if (review === null) {
+            
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
             review.name = name;
             review.positive = positive;
             review.negative = negative;
+            review.advice = advice;
             await review.save();
             return res.status(200).json({ msg: 'Updated review' });
         } catch (err) {
@@ -100,7 +103,7 @@ const reviewCtrl = {
             let id = req.params.id;
             const review = await Review.findById(id);
 
-            if (review === null) {
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
             await Review.deleteOne(id);
@@ -115,7 +118,7 @@ const reviewCtrl = {
             let idUser = req.user.id;
             const review = await Review.findById(id);
 
-            if (review === null) {
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
             let up = review.rateValue.up.idUser.includes(idUser);
@@ -148,7 +151,7 @@ const reviewCtrl = {
             let idUser = req.user.id;
             const review = await Review.findById(id);
 
-            if (review === null) {
+            if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
 

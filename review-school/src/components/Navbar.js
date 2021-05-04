@@ -1,8 +1,25 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import * as rb  from 'react-bootstrap';
 import "./Navbar.css";
+import axios from 'axios';
 
 const Navbar =()=>{
+  const [data, setData] = useState({ hits: [] });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios.get(
+  //       'http://localhost:9000/api/schools',
+  //     );
+  //     setData(result.data);
+  //   };
+  //   fetchData();
+  // }, []);
+  
+  async function test (){
+    const result = await axios.get('/api/schools');
+          setData(result.data);
+          console.log(data)
+  }
   return(
     <div>
       <rb.Navbar expand="lg">
@@ -31,7 +48,7 @@ const Navbar =()=>{
             <rb.NavDropdown.Item href="#action/3.4">Giới thiệu bạn bè</rb.NavDropdown.Item>
           </rb.NavDropdown>
           </rb.Nav>
-          <rb.Button variant="success">Login</rb.Button>
+          <rb.Button variant="success" onClick={test} >Login</rb.Button>
           <rb.Button variant="outline-success">Register</rb.Button>
       </rb.Navbar>
     </div>

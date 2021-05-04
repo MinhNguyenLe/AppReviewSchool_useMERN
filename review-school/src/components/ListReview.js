@@ -8,7 +8,7 @@ const ListReview =()=>{
       <rb.Card>
         <div className="d-flex flex-row align-items-center">
           <div className="icon-user d-flex align-items-center justify-content-center"> 
-            <i class="fas fa-user"></i>
+            <i className="fas fa-user"></i>
             </div>
           <div>
             <rb.Card.Text>Người dùng OurApp</rb.Card.Text>
