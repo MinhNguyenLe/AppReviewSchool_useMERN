@@ -21,7 +21,7 @@ const ListSchool =()=>{
     {data.map((item,index) => (
       <rb.Card key={index} >
         <rb.Card.Link href="/review/nameSchool" className="d-flex flex-row">
-          <rb.Card.Img src="https://edu2review.com/upload/school-images/truong-dai-hoc-kinh-te-luat/img/792w-1-truong-dai-hoc-kinh-te-luat.jpg" className="school-img"></rb.Card.Img>
+          <rb.Card.Img src={item.images[0]} className="school-img"></rb.Card.Img>
           <rb.Card.Body>
               <rb.Card.Text className="school-name">{item.name}-{item.code}</rb.Card.Text>
               <rb.Card.Text className="school-name">{item.location}</rb.Card.Text>
