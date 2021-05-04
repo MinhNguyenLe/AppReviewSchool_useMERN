@@ -8,6 +8,7 @@ import ListReview from "./components/ListReview.js"
 import Footer from "./components/Footer.js"
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Captcha from "./components/Captcha"
+import Login from "./components/Login"
 function App() {
   return (
     <div>
@@ -16,6 +17,7 @@ function App() {
       <ListSchool></ListSchool>
       <ListReview></ListReview>
       <Captcha></Captcha>
+      <Login></Login>
       <Switch>
         <Route exact path="/review/nameSchool" component={Review}></Route>
         <Route exact path="/list-school" component={ListSchool}></Route>
