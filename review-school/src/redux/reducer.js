@@ -17,14 +17,14 @@ export default function reducer(state =[] , action){
   }
 }
 
-export const getData =()=> async(dispatch, getState)=>{
-  const listReview = getState().listReview
-  await fetch('http://localhost:9000/api/reviews/',{
-    method : "GET",
-    headers :{
-    },
-    body : JSON.stringify(listReview)
-  },
-  )
-  alert("success")
-}
+// export const getData =()=> async(dispatch, getState)=>{
+//   const listReview = getState().listReview
+//   await fetch('http://localhost:9000/api/reviews/',{
+//     method : "GET",
+//     headers :{
+//     },
+//     body : JSON.stringify(listReview)
+//   },
+//   )
+//   alert("success")
+// }
