@@ -8,16 +8,14 @@ router.use(multer().none());
 
 router.get('/', commentController.getAll);
 
-router.get('/id/:_id', commentController.getById);
+router.get('/:_id', commentController.getById);
 
-router.post('/create', commentController.create);
-
-router.get('/reviews/:_id', commentController.getCommentsByReviewId);
+router.post('/', commentController.create);
 
 router.use(authMiddleWare);
 
-router.put('/update/:_id', commentController.update);
+router.put('/:_id', commentController.update);
 
-router.delete('/delete/:_id', commentController.detele);
+router.delete('/:_id', commentController.detele);
 
 module.exports = router;
