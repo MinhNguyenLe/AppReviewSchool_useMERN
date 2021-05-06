@@ -13,7 +13,7 @@ router.post(
 );
 
 router.use(multer().none());
-router.get('/names', schoolController.getListName);
+router.get('/search', schoolController.searchByName);
 router.get('/:id', schoolController.getById);
 router.get('/:id/reviews', schoolController.getReviewsByIdSchool);
 router.get('/', schoolController.getAll);
