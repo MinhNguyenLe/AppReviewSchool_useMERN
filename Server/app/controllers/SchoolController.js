@@ -13,6 +13,15 @@ const schoolController = {
                 return res.status(500).json({ msg: err.message });
             });
     },
+    getListName(req, res) {
+        School.find({})
+            .then((schools) => {
+                return res.json(schools.map((item) => item.name));
+            })
+            .catch((err) => {
+                return res.status(500).json({ msg: err.message });
+            });
+    },
     getById(req, res) {
         const id = req.params.id;
         School.findById(id)
