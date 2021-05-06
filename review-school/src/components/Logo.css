@@ -1,0 +1,35 @@
+.logo {
+  width: 100%;
+  display: inline-block;
+}
+.logo i {
+  font-size: 60px;
+  display: inline-block;
+  float: left;
+  margin-right: 5px;
+  color: #34495e;
+}
+.logo .left {
+  float: left;
+  margin-left: 10px;
+  text-align: left;
+}
+.logo a {
+  color: #545454;
+}
+.logo .left h3 {
+  font-family: 'Muli', sans-serif;
+  font-weight: 300;
+  font-size: 25px;
+  color: #e74c3c;
+}
+.logo .left p {
+  text-align: right;
+  font-size: 14px;
+  color: #919191;
+  font-style: italic;
+  border-top: 1px dashed #919191;
+  letter-spacing: 2px;
+  padding-top: 3px;
+  font-family: 'Lobster', cursive;
+}
