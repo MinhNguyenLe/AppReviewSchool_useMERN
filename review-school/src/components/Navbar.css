@@ -3,6 +3,7 @@
   color: #58afd1;
   transition: color 0.25s 0.0833333333s;
   position: relative;
+  margin-left : 2px;
 }
 .draw-border::before, .draw-border::after {
   border: 0 solid transparent;
@@ -49,4 +50,7 @@
 }
 .btn:focus {
   outline: 2px dotted #55d7dc;
+}
+.form-group{
+  margin : 0 
 }
