@@ -27,7 +27,7 @@ mongoose.connect(
 );
 
 app.get("/", (req, res) => {
-  res.json({ dm: "hihi" });
+  res.json({ dm: "hihihi" });
 });
 
 app.listen(port, () => {
