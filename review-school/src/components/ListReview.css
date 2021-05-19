@@ -1,0 +1,23 @@
+.review-title{
+  color : black;
+  font-weight: 500;
+  color : #7592a7;
+  font-size: 20px;
+}
+.review-content{
+  margin-left : 12px;
+}
+.review-name-school{
+  color : black;
+  font-weight: 500;
+  color : black;
+  font-size: 24px;
+}
+.icon-user{
+  background-color: #c3ccd5;
+  width: 32px;
+  height: 32px;
+  color : #e3e8ed;
+  font-size: 20px;
+  border-radius: 50%;
+}

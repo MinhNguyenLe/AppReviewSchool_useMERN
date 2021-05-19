@@ -4,3 +4,27 @@
 html {
   scroll-behavior: smooth;
 }
+i{
+  outline: none;
+  text-decoration: none;
+}
+body {
+  background: #f7f7f7;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+button {
+  outline: none;
+}
+input {
+  outline: none;
+}
+.frame{
+  justify-content: center;
+  display: flex;
+}
+.frame-width{
+  width : 1200px
+}
