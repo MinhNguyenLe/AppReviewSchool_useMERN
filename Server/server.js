@@ -17,8 +17,9 @@ app.use(express.json());
 // config use static file
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes init
-route(app);
+app.get("/", (req, res) => {
+  res.json({ dm: "hihihi" });
+});
 
 app.listen(port, () => {
     console.log(`server running in port ${port}`);
