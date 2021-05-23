@@ -4,7 +4,7 @@
 html {
   scroll-behavior: smooth;
 }
-i{
+i {
   outline: none;
   text-decoration: none;
 }
@@ -12,6 +12,7 @@ body {
   background: #f7f7f7;
 }
 a {
+  outline: none;
   text-decoration: none;
   color: black;
 }
