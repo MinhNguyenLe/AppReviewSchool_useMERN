@@ -12,13 +12,9 @@ function App() {
   return (
     <div>
       <Navbar></Navbar>
-      <FilterType1></FilterType1>
-      <ListSchool></ListSchool>
-      <ListReview></ListReview>
       <Switch>
-        <Route exact path="/review/name-school" component={Review}></Route>
         <Route exact path="/list-school" component={ListSchool}></Route>
-        <Route exact path="/list-review" component={ListReview}></Route>
+        <Route exact path="/schools/:id/reviews" component={ListReview}></Route>
       </Switch>
       <Footer></Footer>
     </div>

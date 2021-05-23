@@ -1,23 +1,42 @@
-.review-title{
-  color : black;
+.review-title {
+  color: black;
   font-weight: 500;
-  color : #7592a7;
+  color: #7592a7;
   font-size: 20px;
 }
-.review-content{
-  margin-left : 12px;
+.review-content {
+  margin-left: 12px;
 }
-.review-name-school{
-  color : black;
+.review-name-school {
+  color: black;
   font-weight: 500;
-  color : black;
+  color: black;
   font-size: 24px;
 }
-.icon-user{
+.icon-user {
   background-color: #c3ccd5;
   width: 32px;
   height: 32px;
-  color : #e3e8ed;
+  color: #e3e8ed;
   font-size: 20px;
   border-radius: 50%;
+}
+.edit-review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+.editor {
+  z-index: 1000;
+  max-width: 600px;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+.edit-content {
+  width: 100%;
 }
