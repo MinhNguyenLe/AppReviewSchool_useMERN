@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import "./Login.css";
 
-const Login =()=>{
-  return(
+const Login = () => {
+  return (
     <div>
-      <button class="login-btn">Login</button>
+      <button className="login-btn">Login</button>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

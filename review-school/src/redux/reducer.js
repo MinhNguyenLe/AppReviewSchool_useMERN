@@ -1,30 +1,20 @@
-let lastId =0 ;
-
-export default function reducer(state =[] , action){
-  switch(action.type){
-    case "BUG_INPUT":
-      return [
+const INITIAL_STATE = {
+  idSchool: "",
+  idReview: "",
+};
+export default function reducer(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case "SET-ID-SCHOOL":
+      return {
         ...state,
-        {
-          id : ++lastId,
-          description : action.payload.description ,
-          resolved : false
-        }
-      ] 
-    case "debug":
-      return state.map(data => data.resolved = true)
-    default: return state;
+        idSchool: action.payload.id,
+      };
+    case "SET-ID-REVIEW":
+      return {
+        ...state,
+        idReview: action.payload.id,
+      };
+    default:
+      return state;
   }
 }
-
-// export const getData =()=> async(dispatch, getState)=>{
-//   const listReview = getState().listReview
-//   await fetch('http://localhost:9000/api/reviews/',{
-//     method : "GET",
-//     headers :{
-//     },
-//     body : JSON.stringify(listReview)
-//   },
-//   )
-//   alert("success")
-// }
