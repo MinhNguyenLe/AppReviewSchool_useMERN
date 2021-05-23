@@ -31,7 +31,6 @@ const User = new Schema(
         },
         avatar: {
             type: String,
-            default: 'defaultAvatar.svg',
         },
     },
     { timestamps: true, collection: 'users' }

@@ -1,22 +1,28 @@
 const router = require('express').Router();
 const reviewController = require('../app/controllers/ReviewController');
 const authMiddleWare = require('../app/middleware/auth');
+const multer = require('multer');
+
+router.use(multer().none());
 
 router.get('/', reviewController.getAll);
 
-router.get('/id/:_id', reviewController.getById);
+router.get('/:id', reviewController.getById);
 
-router.post('/create', reviewController.create);
+router.get('/:id/comments', reviewController.getCommentsByIdReview);
 
-router.post('/upvote/:_id', reviewController.upvote);
-
-router.post('/downvote/:_id', reviewController.downvote);
+router.post('/anonymous', reviewController.createAnonymous);
 
 router.use(authMiddleWare);
 
-router.put('/update/:_id', reviewController.update);
+router.post('/auth', reviewController.createAuth);
 
-router.delete('/delete/:_id', reviewController.detele);
+router.put('/:id', reviewController.update);
+
+router.patch('/:id/upvote', reviewController.upvote);
+
+router.patch('/:id/downvote', reviewController.downvote);
+
+router.delete('/:id', reviewController.delete);
 
 module.exports = router;
-

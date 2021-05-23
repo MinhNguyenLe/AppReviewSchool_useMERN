@@ -15,19 +15,26 @@ const Review = new Schema(
             type: String,
             default: 'Anonymous',
         },
+        ratePoint: {
+            type: Number,
+            required: true,
+        },
         positive: {
             type: String,
         },
         negative: {
             type: String,
         },
+        advice: {
+            type: String,
+        },
         rateValue: {
             up: {
-                count: {type: Number, default: 0},
+                count: { type: Number, default: 0 },
                 idUser: [String],
             },
             down: {
-                count:  {type: Number, default: 0},
+                count: { type: Number, default: 0 },
                 idUser: [String],
             },
         },

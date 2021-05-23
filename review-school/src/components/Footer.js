@@ -26,21 +26,21 @@ const Footer =()=>{
       <div className="footer-head-frame">
         <div className="footer-head">
           <div className="footer-head-child">
-            <i class="fas fa-hotel"></i>
+            <i className="fas fa-hotel"></i>
             <div>
               <span>+14,800 thông tin khóa học</span>
               <span>... and we're counting :D</span>
             </div>
           </div>
           <div className="footer-head-child">
-            <i class="fas fa-check"></i>
+            <i className="fas fa-check"></i>
             <div>
               <span>+40,000 đánh giá từ học viên</span>
               <span>More and more</span>
             </div>
           </div>
           <div className="footer-head-child">
-            <i class="fas fa-phone-volume"></i>
+            <i className="fas fa-phone-volume"></i>
             <div>
               <span>+53,100 kết nối học viên</span>
               <span>We're waiting for your call</span>
@@ -73,11 +73,11 @@ const Footer =()=>{
             <input placeholder="Your E-mail" onInput={fillEmail} className="footer-body-sub-input"></input>
             <button className="footer-body-sub-btn" onClick={SubEmail}>SUBMIT</button>
             <div className="footer-body-sub-error  fill-none">
-              <i class="fas fa-exclamation-triangle"></i>
+              <i className="fas fa-exclamation-triangle"></i>
               <span className="footer-body-sub-error-content">Please fill email</span>
             </div>
             <div className="footer-body-sub-error wrong-format">
-              <i class="fas fa-exclamation-triangle"></i>
+              <i className="fas fa-exclamation-triangle"></i>
               <span className="footer-body-sub-error-content">Wrong "Email" format</span>
             </div>
           </div>
@@ -115,18 +115,18 @@ const Footer =()=>{
             <span className="footer-footer-topic">Follow Us</span>
               <div className="footer-footer-topic-follow">
                 <a href="" className="footer-footer-topic-follow-fb">
-                  <i class="fab fa-facebook-f"></i>
+                  <i className="fab fa-facebook-f"></i>
                 </a>
                 <a href="" className="footer-footer-topic-follow-insta">
-                  <i class="fab fa-instagram"></i>
+                  <i className="fab fa-instagram"></i>
                 </a>
               </div>
               <div className="footer-footer-topic-follow">
                 <a href="" className="footer-footer-topic-follow-yt">
-                  <i class="fab fa-youtube"></i>
+                  <i className="fab fa-youtube"></i>
                 </a>
                 <a href="" className="footer-footer-topic-follow-tw">
-                  <i class="fab fa-twitter"></i>
+                  <i className="fab fa-twitter"></i>
                 </a>
               </div>
           </div>

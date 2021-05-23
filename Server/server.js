@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 
 const app = express();
 
@@ -14,8 +13,6 @@ db.connect();
 
 app.use(cors());
 app.use(express.json());
-// app.use('/user', require('./routes/LoginRouter.js'));
-// app.use('/register1', require('./routes/LoginRouter'));
 
 // config use static file
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,5 +23,3 @@ route(app);
 app.listen(port, () => {
     console.log(`server running in port ${port}`);
 });
-
-console.log('server');
