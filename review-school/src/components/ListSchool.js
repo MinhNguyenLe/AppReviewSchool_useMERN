@@ -4,7 +4,7 @@ import "./ListSchool.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import * as action from "../redux/actions/reviewActions.js";
+import * as action from "../redux/actions.js";
 
 const ListSchool = () => {
   const dispatch = useDispatch();

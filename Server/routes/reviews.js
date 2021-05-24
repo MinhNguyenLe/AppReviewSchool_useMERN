@@ -13,7 +13,7 @@ router.get('/:id/comments', reviewController.getCommentsByIdReview);
 
 router.post('/anonymous', reviewController.createAnonymous);
 
-router.use(authMiddleWare);
+// router.use(authMiddleWare);
 
 router.post('/auth', reviewController.createAuth);
 

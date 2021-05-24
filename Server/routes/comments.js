@@ -12,7 +12,7 @@ router.get('/:_id', commentController.getById);
 
 router.post('/', commentController.create);
 
-router.use(authMiddleWare);
+// router.use(authMiddleWare);
 
 router.put('/:_id', commentController.update);
 
