@@ -17,6 +17,8 @@ app.use(express.json());
 // config use static file
 app.use(express.static(path.join(__dirname, 'public')));
 
+route(app); 
+
 app.get("/", (req, res) => {
   res.json({ dm: "hihihi" });
 });
