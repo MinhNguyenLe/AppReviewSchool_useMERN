@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as rb from "react-bootstrap";
 import "./ListReview.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import ListComment from "./ListComment.js";
-import * as action from "../redux/actions/reviewActions.js";
+import * as action from "../redux/actions.js";
+import TextareaAutosize from 'react-textarea-autosize';
 
 const ListReview = () => {
+  const refPositive = useRef()
+  const refNegative = useRef()
+  const refAdvice = useRef()
+
+  const refNewPositive = useRef()
+  const refNewNegative = useRef()
+  const refNewAdvice = useRef()
+
   const idSchool = useSelector((state) => state.idSchool);
   const idReview = useSelector((state) => state.idReview);
+
   const dispatch = useDispatch();
 
   const [listReview, setListReview] = useState([]);
   const [detailReview, setDetailReview] = useState({});
 
   const [showCmt, setShowCmt] = useState(false);
-  const [successEdit, setSuccessEdit] = useState(0);
+  const [showWriteReview, setShowWriteReview] = useState(false);
+  const [success, setSuccess] = useState(0);
   const [showEdit, setShowEdit] = useState(false);
 
   useEffect(() => {
@@ -29,13 +40,17 @@ const ListReview = () => {
         .catch();
     };
     axiosData();
-  }, [successEdit]);
+  }, [success]);
+
 
   useEffect(() => {
     const axiosData = () => {
       Promise.all([axios.get(`http://localhost:9000/api/reviews/${idReview}`)])
-        .then(([detailReview]) => {
-          setDetailReview(detailReview.data);
+        .then(([dataDetailReview]) => {
+          setDetailReview(dataDetailReview.data);
+          refPositive.current.value = detailReview.positive;
+          refNegative.current.value = detailReview.negative;
+          refAdvice.current.value = detailReview.advice;
         })
         .catch((err) => console.log(err));
     };
@@ -46,26 +61,56 @@ const ListReview = () => {
     setShowEdit(true);
     dispatch(action.setIdReview(id));
   };
-  // const saveEdit=()=>{
-  //   const axiosData = async () => {
-  //     const axiosData = async () => {
-  //       await axios.put(`http://localhost:9000/api/reviews/${idReview}`,{
-
-  //       });
-  //       setSuccessEdit(successEdit + 1);
-  //       setShowEdit(false)
-  //     };
-  //     axiosData();
-  //   };
-  //   axiosData();
-  // }
+  const saveEdit=()=>{
+    dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
+    const axiosData = async () => {
+      await axios.put(`http://localhost:9000/api/reviews/${idReview}`,{
+        positive : refPositive.current.value,
+        negative : refNegative.current.value,
+        advice : refAdvice.current.value
+      });
+      setSuccess(success + 1);
+      setShowEdit(false)
+    };
+    axiosData();
+  }
+  const exitEdit=()=>{
+    setShowEdit(false)
+  }
+  const btnShowCmt=(id)=>{
+    setShowCmt(!showCmt)
+    dispatch(action.setIdReview(id))
+  }
+  const writeReview=()=>{
+    setShowWriteReview(true)
+    // refNewPositive.current.value = ''
+    // refNewNegative.current.value = ''
+    // refNewAdvice.current.value = ''
+  }
+  const exitWriteReview=()=>{
+    setShowWriteReview(false)
+  }
+  const saveAddReview=()=>{
+    dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
+    const axiosData = async () => {
+      await axios.post(`http://localhost:9000/api/reviews/anonymous`,{
+        idSchool : idSchool,
+        positive : refNewPositive.current.value,
+        negative : refNewNegative.current.value,
+        advice : refNewAdvice.current.value
+      });
+      setSuccess(success + 1);
+      setShowWriteReview(false)
+    };
+    axiosData();
+  }
   return (
     <div>
       <div style={!showEdit ? { display: "none" } : {}} className="editor">
         <div className="d-flex flex-row align-items-center justify-content-between">
           <span>Editor</span>
           <i
-            onClick={() => setShowEdit(false)}
+            onClick={exitEdit}
             class="fas fa-times"
             style={{ cursor: "pointer" }}
           ></i>
@@ -73,22 +118,55 @@ const ListReview = () => {
         <div>
           <div>
             <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
-            <input className="edit-content" value={detailReview.positive} />
+            <TextareaAutosize ref={refPositive} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Điểm cần cải thiện
-            </rb.Card.Text>
-            <input className="edit-content" value={detailReview.negative} />
+            </rb.Card.Text>  
+            <TextareaAutosize ref={refNegative} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Trải nghiệm và lời khuyên
             </rb.Card.Text>
-            <input className="edit-content" value={detailReview.advice} />
+            <TextareaAutosize ref={refAdvice} className="edit-content" />
           </div>
-          <rb.Button onClick={saveEdit()}>Save</rb.Button>
+          <rb.Button onClick={saveEdit}>Save</rb.Button>
         </div>
+      </div>
+      <div style={!showWriteReview ? { display: "none" } : {}} className="editor">
+        <div className="d-flex flex-row align-items-center justify-content-between">
+          <span>Write new review</span>
+          <i
+            onClick={exitWriteReview}
+            class="fas fa-times"
+            style={{ cursor: "pointer" }}
+          ></i>
+        </div>
+        <div>
+          <div>
+            <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
+            <TextareaAutosize ref={refNewPositive} className="edit-content" />
+          </div>
+          <div>
+            <rb.Card.Text className="review-title">
+              Điểm cần cải thiện
+            </rb.Card.Text>  
+            <TextareaAutosize ref={refNewNegative} className="edit-content" />
+          </div>
+          <div>
+            <rb.Card.Text className="review-title">
+              Trải nghiệm và lời khuyên
+            </rb.Card.Text>
+            <TextareaAutosize ref={refNewAdvice} className="edit-content" />
+          </div>
+          <rb.Button onClick={saveAddReview}>Save</rb.Button>
+        </div>
+      </div>
+      <div className="d-flex flex-row align-items-center justify-content-between">
+        <span>Đánh giá</span>
+        <rb.Button onClick={writeReview}>Viết đánh giá</rb.Button>
       </div>
       {listReview.map((item, index) => (
         <rb.Card key={index}>
@@ -109,7 +187,7 @@ const ListReview = () => {
           <div>
             <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
             <rb.Card.Text className="review-content">
-              -{item.positive}
+              {item.positive}
             </rb.Card.Text>
           </div>
           <div>
@@ -117,7 +195,7 @@ const ListReview = () => {
               Điểm cần cải thiện
             </rb.Card.Text>
             <rb.Card.Text className="review-content">
-              -{item.negative}
+              {item.negative}
             </rb.Card.Text>
           </div>
           <div>
@@ -125,11 +203,11 @@ const ListReview = () => {
               Trải nghiệm và lời khuyên
             </rb.Card.Text>
             <rb.Card.Text className="review-content">
-              -{item.advice}
+              {item.advice}
             </rb.Card.Text>
           </div>
-          <rb.Button onClick={() => setShowCmt(!showCmt)}>Reply</rb.Button>
-          <ListComment showCmt={showCmt}></ListComment>
+          <rb.Button onClick={() => btnShowCmt(item._id)}>Reply</rb.Button>
+          <ListComment showCmt={showCmt} id={item._id}></ListComment>
         </rb.Card>
       ))}
     </div>

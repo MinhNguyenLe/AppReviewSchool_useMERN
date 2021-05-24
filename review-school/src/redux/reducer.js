@@ -1,6 +1,9 @@
 const INITIAL_STATE = {
   idSchool: "",
   idReview: "",
+  positive: '',
+  negative: '',
+  advice: '',
 };
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -14,6 +17,13 @@ export default function reducer(state = INITIAL_STATE, action) {
         ...state,
         idReview: action.payload.id,
       };
+    case "SET-REVIEW":
+      return {
+        ...state,
+        positive: action.positive,
+        negative: action.negative,
+        advice: action.advice,
+      }
     default:
       return state;
   }

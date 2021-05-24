@@ -62,11 +62,10 @@ const reviewCtrl = {
     },
     createAnonymous: async (req, res) => {
         try {
-            const { idSchool, name, ratePoint, positive, negative, advice } = req.body;
+            const { idSchool, positive, negative, advice } = req.body;
             const newReview = new Review({
                 idSchool: idSchool,
-                name: name,
-                ratePoint: ratePoint,
+                name: 'Người dùng App Reviewe School',
                 positive: positive,
                 negative: negative,
                 advice: advice
@@ -81,14 +80,12 @@ const reviewCtrl = {
     update: async (req, res) => {
         try {
             let id = req.params.id;
-            console.log(id);
-            const { idSchool, idUser, name, positive, negative, advice } = req.body;
+            const { positive, negative, advice } = req.body;
             const review = await Review.findById(id);
             
             if (review === null || review.length === 0 || review === undefined) {
                 return res.status(404).json({ msg: "Can't find review" });
             }
-            review.name = name;
             review.positive = positive;
             review.negative = negative;
             review.advice = advice;

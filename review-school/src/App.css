@@ -29,3 +29,8 @@ input {
 .frame-width {
   width: 1200px;
 }
+textarea {
+  resize: none;
+  padding: 0;
+  outline: none;
+}
