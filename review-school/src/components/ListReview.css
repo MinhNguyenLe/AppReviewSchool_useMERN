@@ -10,14 +10,26 @@
   z-index: 999;
   background-color: #00000080;
 }
-.review-title {
-  color: black;
-  font-weight: 500;
-  color: #7592a7;
-  font-size: 20px;
+.review-name {
+  color: rgb(66, 66, 66);
+  font-weight: bold;
+  font-size: 16x;
+}
+.review-title{
+  font-size : 22px;
+}
+.date-content{
+  font-size: 14px;
+  font-weight: normal;
 }
 .review-content {
+  display: -webkit-box;
   margin-left: 12px;
+  color: #686868;
+  font-size : 17px;
+  -webkit-line-clamp:6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .review-name-school {
   color: black;
@@ -45,9 +57,14 @@
   height: 40px;
 }
 .editor {
+  padding : 20px;
+  top : 40px;
+  background: white;
+  position: absolute;
   z-index: 1000;
-  max-width: 600px;
+  width: 50%;
   border: 1px solid #333;
+  border : none;
   border-radius: 4px;
 }
 .edit-content {
