@@ -31,6 +31,12 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.review-detail-content {
+  display: -webkit-box;
+  margin-left: 12px;
+  color: #686868;
+  font-size : 17px;
+}
 .review-name-school {
   color: black;
   font-weight: 500;
@@ -53,8 +59,8 @@
   background: #f5f5f5;
   border-radius: 50%;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 }
 .editor {
   padding : 20px;

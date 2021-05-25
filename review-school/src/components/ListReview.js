@@ -9,6 +9,7 @@ import * as action from "../redux/actions.js";
 import TextareaAutosize from 'react-textarea-autosize';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import {Link} from 'react-router-dom'
 
 const ListReview = () => {
   const refPositive = useRef()
@@ -126,6 +127,10 @@ const ListReview = () => {
       setSuccess(success + 1);
       setShowWriteReview(false)
   }
+  const goDetailReview=(id,positive,negative,advice,name,createdAt)=>{
+    dispatch(action.setDetailReview(id,positive,negative,advice,name,createdAt))
+    console.log(id,positive,negative,advice,name,createdAt)
+  }
   return (
     <div className = "d-flex flex-column align-items-center justify-content-center" style={{width : '100%'}}>
       <div className={`${!showEdit ? 'hidden' : 'cover-background'}`}></div>
@@ -216,8 +221,13 @@ const ListReview = () => {
                 <Moment className="date-content" format="YYYY/MM/DD">{item.createdAt}</Moment>
               </div>
             </div>
-            <div className="edit-review" onClick={() => editReview(item._id)}>
-              <i class="far fa-edit"></i>
+            <div className="d-flex">
+              <div className="edit-review" onClick={() => editReview(item._id)}>
+                <i className="far fa-edit"></i>
+              </div>
+              <Link onClick={() => goDetailReview(item._id, item.positive,item.negative,item.advice,item.name,item.createdAt)} to={`/schools/${idSchool}/reviews/${item._id}/detail`} className="edit-review" style={{marginLeft : '8px', textDecoration : 'none'}}>
+                <i className="fas fa-expand-arrows-alt"></i>
+              </Link>
             </div>
           </div>
           <div>
