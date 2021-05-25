@@ -128,10 +128,11 @@ const ListReview = () => {
   }
   return (
     <div className = "d-flex flex-column align-items-center justify-content-center" style={{width : '100%'}}>
-      <div className={`${(!showEdit || !showWriteReview) ? 'hidden' : 'cover-background'}`}></div>
+      <div className={`${!showEdit ? 'hidden' : 'cover-background'}`}></div>
+      <div className={`${!showWriteReview ? 'hidden' : 'cover-background'}`}></div>
       <div style={!showEdit ? { display: "none" } : {}} className="editor">
         <div className="d-flex flex-row align-items-center justify-content-between">
-          <span>Editor</span>
+          <span className="big-title">Editor</span>
           <i
             onClick={exitEdit}
             class="fas fa-times"
@@ -141,26 +142,26 @@ const ListReview = () => {
         <div>
           <div>
             <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
-            <TextareaAutosize ref={refPositive} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refPositive} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Điểm cần cải thiện
             </rb.Card.Text>  
-            <TextareaAutosize ref={refNegative} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refNegative} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Trải nghiệm và lời khuyên
             </rb.Card.Text>
-            <TextareaAutosize ref={refAdvice} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refAdvice} className="edit-content" />
           </div>
           <rb.Button onClick={saveEdit}>Save</rb.Button>
         </div>
       </div>
       <div style={!showWriteReview ? { display: "none" } : {}} className="editor">
         <div className="d-flex flex-row align-items-center justify-content-between">
-          <span>Write new review</span>
+          <span className="big-title">Write new review</span>
           <i
             onClick={exitWriteReview}
             class="fas fa-times"
@@ -176,19 +177,19 @@ const ListReview = () => {
           </div>
           <div>
             <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
-            <TextareaAutosize ref={refNewPositive} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refNewPositive} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Điểm cần cải thiện
             </rb.Card.Text>  
-            <TextareaAutosize ref={refNewNegative} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refNewNegative} className="edit-content" />
           </div>
           <div>
             <rb.Card.Text className="review-title">
               Trải nghiệm và lời khuyên
             </rb.Card.Text>
-            <TextareaAutosize ref={refNewAdvice} className="edit-content" />
+            <TextareaAutosize minRows={6} maxRows={10} ref={refNewAdvice} className="edit-content" />
           </div>
           <rb.Button onClick={saveAddReview}>Save</rb.Button>
         </div>
@@ -204,15 +205,15 @@ const ListReview = () => {
       </div>
       <div style={{width : '100%'}} className="d-flex flex-column align-items-center justify-content-center">
       {listReview.map((item, index) => (
-        <rb.Card className="hover-shadow" key={index} style={{width : '70%', margin : '16px 0', padding : '20px'}}>
+        <rb.Card className="hover-shadow user" key={index} style={{width : '70%', margin : '16px 0', padding : '20px'}}>
           <div className="d-flex flex-row align-items-center justify-content-between">
             <div className="d-flex flex-row align-items-center">
               <div className="icon-user d-flex align-items-center justify-content-center">
                 <i className="fas fa-user"></i>
               </div>
               <div>
-                <rb.Card.Text>{item.name}</rb.Card.Text>
-                <Moment format="YYYY/MM/DD">{item.createdAt}</Moment>
+                <rb.Card.Text className="review-name ">{item.name}</rb.Card.Text>
+                <Moment className="date-content" format="YYYY/MM/DD">{item.createdAt}</Moment>
               </div>
             </div>
             <div className="edit-review" onClick={() => editReview(item._id)}>

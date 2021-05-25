@@ -39,6 +39,7 @@ const ListSchool = () => {
                 <span style={{fontWeight : '500', fontSize : '19px'}}>Location: </span>
                 {item.location}
               </rb.Card.Text>
+              <a href={item.website} className="school-name"><span  style={{fontWeight : '500', fontSize : '19px'}}>Website: </span> {item.website}</a>
               <div className="d-flex flex-row align-items-center">
                 <rb.Badge
                   variant="success"
