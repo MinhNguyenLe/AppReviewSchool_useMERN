@@ -12,7 +12,7 @@ router.get('/:_id', commentController.getById);
 
 router.post('/anonymous', commentController.createAnonymous);
 
-router.use(authMiddleWare);
+// router.use(authMiddleWare);
 
 router.post('/auth', commentController.createAuth);
 

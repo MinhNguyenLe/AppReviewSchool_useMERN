@@ -4,7 +4,7 @@
 html {
   scroll-behavior: smooth;
 }
-i{
+i {
   outline: none;
   text-decoration: none;
 }
@@ -12,6 +12,7 @@ body {
   background: #f7f7f7;
 }
 a {
+  outline: none;
   text-decoration: none;
   color: black;
 }
@@ -19,5 +20,17 @@ button {
   outline: none;
 }
 input {
+  outline: none;
+}
+.frame {
+  justify-content: center;
+  display: flex;
+}
+.frame-width {
+  width: 1200px;
+}
+textarea {
+  resize: none;
+  padding: 0;
   outline: none;
 }

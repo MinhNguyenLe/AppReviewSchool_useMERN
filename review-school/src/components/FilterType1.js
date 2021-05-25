@@ -39,7 +39,6 @@ const FilterType1 =()=>{
       </div>
       <rb.Form className="d-flex flex-row">
         <rb.Form.Group controlId="formBasicEmail">
-          <rb.Form.Label>Search</rb.Form.Label>
           <rb.Form.Control type="Search" placeholder="Search" />
         </rb.Form.Group>
       </rb.Form>
