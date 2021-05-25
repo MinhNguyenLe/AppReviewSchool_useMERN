@@ -1,6 +1,10 @@
 .card-text{
   margin : 0;
 }
+
+.link-card:hover{
+  text-decoration: none;
+}
 .school-name{
   color : rgb(68, 68, 68);
   font-size: 17px;
