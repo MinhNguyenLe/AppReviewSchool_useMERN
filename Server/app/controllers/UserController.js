@@ -134,10 +134,10 @@ const userController = {
         try {
             const { username, password } = req.body;
             const user = await User.findOne({ username });
-            console.log({ username, password });
+            // console.log({ username, password });
             if (!user) return res.status(400).json({ msg: 'User not exist' });
             const isMatch = await bcrypt.compare(password, user.password);
-            console.log(isMatch);
+            // console.log(isMatch);
             if (!isMatch)
                 return res.status(400).json({ msg: 'Incorrect password' });
 
