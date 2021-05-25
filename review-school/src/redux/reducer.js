@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   positive: '',
   negative: '',
   advice: '',
+  createdAt:'',
+  name : ''
 };
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -20,10 +22,20 @@ export default function reducer(state = INITIAL_STATE, action) {
     case "SET-REVIEW":
       return {
         ...state,
-        positive: action.positive,
-        negative: action.negative,
-        advice: action.advice,
-      }
+        positive: action.payload.positive,
+        negative: action.payload.negative,
+        advice: action.payload.advice,
+      };
+    case "SET-DETAIL-REVIEW":
+      return {
+        ...state,
+        idReview: action.payload.id,
+        positive: action.payload.positive,
+        negative: action.payload.negative,
+        advice: action.payload.advice,
+        name : action.payload.name,
+        createdAt:action.payload.createdAt
+      } 
     default:
       return state;
   }

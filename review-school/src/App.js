@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Review from "./pages/Review.js";
 import Navbar from "./components/Navbar.js";
 import ListSchool from "./components/ListSchool.js";
-import FilterType1 from "./components/FilterType1.js";
+import DetailReview from "./components/DetailReview.js";
 import ListReview from "./components/ListReview.js";
 import Footer from "./components/Footer.js";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,6 +14,7 @@ function App() {
       <Navbar></Navbar>
       <Switch>
         <Route exact path="/list-school" component={ListSchool}></Route>
+        <Route exact path="/schools/:id/reviews/:id/detail" component={DetailReview}></Route>
         <Route exact path="/schools/:id/reviews" component={ListReview}></Route>
       </Switch>
       <Footer></Footer>

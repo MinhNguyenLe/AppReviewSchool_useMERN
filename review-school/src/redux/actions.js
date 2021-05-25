@@ -26,3 +26,17 @@ export const setReview = (positive,negative,advice) => {
     },
   };
 };
+
+export const setDetailReview = (idReview,positive,negative,advice, name, createdAt) => {
+  return {
+    type: "SET-DETAIL-REVIEW",
+    payload: {
+      idReview:idReview,
+      positive: positive,
+      negative: negative,
+      advice: advice,
+      name : name,
+      createdAt : createdAt
+    },
+  };
+};

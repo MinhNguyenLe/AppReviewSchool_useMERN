@@ -1,0 +1,56 @@
+import React from 'react'
+import * as rb from "react-bootstrap";
+import Moment from 'react-moment';
+import { useSelector } from "react-redux";
+import {Link} from 'react-router-dom'
+
+const DetailReview=()=>{
+  const review = useSelector((state) => state);
+  
+  return(
+    <div className="d-flex justify-content-center" style={{width : '100%', margin : '40px 0'}}>
+      <rb.Card className="hover-shadow user" style={{width : '70%', margin : '16px 0', padding : '20px'}}>
+          <div className="d-flex flex-row align-items-center justify-content-between">
+            <div className="d-flex flex-row align-items-center">
+              <div className="icon-user d-flex align-items-center justify-content-center">
+                <i className="fas fa-user"></i>
+              </div>
+              <div>
+                <rb.Card.Text className="review-name ">{review.name}</rb.Card.Text>
+                <Moment className="date-content" format="YYYY/MM/DD">{review.createdAt}</Moment>
+              </div>
+            </div>
+            <div className="d-flex">
+              <Link to={`/schools/${review.idSchool}/reviews`} className="edit-review" onClick={()=>console.log(review)}>
+                Back
+              </Link>
+            </div>
+          </div>
+          <div>
+            <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
+            <rb.Card.Text className="review-detail-content">
+              {review.positive}
+            </rb.Card.Text>
+          </div>
+          <div>
+            <rb.Card.Text className="review-title">
+              Điểm cần cải thiện
+            </rb.Card.Text>
+            <rb.Card.Text className="review-detail-content">
+              {review.negative}
+            </rb.Card.Text>
+          </div>
+          <div>
+            <rb.Card.Text className="review-title">
+              Trải nghiệm và lời khuyên
+            </rb.Card.Text>
+            <rb.Card.Text className="review-detail-content">
+              {review.advice}
+            </rb.Card.Text>
+          </div>
+        </rb.Card>
+      </div>
+  );
+}
+
+export default DetailReview;
