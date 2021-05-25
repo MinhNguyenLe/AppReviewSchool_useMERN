@@ -34,3 +34,10 @@ textarea {
   padding: 0;
   outline: none;
 }
+.hover-shadow:hover{
+  box-shadow : 1px 4px 12px 4px #d6d6d6;
+}
+.hover-scale:hover{
+  transform: scale(1.05);
+  transition: all 1.6s;
+}

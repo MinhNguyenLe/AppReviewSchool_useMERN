@@ -27,24 +27,24 @@ const commentCtrl = {
         }
     },
     create: async (req, res) => {
-        if(!req.body.token){
-            return res.status(400).json({msg: "Token is missing!"});
-        }
+        // if(!req.body.token){
+        //     return res.status(400).json({msg: "Token is missing!"});
+        // }
         try {
-            let captchaValue = await rCaptcha.recaptcha(req.body.token);
-            if(captchaValue === false){
-                return res.status(400).json({msg: "Invalid token"});
-            }
+            // let captchaValue = await rCaptcha.recaptcha(req.body.token);
+            // if(captchaValue === false){
+            //     return res.status(400).json({msg: "Invalid token"});
+            // }
             const {
                 idReview,
-                idUser,
+                // idUser,
                 name,
                 content
             } = req.body;
 
             const newComment = new Comment({
                 idReview: idReview,
-                idUser: idUser,
+                // idUser: idUser,
                 name: name,
                 content: content
             });

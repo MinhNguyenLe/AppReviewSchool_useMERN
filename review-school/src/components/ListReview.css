@@ -1,3 +1,15 @@
+.hidden{
+  display : none;
+}
+.cover-background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: #00000080;
+}
 .review-title {
   color: black;
   font-weight: 500;
@@ -20,6 +32,7 @@
   color: #e3e8ed;
   font-size: 20px;
   border-radius: 50%;
+  margin-right : 12px;
 }
 .edit-review {
   display: flex;
@@ -39,4 +52,13 @@
 }
 .edit-content {
   width: 100%;
+}
+.small-title{
+  font-size : 20px;
+  color : rgb(131, 131, 131)
+}
+.big-title{
+  font-size : 28px;
+  color : rgb(100, 94, 94);
+  font-weight: bold;
 }
