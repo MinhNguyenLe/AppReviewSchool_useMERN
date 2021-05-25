@@ -135,11 +135,11 @@ const userController = {
             const { username, password } = req.body;
             const user = await User.findOne({ username });
             console.log({ username, password });
-            if (!user) return res.status(400).json({ msg: 'User not exist' });
+            if (!user) return res.status(200).json({ msg: 'User not exist' });
             const isMatch = await bcrypt.compare(password, user.password);
             console.log(isMatch);
             if (!isMatch)
-                return res.status(400).json({ msg: 'Incorrect password' });
+                return res.status(200).json({ msg: 'Incorrect password' });
 
             const accessToken = createAccessToken({ id: user._id });
             const refreshToken = createRefreshToken({ id: user._id });
@@ -149,7 +149,7 @@ const userController = {
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                path: '/users/refresh_token',
+                path: '/', //users/refresh_token
             });
 
             return res.status(200).json({ msg: 'Login successful!' });
