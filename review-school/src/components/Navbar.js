@@ -2,9 +2,8 @@ import React from 'react';
 import * as rb  from 'react-bootstrap';
 import "./Navbar.css";
 import Logo from "./Logo.js"
-import Login from "./Login.js"
 import Register from "./Register.js"
-
+import {Link} from 'react-router-dom'
 const Navbar =()=>{
   return(
     <div>
@@ -38,8 +37,8 @@ const Navbar =()=>{
             </rb.Form.Group>
           </rb.Form>
         </rb.Nav>
-        <Login></Login>
-        <Register></Register>
+        <Link style={{textDecoration: 'none'}} to='/login' className="login-btn">Login</Link>
+        <Link style={{textDecoration: 'none'}} to='/register' className="login-btn">Register</Link>
       </rb.Navbar>
     </div>
   )
