@@ -28,22 +28,22 @@ const Footer =()=>{
           <div className="footer-head-child">
             <i className="fas fa-hotel"></i>
             <div>
-              <span>+14,800 thông tin khóa học</span>
+              <span>20 thông tin chi tiết trường</span>
               <span>... and we're counting :D</span>
             </div>
           </div>
           <div className="footer-head-child">
             <i className="fas fa-check"></i>
             <div>
-              <span>+40,000 đánh giá từ học viên</span>
+              <span>40 đánh giá từ học viên</span>
               <span>More and more</span>
             </div>
           </div>
           <div className="footer-head-child">
             <i className="fas fa-phone-volume"></i>
             <div>
-              <span>+53,100 kết nối học viên</span>
-              <span>We're waiting for your call</span>
+              <span>53 người dùng</span>
+              <span>We're waiting for your register</span>
             </div>
           </div>
         </div>

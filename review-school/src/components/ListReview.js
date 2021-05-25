@@ -4,13 +4,18 @@ import "./ListReview.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import ListComment from "./ListComment.js";
+import $ from 'jquery'
 import * as action from "../redux/actions.js";
 import TextareaAutosize from 'react-textarea-autosize';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 const ListReview = () => {
   const refPositive = useRef()
   const refNegative = useRef()
   const refAdvice = useRef()
+
+  const refPointForSchool = useRef()
 
   const refNewPositive = useRef()
   const refNewNegative = useRef()
@@ -22,12 +27,26 @@ const ListReview = () => {
   const dispatch = useDispatch();
 
   const [listReview, setListReview] = useState([]);
+  const [school, setSchool] = useState([]);
   const [detailReview, setDetailReview] = useState({});
 
   const [showCmt, setShowCmt] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
   const [success, setSuccess] = useState(0);
   const [showEdit, setShowEdit] = useState(false);
+
+  useEffect(() => {
+    const axiosData = () => {
+      Promise.all([
+        axios.get(`http://localhost:9000/api/schools/${idSchool}`),
+      ])
+        .then(([school]) => {
+          setSchool(school.data);
+        })
+        .catch();
+    };
+    axiosData();
+  }, []);
 
   useEffect(() => {
     const axiosData = () => {
@@ -48,31 +67,33 @@ const ListReview = () => {
       Promise.all([axios.get(`http://localhost:9000/api/reviews/${idReview}`)])
         .then(([dataDetailReview]) => {
           setDetailReview(dataDetailReview.data);
-          refPositive.current.value = detailReview.positive;
-          refNegative.current.value = detailReview.negative;
-          refAdvice.current.value = detailReview.advice;
+          refPositive.current.value = dataDetailReview.data.positive;
+          refNegative.current.value = dataDetailReview.data.negative;
+          refAdvice.current.value = dataDetailReview.data.advice;
         })
         .catch((err) => console.log(err));
     };
     axiosData();
+    console.log('out effect',refPositive.current.value)
   }, [showEdit]);
 
+  const scrollTop=()=> {
+    $('html, body').animate({ scrollTop: '0px' }, 0)
+  }
   const editReview = (id) => {
     setShowEdit(true);
+    scrollTop()
     dispatch(action.setIdReview(id));
   };
-  const saveEdit=()=>{
+  const saveEdit= async ()=>{
     dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
-    const axiosData = async () => {
-      await axios.put(`http://localhost:9000/api/reviews/${idReview}`,{
+    await axios.put(`http://localhost:9000/api/reviews/${idReview}`,{
         positive : refPositive.current.value,
         negative : refNegative.current.value,
         advice : refAdvice.current.value
       });
       setSuccess(success + 1);
       setShowEdit(false)
-    };
-    axiosData();
   }
   const exitEdit=()=>{
     setShowEdit(false)
@@ -83,29 +104,31 @@ const ListReview = () => {
   }
   const writeReview=()=>{
     setShowWriteReview(true)
-    // refNewPositive.current.value = ''
-    // refNewNegative.current.value = ''
-    // refNewAdvice.current.value = ''
+    scrollTop()
   }
   const exitWriteReview=()=>{
     setShowWriteReview(false)
+    refNewPositive.current.value = ''
+    refNewNegative.current.value = ''
+    refNewAdvice.current.value = ''
+    refPointForSchool.current.value = ''
   }
-  const saveAddReview=()=>{
+  const saveAddReview= async ()=>{
     dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
-    const axiosData = async () => {
-      await axios.post(`http://localhost:9000/api/reviews/anonymous`,{
+    await axios.post(`http://localhost:9000/api/reviews/anonymous`,{
         idSchool : idSchool,
+        name : 'Fakee',
         positive : refNewPositive.current.value,
         negative : refNewNegative.current.value,
-        advice : refNewAdvice.current.value
+        advice : refNewAdvice.current.value,
+        ratePoint : refPointForSchool.current.value
       });
       setSuccess(success + 1);
       setShowWriteReview(false)
-    };
-    axiosData();
   }
   return (
-    <div>
+    <div className = "d-flex flex-column align-items-center justify-content-center" style={{width : '100%'}}>
+      <div className={`${(!showEdit || !showWriteReview) ? 'hidden' : 'cover-background'}`}></div>
       <div style={!showEdit ? { display: "none" } : {}} className="editor">
         <div className="d-flex flex-row align-items-center justify-content-between">
           <span>Editor</span>
@@ -145,6 +168,12 @@ const ListReview = () => {
           ></i>
         </div>
         <div>
+        <div>
+            <rb.Card.Text className="review-title">
+              Điểm
+            </rb.Card.Text>  
+            <input type="number" ref={refPointForSchool} className="edit-content" />
+          </div>
           <div>
             <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
             <TextareaAutosize ref={refNewPositive} className="edit-content" />
@@ -164,12 +193,18 @@ const ListReview = () => {
           <rb.Button onClick={saveAddReview}>Save</rb.Button>
         </div>
       </div>
+      <div>
+        <div className="d-flex flex-column align-items-center">
+          <span className="big-title">{school.name}</span>
+          <a href={school.website} style={{color : '#9696ff'}} className="small-title">{school.website}</a>
+        </div>
+      </div>
       <div className="d-flex flex-row align-items-center justify-content-between">
-        <span>Đánh giá</span>
         <rb.Button onClick={writeReview}>Viết đánh giá</rb.Button>
       </div>
+      <div style={{width : '100%'}} className="d-flex flex-column align-items-center justify-content-center">
       {listReview.map((item, index) => (
-        <rb.Card key={index}>
+        <rb.Card className="hover-shadow" key={index} style={{width : '70%', margin : '16px 0', padding : '20px'}}>
           <div className="d-flex flex-row align-items-center justify-content-between">
             <div className="d-flex flex-row align-items-center">
               <div className="icon-user d-flex align-items-center justify-content-center">
@@ -177,7 +212,7 @@ const ListReview = () => {
               </div>
               <div>
                 <rb.Card.Text>{item.name}</rb.Card.Text>
-                <rb.Card.Text>{item.createdAt}</rb.Card.Text>
+                <Moment format="YYYY/MM/DD">{item.createdAt}</Moment>
               </div>
             </div>
             <div className="edit-review" onClick={() => editReview(item._id)}>
@@ -195,7 +230,7 @@ const ListReview = () => {
               Điểm cần cải thiện
             </rb.Card.Text>
             <rb.Card.Text className="review-content">
-              {item.negative}
+              {item.negative || ''}
             </rb.Card.Text>
           </div>
           <div>
@@ -210,6 +245,7 @@ const ListReview = () => {
           <ListComment showCmt={showCmt} id={item._id}></ListComment>
         </rb.Card>
       ))}
+      </div>
     </div>
   );
 };

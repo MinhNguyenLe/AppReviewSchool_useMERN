@@ -62,10 +62,11 @@ const reviewCtrl = {
     },
     createAnonymous: async (req, res) => {
         try {
-            const { idSchool, positive, negative, advice } = req.body;
+            const {ratePoint, idSchool,name, positive, negative, advice } = req.body;
             const newReview = new Review({
                 idSchool: idSchool,
-                name: 'Người dùng App Reviewe School',
+                name: name,
+                ratePoint:ratePoint,
                 positive: positive,
                 negative: negative,
                 advice: advice

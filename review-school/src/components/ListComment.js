@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as rb from "react-bootstrap";
 import "./ListReview.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import * as action from "../redux/actions.js";
 import TextareaAutosize from 'react-textarea-autosize';
 
 const ListComment = ({ showCmt, id }) => {
+  const refCmt = useRef()
+  
   const idReview = useSelector((state) => state.idReview);
 
   const dispatch = useDispatch();
@@ -23,12 +26,24 @@ const ListComment = ({ showCmt, id }) => {
     axiosData();
   }, [addCmt]);
 
+  const submitCmt= async (e)=>{
+    e.preventDefault();
+    await axios.post(`http://localhost:9000/api/comments`,{
+      idReview : id,
+      content : refCmt.current.value,
+      name : "",
+    });
+    setAddCmt(addCmt + 1)
+    refCmt.current.value = ''
+  }
   return (
     <div style={!showCmt && id === idReview ? { display: "none" } : {}}>
       {listComment.map((item, index) => (
         <div key={index}>{item.content}</div>
       ))}
-      <TextareaAutosize style={{width : '100%'}}/>
+      <form onSubmit={submitCmt}>
+        <input ref={refCmt} type="text" style={{width : '100%'}} placeholder=". . ." />
+      </form>
     </div>
   );
 };
