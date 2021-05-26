@@ -9,7 +9,7 @@ import ListReview from "./components/ListReview.js";
 import Footer from "./components/Footer.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+const App=()=> {
   return (
     <div>
       <Navbar></Navbar>

@@ -9,11 +9,13 @@ import * as action from "../redux/actions.js";
 import TextareaAutosize from 'react-textarea-autosize';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import * as func from '../funcGlobal.js'
 import Loading from './Loading.js'
 
 const ListReview = () => {
+  let params = useParams()
+
   const [loading, setLoading] = useState(true);
 
   const refPositive = useRef()
@@ -44,29 +46,32 @@ const ListReview = () => {
   useEffect(() => {
     const axiosData = () => {
       Promise.all([
-        axios.get(`http://localhost:9000/api/schools/${idSchool}`),
+        axios.get(`http://localhost:9000/api/schools/${params.id}`),
+        axios.get(`http://localhost:9000/api/schools/${params.id}/reviews`),
       ])
-        .then(([school]) => {
+        .then(([school,listReview]) => {
           setSchool(school.data);
+          setListReview(listReview.data);
           setLoading(false)
         })
         .catch();
     };
     axiosData();
-  }, []);
+  }, [success , params.id]);
 
-  useEffect(() => {
-    const axiosData = () => {
-      Promise.all([
-        axios.get(`http://localhost:9000/api/schools/${idSchool}/reviews`),
-      ])
-        .then(([listReview]) => {
-          setListReview(listReview.data);
-        })
-        .catch();
-    };
-    axiosData();
-  }, [success]);
+  // useEffect(() => {
+  //   const axiosData = () => {
+  //     Promise.all([
+  //       axios.get(`http://localhost:9000/api/schools/${idSchool}/reviews`),
+  //     ])
+  //       .then(([listReview]) => {
+  //         setListReview(listReview.data);
+          
+  //       })
+  //       .catch();
+  //   };
+  //   axiosData();
+  // }, [success]);
 
   useEffect(() => {
     const axiosData = () => {
@@ -118,6 +123,7 @@ const ListReview = () => {
     dispatch(action.setIdReview(id))
   }
   const writeReview=()=>{
+    console.log(params)
     setShowWriteReview(true)
     func.scrollTop()
     func.disableScrolling()
@@ -251,7 +257,7 @@ const ListReview = () => {
               <div className="edit-review" onClick={() => editReview(item._id)}>
                 <i className="far fa-edit"></i>
               </div>
-              <Link onClick={() => goDetailReview(item._id, item.positive,item.negative,item.advice,item.name,item.createdAt)} to={`/schools/${idSchool}/reviews/${item._id}/detail`} className="edit-review" style={{marginLeft : '8px', textDecoration : 'none'}}>
+              <Link onClick={() => goDetailReview(item._id, item.positive,item.negative,item.advice,item.name,item.createdAt)} to={`/schools/${params.id}/reviews/${item._id}/detail`} className="edit-review" style={{marginLeft : '8px', textDecoration : 'none'}}>
                 <i className="fas fa-expand-arrows-alt"></i>
               </Link>
             </div>
