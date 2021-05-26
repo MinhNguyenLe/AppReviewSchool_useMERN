@@ -3,6 +3,7 @@ import * as rb from "react-bootstrap";
 import Moment from 'react-moment';
 import { useSelector } from "react-redux";
 import {Link} from 'react-router-dom'
+import * as func from '../funcGlobal.js'
 
 const DetailReview=()=>{
   const review = useSelector((state) => state);
@@ -21,7 +22,9 @@ const DetailReview=()=>{
               </div>
             </div>
             <div className="d-flex">
-              <Link to={`/schools/${review.idSchool}/reviews`} className="edit-review" onClick={()=>console.log(review)}>
+              <Link to={`/schools/${review.idSchool}/reviews`} className="edit-review" onClick={()=>{
+                func.scrollTop()
+                console.log(review)}}>
                 Back
               </Link>
             </div>

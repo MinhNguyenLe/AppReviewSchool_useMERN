@@ -1,0 +1,19 @@
+.ske-cmt{
+  max-height: 240px;
+  overflow-y: scroll;
+}
+.ske-cmt-c{
+  margin : 8px 0;
+  border-radius: 4px;
+  padding : 12px;
+}
+.cmt-name{
+  color : rgb(148, 147, 147);
+  font-size : 14px;
+  font-weight: 700;
+}
+.cmt-content{
+  color : rgb(44, 44, 44);
+  font-size : 14px;
+  font-weight: normal;
+}
