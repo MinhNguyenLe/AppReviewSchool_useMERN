@@ -1,6 +1,27 @@
 .hidden{
   display : none;
 }
+.up-page{
+  z-index : 999;
+  cursor : pointer;
+  display : flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top : calc(100% - 76px);
+  right :0;
+  margin-right : 32px;
+  width : 44px;
+  height : 44px;
+  border-radius: 24%;
+  border: 1px solid #7878da;
+}
+.up-page:hover{
+  background-color: #7878da;
+}
+.up-page:hover i{
+  color : white !important
+}
 .cover-background{
   position: absolute;
   top: 0;

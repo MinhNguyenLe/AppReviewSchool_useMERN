@@ -32,6 +32,7 @@ const ListReview = () => {
   const dispatch = useDispatch();
 
   const [listReview, setListReview] = useState([]);
+  const [listComment, setListComment] = useState([]);
   const [school, setSchool] = useState([]);
   const [detailReview, setDetailReview] = useState({});
 
@@ -67,7 +68,6 @@ const ListReview = () => {
     axiosData();
   }, [success]);
 
-
   useEffect(() => {
     const axiosData = () => {
       Promise.all([axios.get(`http://localhost:9000/api/reviews/${idReview}`)])
@@ -81,6 +81,17 @@ const ListReview = () => {
     };
     axiosData();
   }, [showEdit]);
+
+  useEffect(() => {
+    const axiosData = () => {
+      Promise.all([axios.get(`http://localhost:9000/api/reviews/${idReview}/comments`)])
+        .then(([listComment]) => {
+          setListComment(listComment.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    axiosData();
+  }, [showCmt]);
 
   const editReview = (id) => {
     setShowEdit(true);
@@ -129,19 +140,25 @@ const ListReview = () => {
         advice : refNewAdvice.current.value,
         ratePoint : refPointForSchool.current.value
       });
-      setSuccess(success + 1);
-      setShowWriteReview(false)
+    setSuccess(success + 1);
+    setShowWriteReview(false)
   }
   const goDetailReview=(id,positive,negative,advice,name,createdAt)=>{
     dispatch(action.setDetailReview(id,positive,negative,advice,name,createdAt))
-    console.log(id,positive,negative,advice,name,createdAt)
+    func.scrollTop()
   }
+  useEffect(()=>{
+    console.log(window.scrollX)
+  }, [window.scrollX])
   return (
     loading ? 
     <div className="d-flex align-items-center justify-content-center" style={{height : '500px'}}><Loading/></div>
     :
     (
     <div className = "d-flex flex-column align-items-center justify-content-center" style={{width : '100%'}}>
+      <div className="up-page" onClick={() => func.scrollTop()}>
+        <i style={{fontSize : '22px', color : '#7878da'}} className="fas fa-angle-double-up"></i>
+      </div>
       <div className={`${!showEdit ? 'hidden' : 'cover-background'}`}></div>
       <div className={`${!showWriteReview ? 'hidden' : 'cover-background'}`}></div>
       <div style={!showEdit ? { display: "none" } : {}} className="editor">
@@ -262,7 +279,7 @@ const ListReview = () => {
             </rb.Card.Text>
           </div>
           <rb.Button onClick={() => btnShowCmt(item._id)}>Reply</rb.Button>
-          <ListComment showCmt={showCmt} id={item._id}></ListComment>
+          <ListComment listComment={listComment} setListComment={setListComment} showCmt={showCmt} id={item._id}></ListComment>
         </rb.Card>
       ))}
       </div>
