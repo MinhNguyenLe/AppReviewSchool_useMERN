@@ -10,8 +10,12 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import {Link} from 'react-router-dom'
+import * as func from '../funcGlobal.js'
+import Loading from './Loading.js'
 
 const ListReview = () => {
+  const [loading, setLoading] = useState(true);
+
   const refPositive = useRef()
   const refNegative = useRef()
   const refAdvice = useRef()
@@ -43,6 +47,7 @@ const ListReview = () => {
       ])
         .then(([school]) => {
           setSchool(school.data);
+          setLoading(false)
         })
         .catch();
     };
@@ -75,16 +80,13 @@ const ListReview = () => {
         .catch((err) => console.log(err));
     };
     axiosData();
-    console.log('out effect',refPositive.current.value)
   }, [showEdit]);
 
-  const scrollTop=()=> {
-    $('html, body').animate({ scrollTop: '0px' }, 0)
-  }
   const editReview = (id) => {
     setShowEdit(true);
-    scrollTop()
+    func.scrollTop()
     dispatch(action.setIdReview(id));
+    func.disableScrolling()
   };
   const saveEdit= async ()=>{
     dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
@@ -98,6 +100,7 @@ const ListReview = () => {
   }
   const exitEdit=()=>{
     setShowEdit(false)
+    func.enableScrolling()
   }
   const btnShowCmt=(id)=>{
     setShowCmt(!showCmt)
@@ -105,7 +108,8 @@ const ListReview = () => {
   }
   const writeReview=()=>{
     setShowWriteReview(true)
-    scrollTop()
+    func.scrollTop()
+    func.disableScrolling()
   }
   const exitWriteReview=()=>{
     setShowWriteReview(false)
@@ -113,6 +117,7 @@ const ListReview = () => {
     refNewNegative.current.value = ''
     refNewAdvice.current.value = ''
     refPointForSchool.current.value = ''
+    func.enableScrolling()
   }
   const saveAddReview= async ()=>{
     dispatch(action.setReview(refPositive.current.value,refNegative.current.value,refAdvice.current.value))
@@ -132,6 +137,10 @@ const ListReview = () => {
     console.log(id,positive,negative,advice,name,createdAt)
   }
   return (
+    loading ? 
+    <div className="d-flex align-items-center justify-content-center" style={{height : '500px'}}><Loading/></div>
+    :
+    (
     <div className = "d-flex flex-column align-items-center justify-content-center" style={{width : '100%'}}>
       <div className={`${!showEdit ? 'hidden' : 'cover-background'}`}></div>
       <div className={`${!showWriteReview ? 'hidden' : 'cover-background'}`}></div>
@@ -258,6 +267,7 @@ const ListReview = () => {
       ))}
       </div>
     </div>
+  )
   );
 };
 

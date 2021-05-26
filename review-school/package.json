@@ -24,6 +24,7 @@
     "react-scripts": "4.0.3",
     "react-summernote": "^2.0.2",
     "react-textarea-autosize": "^8.3.2",
+    "react-useanimations": "^2.0.6",
     "react-validation": "^3.0.7",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",

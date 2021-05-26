@@ -5,27 +5,36 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as action from "../redux/actions.js";
+import * as func from "../funcGlobal.js"
+import Loading from './Loading.js'
 
 const ListSchool = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const axiosData = async () => {
       const result = await axios.get("http://localhost:9000/api/schools");
       setData(result.data);
+      setLoading(false)
     };
     axiosData();
+    func.scrollTop()
   }, []);
 
-  const func = (id) => {
+  const goReview = (id) => {
     dispatch(action.setIdSchool(id));
+    func.scrollTop()
   };
 
   return (
+    loading ? 
+    <div className="d-flex align-items-center justify-content-center" style={{height : '500px'}}><Loading/></div>
+    : 
+    (
     <div className="d-flex flex-column align-items-center">
       {data.map((item, index) => (
-        <rb.Card className="shadow hover-scale" style={{width : '70%', margin : '16px 0', padding : "20px"}} key={index} onClick={() => func(item._id)}>
+        <rb.Card className="shadow hover-scale" style={{width : '70%', margin : '16px 0', padding : "20px"}} key={index} onClick={() => goReview(item._id)}>
           <Link to={`/schools/${item._id}/reviews`} className="d-flex flex-row" style={{textDecoration : "none"}}>
             <rb.Card.Img
               src={item.images[0]}
@@ -61,6 +70,7 @@ const ListSchool = () => {
         </rb.Card>
       ))}
     </div>
+  )
   );
 };
 
