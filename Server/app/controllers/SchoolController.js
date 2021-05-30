@@ -90,6 +90,18 @@ const schoolController = {
             return res.status(500).json({ msg: err.message });
         }
     },
+    countReviewsByIdSchool: async (req, res)  => {
+        try {
+            const id = req.params.id;
+            let reviews = await  Review.find({ idSchool: id });
+            if (reviews === null || reviews.length === 0 || reviews === undefined) {
+                return res.status(200).json({ msg: 0 });
+            }
+            return res.json({msg: reviews.length})
+        } catch (err) {
+            return res.status(500).json({msg: err.message});
+        }  
+    }
 };
 
 function removeVietnameseTones(str) {
