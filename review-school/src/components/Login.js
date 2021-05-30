@@ -20,11 +20,21 @@ const Login = () => {
 
   const checkUser = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:9000/api/users/login`, {
+    let res = await axios.post(`http://localhost:9000/api/users/login`, {
       username: refUser.current.value,
       password: refPass.current.value,
     });
+    if(res.headers['x-access-token'] === undefined){
+      console.log('dang nhap that bai');
+    } else {
+      saveToken(res.headers['x-access-token'], res.headers['x-refresh-token']);
+    }
   };
+
+  const saveToken = (access_token, refresh_token) => {
+    localStorage.setItem('x-access-token', access_token);
+    localStorage.setItem('x-refresh-token', refresh_token);
+  } 
   // const required = (value) => {
   //   if (isEmpty(value)) {
   //     return (
@@ -38,12 +48,12 @@ const Login = () => {
       style={{ width: "100%", margin: "60px" }}
     >
       <rb.Card style={{ width: "400px" }}>
-        <rb.Form style={{ padding: "20px" }}>
+        <rb.Form style={{ padding: "20px" }} onSubmit={checkUser}>
           <rb.Form.Group controlId="formBasicEmail">
             <rb.Form.Label>Email address</rb.Form.Label>
             <rb.Form.Control
               ref={refUser}
-              type="email"
+              type="text"
               placeholder="Enter email"
               // validations={[required]}
             />
@@ -57,7 +67,7 @@ const Login = () => {
               placeholder="Password"
             />
           </rb.Form.Group>
-          <rb.Button variant="primary" type="submit" onSubmit={checkUser}>
+          <rb.Button variant="primary" type="submit">
             Login
           </rb.Button>
         </rb.Form>

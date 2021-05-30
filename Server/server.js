@@ -11,7 +11,10 @@ const db = require('./config/db');
 // Connect to DB
 db.connect();
 
-app.use(cors());
+const corsOptions = {
+  exposedHeaders: ['x-access-token', 'x-refresh-token'],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // config use static file

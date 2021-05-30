@@ -29,7 +29,7 @@ const Register = () => {
   return (
     <div className="d-flex align-items-center justify-content-center" style={{width : '100%', margin:"60px"}}>
     <rb.Card style={{width : '400px'}}>
-    <rb.Form style={{padding : '20px'}}>
+    <rb.Form style={{padding : '20px'}} onSubmit={checkUser}>
     <rb.Form.Group>
         <rb.Form.Label>New name</rb.Form.Label>
         <rb.Form.Control ref={refName} type="text" placeholder="Your name" />
@@ -46,7 +46,7 @@ const Register = () => {
         <rb.Form.Label>New password</rb.Form.Label>
         <rb.Form.Control ref={refPass} type="password" placeholder="Your password" />
       </rb.Form.Group>
-      <rb.Button variant="primary" type="submit" onSubmit={checkUser}>
+      <rb.Button variant="primary" type="submit">
         Register
       </rb.Button>
     </rb.Form>

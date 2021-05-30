@@ -79,10 +79,10 @@ const userController = {
 
             if (user)
                 return res
-                    .status(400)
+                    .status(200)
                     .json({ msg: 'This email or username is exist' });
             if (password.length < 6)
-                return res.status(400).json({ msg: 'Password so sort' });
+                return res.status(200).json({ msg: 'Password so short' });
 
             const passwordHash = await bcrypt.hash(password, 10);
 
@@ -97,7 +97,7 @@ const userController = {
 
             await newUser.save();
 
-            return res.json({ user: newUser });
+            return res.json({ msg: "Success",  id: newUser.id});
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }
@@ -135,22 +135,19 @@ const userController = {
             const { username, password } = req.body;
             const user = await User.findOne({ username });
             // console.log({ username, password });
-            if (!user) return res.status(400).json({ msg: 'User not exist' });
+            if (!user) return res.status(200).json({ msg: 'User not exist' });
             const isMatch = await bcrypt.compare(password, user.password);
             // console.log(isMatch);
             if (!isMatch)
-                return res.status(400).json({ msg: 'Incorrect password' });
+                return res.status(200).json({ msg: 'Incorrect password' });
 
             const accessToken = createAccessToken({ id: user._id });
             const refreshToken = createRefreshToken({ id: user._id });
 
-            // access token saved at header and refresh token saved at cookie
+            
             res.set({ 'x-access-token': accessToken });
 
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                path: '/users/refresh_token',
-            });
+            res.set({'x-refresh-token': refreshToken});
 
             return res.status(200).json({ msg: 'Login successful!' });
         } catch (err) {
@@ -161,7 +158,6 @@ const userController = {
         try {
             const rf_token = req.headers['x-refresh-token'];
             blackListRT.add(rf_token);
-            res.clearCookie('refreshToken', { path: '/users/refresh_token' });
             return res.status(200).json({ msg: 'Log out succesful.' });
         } catch (err) {
             res.status(500).json({ msg: err.message });
