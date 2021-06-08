@@ -34,14 +34,18 @@ textarea {
   padding: 0;
   outline: none;
 }
-.hover-shadow:hover{
-  box-shadow : 1px 4px 12px 4px #d6d6d6;
+.hover-shadow:hover {
+  box-shadow: 1px 4px 12px 4px #d6d6d6;
 }
 /* .hover-shadow:hover .user{
   box-shadow : 1px 4px 12px 4px #95f1a2;
 } */
-.hover-scale:hover{
+.hover-scale:hover {
   opacity: 1;
   transform: scale(1.05);
   transition: all 1.6s;
+}
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
 }
