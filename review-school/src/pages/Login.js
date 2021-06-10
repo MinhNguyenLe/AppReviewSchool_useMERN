@@ -3,8 +3,39 @@ import "./Login.css";
 import $ from "jquery";
 import axios from "axios";
 import "moment-timezone";
+import useForm from "../useForm";
+import useFormLogin from "../useFormLogin";
+import validate from "../validate";
+import validateLogin from "../validateLogin";
 import { useLocation } from "react-router-dom";
 const Login = () => {
+  const { valuesLogin, errorsLogin, handleChangeLogin, handleSubmitLogin } =
+    useFormLogin(login, validateLogin);
+  async function login() {
+    await axios.post(`http://localhost:9000/api/users/register`, {
+      name: valuesRegister.name,
+      username: valuesRegister.username,
+      email: valuesRegister.email,
+      password: valuesRegister.password,
+    });
+  }
+
+  const {
+    valuesRegister,
+    errorsRegister,
+    handleChangeRegister,
+    handleSubmitRegister,
+  } = useForm(register, validate);
+
+  async function register() {
+    await axios.post(`http://localhost:9000/api/users/register`, {
+      name: valuesRegister.name,
+      username: valuesRegister.username,
+      email: valuesRegister.email,
+      password: valuesRegister.password,
+    });
+  }
+
   let location = useLocation();
 
   const clickSignUp = () => {
@@ -21,7 +52,7 @@ const Login = () => {
       id="container"
     >
       <div className="form-container sign-up-container">
-        <form className="form-login" action="#">
+        <form onSubmit={handleSubmitRegister} className="form-login" action="#">
           <h1 className="h1-login">Create Account</h1>
           <div className="social-container">
             <a href="#" className="social">
@@ -35,18 +66,59 @@ const Login = () => {
             </a>
           </div>
           <span className="span-login">or use your email for registration</span>
-          <input className="input-login" type="text" placeholder="Name" />
-          <input className="input-login" type="email" placeholder="Email" />
           <input
+            value={valuesRegister.name || ""}
+            name="name"
+            className="input-login"
+            type="text"
+            required
+            onChange={handleChangeRegister}
+            placeholder="Name"
+          />
+          {errorsRegister.name && (
+            <p className="help is-danger">{errorsRegister.name}</p>
+          )}
+          <input
+            required
+            value={valuesRegister.username || ""}
+            onChange={handleChangeRegister}
+            name="username"
+            className="input-login"
+            type="text"
+            placeholder="Nickname(Your name in app)"
+          />
+          {errorsRegister.username && (
+            <p className="help is-danger">{errorsRegister.username}</p>
+          )}
+          <input
+            required
+            onChange={handleChangeRegister}
+            value={valuesRegister.email || ""}
+            name="email"
+            className="input-login"
+            type="email"
+            placeholder="Email"
+          />
+          {errorsRegister.email && (
+            <p className="help is-danger">{errorsRegister.email}</p>
+          )}
+          <input
+            required
+            onChange={handleChangeRegister}
+            value={valuesRegister.password || ""}
+            name="password"
             className="input-login"
             type="password"
             placeholder="Password"
           />
+          {errorsRegister.password && (
+            <p className="help is-danger">{errorsRegister.password}</p>
+          )}
           <button className="btn-login">Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
-        <form className="form-login" action="#">
+        <form onSubmit={handleSubmitLogin} className="form-login" action="#">
           <h1 className="h1-login">Sign in</h1>
           <div className="social-container">
             <a href="#" className="social">
@@ -60,12 +132,30 @@ const Login = () => {
             </a>
           </div>
           <span className="span-login">or use your account</span>
-          <input className="input-login" type="email" placeholder="Email" />
           <input
+            name="emailLogin"
+            value={valuesLogin.emailLogin || ""}
+            onChange={handleChangeLogin}
+            required
+            className="input-login"
+            type="email"
+            placeholder="Email"
+          />
+          {errorsLogin.emailLogin && (
+            <p className="help is-danger">{errorsLogin.emailLogin}</p>
+          )}
+          <input
+            name="passLogin"
+            value={valuesLogin.passLogin || ""}
+            onChange={handleChangeLogin}
+            required
             className="input-login"
             type="password"
             placeholder="Password"
           />
+          {errorsLogin.passLogin && (
+            <p className="help is-danger">{errorsLogin.passLogin}</p>
+          )}
           <a href="#">Forgot your password?</a>
           <button className="btn-login">Sign In</button>
         </form>
