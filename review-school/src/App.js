@@ -12,19 +12,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const App = () => {
   return (
     <div>
-      <Navbar></Navbar>
       <Switch>
+        <Route exact path="/" component={Login}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Login}></Route>
-        <Route exact path="/schools" component={ListSchool}></Route>
+        <Route exact path="/schools" component={ListSchool}>
+          <Navbar></Navbar>
+          <ListSchool></ListSchool>
+          <Footer></Footer>
+        </Route>
         <Route
           exact
           path="/schools/:id/reviews/:id/detail"
           component={DetailReview}
-        ></Route>
+        >
+          <Navbar></Navbar>
+          <ListReview></ListReview>
+          <Footer></Footer>
+        </Route>
         <Route exact path="/schools/:id/reviews" component={ListReview}></Route>
       </Switch>
-      <Footer></Footer>
     </div>
   );
 };
