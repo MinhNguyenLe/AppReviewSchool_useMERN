@@ -85,17 +85,17 @@ const Navbar = () => {
             <div className="nav-base-links">
               <ul className="ul-n">
                 <li>
-                  <a style={aStyle} href="#">
+                  <a className="ft-sz" style={aStyle} href="#">
                     About
                   </a>
                 </li>
                 <li>
-                  <a style={aStyle} href="#">
+                  <a className="ft-sz" style={aStyle} href="#">
                     Products
                   </a>
                 </li>
                 <li>
-                  <a style={aStyle} href="#">
+                  <a className="ft-sz" style={aStyle} href="#">
                     For Teams
                   </a>
                 </li>
@@ -149,14 +149,14 @@ const Navbar = () => {
               <Link
                 style={aStyle}
                 to="/login"
-                className="btn-surface btn-surface-login"
+                className="ft-sz btn-surface btn-surface-login"
               >
                 Log in
               </Link>
               <Link
                 style={aStyle}
                 to="/register"
-                className="btn-surface btn-surface-register"
+                className="ft-sz btn-surface btn-surface-register"
               >
                 Sign up
               </Link>
