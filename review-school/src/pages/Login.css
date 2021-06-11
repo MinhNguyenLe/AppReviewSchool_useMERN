@@ -29,6 +29,7 @@ h2 {
   text-decoration: none;
 }
 .btn-login {
+  width: 100%;
   border-radius: 20px;
   border: 1px solid #ff4b2b;
   background-color: #ff4b2b;
@@ -36,6 +37,7 @@ h2 {
   font-size: 12px;
   font-weight: bold;
   padding: 12px 45px;
+  margin-top: 8px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
@@ -53,7 +55,9 @@ h2 {
   background-color: transparent;
   border-color: #ffffff;
 }
-
+.ghost {
+  width: auto !important;
+}
 .form-login {
   background-color: #ffffff;
   display: flex;
@@ -210,4 +214,20 @@ h2 {
   margin: 0 5px;
   height: 40px;
   width: 40px;
+}
+.any-link {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.spe-any-link {
+  color: rgb(247, 189, 1);
+  font-weight: 500;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.spe-any-link:hover {
+  color: rgb(248, 222, 138);
+  text-decoration: none;
 }

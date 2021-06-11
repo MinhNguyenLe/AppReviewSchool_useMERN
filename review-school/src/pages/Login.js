@@ -7,17 +7,19 @@ import useForm from "../useForm";
 import useFormLogin from "../useFormLogin";
 import validate from "../validate";
 import validateLogin from "../validateLogin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 const Login = () => {
+  let location = useLocation();
+  let history = useHistory();
+
   const { valuesLogin, errorsLogin, handleChangeLogin, handleSubmitLogin } =
     useFormLogin(login, validateLogin);
   async function login() {
-    await axios.post(`http://localhost:9000/api/users/register`, {
-      name: valuesRegister.name,
-      username: valuesRegister.username,
-      email: valuesRegister.email,
-      password: valuesRegister.password,
+    await axios.post(`http://localhost:9000/api/users/login`, {
+      email: valuesLogin.emailLogin,
+      password: valuesLogin.passLogin,
     });
+    history.push("/schools");
   }
 
   const {
@@ -34,11 +36,12 @@ const Login = () => {
       email: valuesRegister.email,
       password: valuesRegister.password,
     });
+    // history.push("/login");
+    // document.getElementById("container").classList.remove("right-panel-active");
   }
 
-  let location = useLocation();
-
   const clickSignUp = () => {
+    console.log(history);
     document.getElementById("container").classList.add("right-panel-active");
   };
   const clickSignIn = () => {
@@ -115,6 +118,9 @@ const Login = () => {
             <p className="help is-danger">{errorsRegister.password}</p>
           )}
           <button className="btn-login">Sign Up</button>
+          <a href="/schools" className="any-link">
+            I'm anonymous
+          </a>
         </form>
       </div>
       <div className="form-container sign-in-container">
@@ -187,6 +193,9 @@ const Login = () => {
             >
               Sign Up
             </button>
+            <a href="/schools" className="spe-any-link">
+              I'm anonymous
+            </a>
           </div>
         </div>
       </div>

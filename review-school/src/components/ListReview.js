@@ -38,7 +38,6 @@ const ListReview = () => {
   const [school, setSchool] = useState([]);
   const [detailReview, setDetailReview] = useState({});
 
-  const [showCmt, setShowCmt] = useState(false);
   const [showWriteReview, setShowWriteReview] = useState(false);
   const [success, setSuccess] = useState(0);
   const [showEdit, setShowEdit] = useState(false);
@@ -87,18 +86,18 @@ const ListReview = () => {
     axiosData();
   }, [showEdit]);
 
-  useEffect(() => {
-    const axiosData = () => {
-      Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${idReview}/comments`),
-      ])
-        .then(([listComment]) => {
-          setListComment(listComment.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    axiosData();
-  }, [showCmt]);
+  // useEffect(() => {
+  //   const axiosData = () => {
+  //     Promise.all([
+  //       axios.get(`http://localhost:9000/api/reviews/${idReview}/comments`),
+  //     ])
+  //       .then(([listComment]) => {
+  //         setListComment(listComment.data);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   };
+  //   axiosData();
+  // }, []);
 
   const editReview = (id) => {
     setShowEdit(true);
@@ -127,7 +126,12 @@ const ListReview = () => {
     func.enableScrolling();
   };
   const btnShowCmt = (id) => {
-    setShowCmt(!showCmt);
+    $(`#${id}`).toggle();
+    Promise.all([axios.get(`http://localhost:9000/api/reviews/${id}/comments`)])
+      .then(([listComment]) => {
+        setListComment(listComment.data);
+      })
+      .catch((err) => console.log(err));
     dispatch(action.setIdReview(id));
   };
   const writeReview = () => {
@@ -381,12 +385,13 @@ const ListReview = () => {
               </rb.Card.Text>
             </div>
             <rb.Button onClick={() => btnShowCmt(item._id)}>Reply</rb.Button>
-            <ListComment
-              listComment={listComment}
-              setListComment={setListComment}
-              showCmt={showCmt}
-              id={item._id}
-            ></ListComment>
+            <div id={item._id}>
+              <ListComment
+                listComment={listComment}
+                setListComment={setListComment}
+                id={item._id}
+              ></ListComment>
+            </div>
           </rb.Card>
         ))}
       </div>
