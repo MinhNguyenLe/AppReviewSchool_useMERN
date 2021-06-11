@@ -1,28 +1,28 @@
-.hidden{
-  display : none;
+.hidden {
+  display: none;
 }
-.up-page{
-  z-index : 999;
-  cursor : pointer;
-  display : flex;
+.up-page {
+  z-index: 999;
+  cursor: pointer;
+  display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  top : calc(100% - 76px);
-  right :0;
-  margin-right : 32px;
-  width : 44px;
-  height : 44px;
+  top: calc(100% - 76px);
+  right: 0;
+  margin-right: 32px;
+  width: 44px;
+  height: 44px;
   border-radius: 24%;
   border: 1px solid #7878da;
 }
-.up-page:hover{
+.up-page:hover {
   background-color: #7878da;
 }
-.up-page:hover i{
-  color : white !important
+.up-page:hover i {
+  color: white !important;
 }
-.cover-background{
+.cover-background {
   position: absolute;
   top: 0;
   left: 0;
@@ -36,19 +36,18 @@
   font-weight: bold;
   font-size: 16x;
 }
-.review-title{
-  font-size : 22px;
+.review-title {
+  font-size: 22px;
 }
-.date-content{
+.date-content {
   font-size: 14px;
   font-weight: normal;
 }
 .review-content {
   display: -webkit-box;
-  margin-left: 12px;
-  color: #686868;
-  font-size : 17px;
-  -webkit-line-clamp:6;
+  color: #383838;
+  font-size: 16px;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -56,7 +55,7 @@
   display: -webkit-box;
   margin-left: 12px;
   color: #686868;
-  font-size : 17px;
+  font-size: 17px;
 }
 .review-name-school {
   color: black;
@@ -71,38 +70,80 @@
   color: #e3e8ed;
   font-size: 20px;
   border-radius: 50%;
-  margin-right : 12px;
+  margin-right: 12px;
 }
 .edit-review {
   display: flex;
+  font-size: 18px;
   justify-content: center;
   align-items: center;
-  background: #f5f5f5;
+  background: #fff;
   border-radius: 50%;
   cursor: pointer;
-  width: 44px;
-  height: 44px;
+  min-width: 36px;
+  width: auto;
+  height: 36px;
 }
 .editor {
-  padding : 20px;
-  top : 40px;
+  padding: 20px;
+  top: 40px;
   background: white;
   position: absolute;
   z-index: 1000;
   width: 50%;
   border: 1px solid #333;
-  border : none;
+  border: none;
   border-radius: 4px;
 }
 .edit-content {
+  font-size: 14px;
   width: 100%;
 }
-.small-title{
-  font-size : 20px;
-  color : rgb(131, 131, 131)
+.small-title {
+  font-size: 20px;
+  color: rgb(131, 131, 131);
 }
-.big-title{
-  font-size : 28px;
-  color : rgb(100, 94, 94);
+.big-title {
+  font-size: 28px;
+  color: rgb(100, 94, 94);
   font-weight: bold;
+}
+/* design review */
+.user {
+  display: flex;
+  min-height: 172px;
+  border-bottom: 1px solid #dbdee0;
+  border-top: 1px solid #dbdee0;
+}
+.btn-stack {
+  margin-right: 20px;
+  display: flex;
+  height: 48px;
+  width: 76px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.btn-stack-a {
+  background-color: #fff;
+  color: #799fc1;
+  border: none;
+  border-radius: 4px;
+}
+.btn-stack-b {
+  background-color: #5eba7d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+.tx-a {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.tx-b {
+  font-size: 14px;
+}
+.f-btn {
+  width: 20%;
 }

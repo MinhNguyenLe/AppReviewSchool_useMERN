@@ -22,16 +22,15 @@ const App = () => {
           <ListSchool></ListSchool>
           <Footer></Footer>
         </Route>
-        <Route
-          exact
-          path="/schools/:id/reviews/:id/detail"
-          component={DetailReview}
-        >
+        <Route exact path="/schools/:id/reviews/:id/detail">
+          <Navbar></Navbar>
+          <DetailReview></DetailReview>
+        </Route>
+        <Route exact path="/schools/:id/reviews">
           <Navbar></Navbar>
           <ListReview></ListReview>
           <Footer></Footer>
         </Route>
-        <Route exact path="/schools/:id/reviews" component={ListReview}></Route>
       </Switch>
     </div>
   );

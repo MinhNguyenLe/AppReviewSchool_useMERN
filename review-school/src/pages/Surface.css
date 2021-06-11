@@ -363,7 +363,9 @@ ul {
   color: var(--black-900);
   font-weight: bold;
 }
-
+.ul-n {
+  margin: 0;
+}
 .nav-ul i {
   margin-left: -1.5rem;
   color: var(--black-400);
