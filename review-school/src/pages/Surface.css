@@ -168,10 +168,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.ft-sz {
+  font-size: 10px !important;
+}
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 10px;
   color: var(--black-800);
 }
 
@@ -364,7 +365,7 @@ ul {
   font-weight: bold;
 }
 .ul-n {
-  margin: 0;
+  margin: 0 !important;
 }
 .nav-ul i {
   margin-left: -1.5rem;

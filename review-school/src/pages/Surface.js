@@ -20,9 +20,9 @@ const Surface = () => {
             <div className="nav-brand">
               <div className="hamburger-menu-container-surface">
                 <div className="hamburger-menu">
-                  <div className="line" />
-                  <div className="line" />
-                  <div className="line" />
+                  <div className="line ft-sz" />
+                  <div className="line ft-sz" />
+                  <div className="line ft-sz" />
                 </div>
                 <div className="nav-dropdown-menu">
                   <a style={aStyle} href="#" className="current-link">
@@ -32,7 +32,7 @@ const Surface = () => {
                   <ul className="nav-ul">
                     <li className="nav-item">
                       <i className="fas fa-globe-europe" />
-                      <a style={aStyle} href="#" className="nav-link">
+                      <a style={aStyle} href="#" className="nav-link ft-sz">
                         Stack Overflow
                       </a>
                     </li>
