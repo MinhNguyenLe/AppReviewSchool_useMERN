@@ -124,13 +124,13 @@ const userController = {
   },
   login: async (req, res) => {
     try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username });
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
       // console.log({ username, password });
-      if (!user) return res.status(200).json({ msg: "User not exist" });
+      if (!user) return res.status(500).json({ msg: "User not exist" });
       const isMatch = await bcrypt.compare(password, user.password);
       // console.log(isMatch);
-      if (!isMatch) return res.status(200).json({ msg: "Incorrect password" });
+      if (!isMatch) return res.status(500).json({ msg: "Incorrect password" });
 
       const accessToken = createAccessToken({ id: user._id });
       const refreshToken = createRefreshToken({ id: user._id });

@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import Login from "./pages/Login.js";
+import Surface from "./pages/Surface.js";
 import Register from "./components/Register.js";
 import Navbar from "./components/Navbar.js";
 import ListSchool from "./components/ListSchool.js";
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Login}></Route>
+        <Route exact path="/" component={Surface}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Login}></Route>
         <Route exact path="/schools" component={ListSchool}>
