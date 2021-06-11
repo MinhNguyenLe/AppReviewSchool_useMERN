@@ -3,7 +3,6 @@ import * as rb from "react-bootstrap";
 import "./ListReview.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import ListComment from "./ListComment.js";
 import $ from "jquery";
 import * as action from "../redux/actions.js";
 import TextareaAutosize from "react-textarea-autosize";
@@ -34,8 +33,7 @@ const ListReview = () => {
   const dispatch = useDispatch();
 
   const [listReview, setListReview] = useState([]);
-  const [listComment, setListComment] = useState([]);
-  const [school, setSchool] = useState([]);
+  const [school, setSchool] = useState({});
   const [detailReview, setDetailReview] = useState({});
 
   const [showWriteReview, setShowWriteReview] = useState(false);
@@ -86,19 +84,6 @@ const ListReview = () => {
     axiosData();
   }, [showEdit]);
 
-  // useEffect(() => {
-  //   const axiosData = () => {
-  //     Promise.all([
-  //       axios.get(`http://localhost:9000/api/reviews/${idReview}/comments`),
-  //     ])
-  //       .then(([listComment]) => {
-  //         setListComment(listComment.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   };
-  //   axiosData();
-  // }, []);
-
   const editReview = (id) => {
     setShowEdit(true);
     func.scrollTop();
@@ -124,15 +109,6 @@ const ListReview = () => {
   const exitEdit = () => {
     setShowEdit(false);
     func.enableScrolling();
-  };
-  const btnShowCmt = (id) => {
-    $(`#${id}`).toggle();
-    Promise.all([axios.get(`http://localhost:9000/api/reviews/${id}/comments`)])
-      .then(([listComment]) => {
-        setListComment(listComment.data);
-      })
-      .catch((err) => console.log(err));
-    dispatch(action.setIdReview(id));
   };
   const writeReview = () => {
     console.log(params);
@@ -173,9 +149,7 @@ const ListReview = () => {
     );
     func.scrollTop();
   };
-  // useEffect(() => {
-  //   console.log(window.scrollX);
-  // }, [window.scrollX]);
+
   return loading ? (
     <div
       className="d-flex align-items-center justify-content-center"
@@ -317,82 +291,75 @@ const ListReview = () => {
         className="d-flex flex-column align-items-center justify-content-center"
       >
         {listReview.map((item, index) => (
-          <rb.Card
-            className="hover-shadow user"
+          <div
+            className="user"
             key={index}
-            style={{ width: "70%", margin: "16px 0", padding: "20px" }}
+            style={{
+              minWidth: "450px",
+              maxWidth: "70%",
+              margin: "16px 0",
+              padding: "20px",
+            }}
           >
-            <div className="d-flex flex-row align-items-center justify-content-between">
-              <div className="d-flex flex-row align-items-center">
-                <div className="icon-user d-flex align-items-center justify-content-center">
-                  <i className="fas fa-user"></i>
+            <div className="f-btn">
+              <button className="btn-stack btn-stack-a">
+                <span className="tx-a">17</span>
+                <span className="tx-b">votes</span>
+              </button>
+              <button className="btn-stack btn-stack-b">
+                <span className="tx-a">8</span>
+                <span className="tx-b">comments</span>
+              </button>
+            </div>
+            <div>
+              <div className="d-flex flex-row align-items-center justify-content-between">
+                <div className="d-flex flex-row align-items-center">
+                  <div className="icon-user d-flex align-items-center justify-content-center">
+                    <i className="fas fa-user"></i>
+                  </div>
+                  <div>
+                    <span className="review-name ">{item.name}</span>
+                    <Moment className="date-content" format="YYYY/MM/DD">
+                      {item.createdAt}
+                    </Moment>
+                  </div>
                 </div>
-                <div>
-                  <rb.Card.Text className="review-name ">
-                    {item.name}
-                  </rb.Card.Text>
-                  <Moment className="date-content" format="YYYY/MM/DD">
-                    {item.createdAt}
-                  </Moment>
-                </div>
-              </div>
-              <div className="d-flex">
-                <div
-                  className="edit-review"
-                  onClick={() => editReview(item._id)}
-                >
-                  <i className="far fa-edit"></i>
-                </div>
-                <Link
-                  onClick={() =>
-                    goDetailReview(
-                      item._id,
-                      item.positive,
-                      item.negative,
-                      item.advice,
-                      item.name,
-                      item.createdAt
-                    )
+                <div className="d-flex">
+                  {
+                    //<div
+                    //     className="edit-review"
+                    //     onClick={() => editReview(item._id)}
+                    //   >
+                    //     <i className="far fa-edit"></i>
+                    //   </div>
                   }
-                  to={`/schools/${params.id}/reviews/${item._id}/detail`}
-                  className="edit-review"
-                  style={{ marginLeft: "8px", textDecoration: "none" }}
-                >
-                  <i className="fas fa-expand-arrows-alt"></i>
-                </Link>
+                  <Link
+                    onClick={() =>
+                      goDetailReview(
+                        item._id,
+                        item.positive,
+                        item.negative,
+                        item.advice,
+                        item.name,
+                        item.createdAt
+                      )
+                    }
+                    to={`/schools/${params.id}/reviews/${item._id}/detail`}
+                    className="edit-review"
+                    style={{ marginLeft: "8px", textDecoration: "none" }}
+                  >
+                    <i
+                      className="fas fa-expand-arrows-alt"
+                      style={{ fontSize: "15px" }}
+                    ></i>
+                  </Link>
+                </div>
               </div>
+              <span className="review-content">
+                {item.positive || item.negative}
+              </span>
             </div>
-            <div>
-              <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
-              <rb.Card.Text className="review-content">
-                {item.positive}
-              </rb.Card.Text>
-            </div>
-            <div>
-              <rb.Card.Text className="review-title">
-                Điểm cần cải thiện
-              </rb.Card.Text>
-              <rb.Card.Text className="review-content">
-                {item.negative || ""}
-              </rb.Card.Text>
-            </div>
-            <div>
-              <rb.Card.Text className="review-title">
-                Trải nghiệm và lời khuyên
-              </rb.Card.Text>
-              <rb.Card.Text className="review-content">
-                {item.advice}
-              </rb.Card.Text>
-            </div>
-            <rb.Button onClick={() => btnShowCmt(item._id)}>Reply</rb.Button>
-            <div id={item._id}>
-              <ListComment
-                listComment={listComment}
-                setListComment={setListComment}
-                id={item._id}
-              ></ListComment>
-            </div>
-          </rb.Card>
+          </div>
         ))}
       </div>
     </div>
