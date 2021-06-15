@@ -4,11 +4,12 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from "axios";
 import { Redirect } from "react-router";
-
+import { Link } from "react-router-dom";
 const FormThread = () => {
     const [isRedirect, setIsRedirect] = useState(0);
     const [editorHtml, setEditorHtml] = useState("");
     const [title, setTitle] = useState("");
+    const [tags, setTags] = useState("");
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -45,7 +46,8 @@ const FormThread = () => {
         let res = await axios.post(`http://localhost:9000/api/threads/`, {
             title: title,
             content: editorHtml,
-            category: 'Tin tuc'
+            category: 'Tin tuc',
+            tags: tags.length > 0? tags:[]
         }, {
             headers: {
                 'x-access-token': localStorage.getItem('x-access-token')
@@ -53,14 +55,20 @@ const FormThread = () => {
         });
         setIsRedirect(true);
     }
+   
+    const handleTags = (e) =>{
+        let tmp = e.target.value.replace(/ +(?= )/g,'').split(',');
+        tmp = tmp.map(x=>x.trimEnd().trimStart())
+        setTags(tmp)
+    }
 
     return (
-        isRedirect ? <Redirect to="/forum/" /> :
-
+        isRedirect ? <Redirect to="/forum" /> :
             <div>
                 <Container>
                     <Card>
                         <input placeholder="Title" value={title} onChange={handleTitle}></input>
+                        <input placeholder="Tags, split by commas" onChange={handleTags}></input>
                         <ReactQuill
                             id="htmlContent"
                             theme="snow"

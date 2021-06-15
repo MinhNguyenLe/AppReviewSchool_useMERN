@@ -39,7 +39,11 @@ const App = () => {
           <ListThread></ListThread>
           <Footer></Footer>
         </Route>
-        <Route exact path="/forum/new-thread" component={NewThread}></Route>
+        <Route exact path="/forum/new-thread">
+        <Navbar></Navbar>
+          <NewThread></NewThread>
+          <Footer></Footer>
+        </Route>
         <Route exact path="/forum/thread/:id">
           <Navbar></Navbar>
           <ListPost></ListPost>

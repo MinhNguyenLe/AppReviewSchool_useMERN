@@ -14,22 +14,28 @@ import "quill-emoji/dist/quill-emoji.css";
 
 const DetailsThread = () => {
 
+    
     const [data, setData] = useState([]);
     const [dataThread, setDataThread] = useState({});
     const params = useParams();
+    const [isEdit, setEdit] = useState(false);
+    const [idPost, setIdPost] = useState("");
+    const [isNewPost, setNewPost] = useState(true);
+
+
+    const axiosData = () => {
+        Promise.all([
+            axios.get(`http://localhost:9000/api/threads/${params.id}`),
+            axios.get(`http://localhost:9000/api/threads/${params.id}/posts`),
+        ])
+            .then(([thread, posts]) => {
+                setDataThread(thread.data);
+                setData(posts.data);
+            })
+            .catch();
+    };
+
     useEffect(() => {
-        const axiosData = () => {
-            Promise.all([
-                axios.get(`http://localhost:9000/api/threads/${params.id}`),
-                axios.get(`http://localhost:9000/api/threads/${params.id}/posts`),
-            ])
-                .then(([thread, posts]) => {
-                    console.log(thread.data)
-                    setDataThread(thread.data);
-                    setData(posts.data);
-                })
-                .catch();
-        };
         axiosData();
     }, [params.id]);
 
@@ -78,7 +84,11 @@ const DetailsThread = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let res = await axios.post(`http://localhost:9000/api/posts/`, {
+        if(isEdit){
+            let resEdit = await axios.put(`http://localhost:9000/api/posts/${idPost}`, {content: editorHtml})
+        }
+        if (isNewPost){
+            let res = await axios.post(`http://localhost:9000/api/posts/`, {
             content: editorHtml,
             inThread: dataThread._id
         }, {
@@ -86,18 +96,39 @@ const DetailsThread = () => {
                 'x-access-token': localStorage.getItem('x-access-token')
             }
         });
+        }
+        axiosData();
         setEditorHtml("");
-        console.log(res);
+        setEdit(false);
+        setNewPost(true);
     }
 
-    const actions = (
+    const deletePost = async (id) =>{
+        let res = await axios.delete(`http://localhost:9000/api/posts/${id}`);
+        axiosData();
+    }
+
+    const editContent = (id) =>{
+        setEdit(true);
+        setNewPost(false);
+        const data = document.querySelector(".data-content-".concat(id))
+        setIdPost(id);
+        setEditorHtml(data.innerHTML);
+    }
+
+    const actions = (id) => (
         <div className="post-dropdown">
             <Dropdown simple icon="caret down" direction="left">
                 <Dropdown.Menu>
                     <Dropdown.Item
-                        onClick={() => { }}
+                        onClick={() => {deletePost(id) }}
                         icon="delete"
                         text="Delete Post"
+                    />
+                    <Dropdown.Item
+                        onClick={() => {editContent(id) }}
+                        icon="edit"
+                        text="Edit Post"
                     />
                 </Dropdown.Menu>
             </Dropdown>
@@ -112,7 +143,9 @@ const DetailsThread = () => {
                 </div>
             </div>
             <Container>
-                {data.map((item, index) => (
+                {data.map((item, index) => 
+                    item.isDeleted === false?
+                (    
                     <Segment key={index} color={index === 0 ? "black" : null}>
                         <Grid textAlign="left" padded="horizontally">
                             <Grid.Column width={4}>
@@ -139,16 +172,26 @@ const DetailsThread = () => {
                             <Grid.Column width={12}>
                                 <div className="post-time">
                                     {moment(item.createdAt).fromNow()}
-                                    {actions}
+                                    {actions(item._id)}
                                 </div>
-                                <div className="data-content" dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                                <div className={"data-content-".concat(item._id)} dangerouslySetInnerHTML={{ __html: item.content }}></div>
                             </Grid.Column>
                         </Grid>
                     </Segment>
-                ))}
+                    
+                ): <div>
+                    <Segment key={index} color={index === 0 ? "black" : null}>
+                        <Grid textAlign="left" padded="horizontally">
+                            <Grid.Column width={12}>
+                                <div className="data-content">This message has been deleted</div>
+                            </Grid.Column>
+                        </Grid>
+                    </Segment>
+                </div>)}
             </Container>
             <Container>
                 <Card>
+                    <span>Reply thread</span>
                     <ReactQuill
                         id="htmlContent"
                         theme="snow"

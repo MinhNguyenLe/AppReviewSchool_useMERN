@@ -21,10 +21,10 @@ const ListThread = () => {
     return (
         <div>
             <h1>aaaaaaaaaaaaaaaaaaaaaaaa</h1>
-            <Button href='/forum/new-thread' className="login-btn">New thread</Button>
+            <Link to='/forum/new-thread' className="login-btn">New thread</Link>
             <Container>
                 <div className="forumContainer">
-                    <Segment.Group className="forum-list">
+                    <Segment.Group  className="forum-list">
                         {data.map((item, index) => (
                             <Segment vertical key={index}>
                                 <Grid textAlign="left" padded="horizontally">
@@ -48,11 +48,25 @@ const ListThread = () => {
                                                         </Link>
                                                         <b> - {moment(item.createdAt).fromNow()}</b>
                                                     </div>
+                                                    <div className="tags">
+                                                        {item.tags.map((it, idx)=>(
+                                                            <a href="#" className="tag-link">{it}</a>
+                                                        ))}
+                                                        {console.log(item.tags)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Grid.Row>
                                     </Grid.Column>
                                     <Grid.Column width={3}>
+                                    <div className="forum-column forum-stats forum-vertical">
+                                            <div style={{ paddingBottom: '5px' }}>
+                                               <span className="tt-color01 tt-badge">{item.category}</span>
+                                            </div>
+                                        </div>
+
+                                    </Grid.Column>
+                                    <Grid.Column width={2}>
                                         <div className="forum-column forum-stats forum-vertical">
                                             <div style={{ paddingBottom: '5px' }}>
                                                 <Icon name="comment outline" />
@@ -60,7 +74,7 @@ const ListThread = () => {
                                             </div>
                                         </div>
                                     </Grid.Column>
-                                    <Grid.Column width={5}>
+                                    <Grid.Column width={3}>
                                         <div className="forum-row">
                                             {/* <Link to="">
                                                 <Image className="forum-avatar" src="https://i.imgur.com/7o5cwt8.png" centered="true" />
@@ -69,8 +83,8 @@ const ListThread = () => {
                                                 <div className="forum-name"></div>
                                                 <div className="forum-meta">
                                                     <Link to="#">
-                                                        <Icon name="user" />
-                                                        {item.lastedPostBy}
+                                                        {/* <Icon name="user" /> */}
+                                                       by {item.lastedPostBy}
                                                     </Link>
                                                     <br></br>
                                                     <b>{moment(item.lastedPostAt).fromNow()}</b>
@@ -78,6 +92,7 @@ const ListThread = () => {
                                             </div>
                                         </div>
                                     </Grid.Column>
+                                    
                                 </Grid>
                             </Segment>
                         ))}

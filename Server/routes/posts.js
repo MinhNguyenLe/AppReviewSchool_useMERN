@@ -13,10 +13,11 @@ router.get('/:id', postController.getById);
 //router.use(authMiddleWare);
 
 router.post('/', postController.create);
+router.delete('/:id', postController.delete);
 
 // router.post('/auth', threadController.createAuth);
 
-// router.put('/:id', threadController.update);
+router.put('/:id', postController.update);
 
 // router.patch('/:id/upvote', reviewController.upvote);
 

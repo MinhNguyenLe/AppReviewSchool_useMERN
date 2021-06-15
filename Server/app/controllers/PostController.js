@@ -51,15 +51,31 @@ const PostCtrl = {
             return res.status(500).json({msg: err.message});
         }
     },
+    update: async (req, res) => {
+        try {
+            let id = req.params.id;
+            const {content} = req.body;
+            const post = await Post.findById(id);
+            if(post){
+                post.content = content;
+                await post.save();
+                return res.status(200).json({code: 1, msg: "Updated post"});
+            } 
+            return res.status(404).json({code: 0, msg: "Can't find post"});
+        } catch (err) {
+            return res.status(500).json({msg: err.message});
+        }
+    },
     delete: async (req, res) => {
         try {
             let id = req.params.id;
             const post = await Post.findById(id);
             if(post){
-                await Post.deleteOne(id);
-                return res.status(200).json({msg: "Deleted post"});
+                post.isDeleted = true;
+                await post.save();
+                return res.status(200).json({code: 1, msg: "Deleted post"});
             } 
-            return res.status(404).json({msg: "Can't find post"});
+            return res.status(404).json({code: 0, msg: "Can't find post"});
         } catch (err) {
             return res.status(500).json({msg: err.message});
         }
