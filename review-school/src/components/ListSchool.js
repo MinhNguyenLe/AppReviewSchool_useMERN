@@ -3,15 +3,21 @@ import * as rb from "react-bootstrap";
 import "./ListSchool.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as action from "../redux/actions.js";
 import * as func from "../funcGlobal.js";
 import Loading from "./Loading.js";
 
 const ListSchool = () => {
+  const email = useSelector((state) => state.email);
+  const token = useSelector((state) => state.token);
+
+  const [user, setUser] = useState({});
+
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const axiosData = async () => {
       const result = await axios.get("http://localhost:9000/api/schools");
@@ -21,6 +27,18 @@ const ListSchool = () => {
     axiosData();
     func.scrollTop();
   }, []);
+
+  useEffect(() => {
+    const axiosData = async () => {
+      const result = await axios.get(
+        `http://localhost:9000/api/users/email/${email}`
+      );
+      setUser(result.data);
+      dispatch(action.setUser(result.data));
+      console.log(result.data);
+    };
+    axiosData();
+  }, [email, token]);
 
   const goReview = (id) => {
     dispatch(action.setIdSchool(id));

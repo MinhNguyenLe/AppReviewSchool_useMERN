@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 import $ from "jquery";
 import axios from "axios";
@@ -8,7 +8,12 @@ import useFormLogin from "../useFormLogin";
 import validate from "../validate";
 import validateLogin from "../validateLogin";
 import { useLocation, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as action from "../redux/actions.js";
+
 const Login = () => {
+  const dispatch = useDispatch();
+
   let location = useLocation();
   let history = useHistory();
 
@@ -19,6 +24,8 @@ const Login = () => {
       email: valuesLogin.emailLogin,
       password: valuesLogin.passLogin,
     });
+    dispatch(action.setToken(true));
+    dispatch(action.setEmail(valuesLogin.emailLogin));
     history.push("/schools");
   }
 
@@ -36,6 +43,9 @@ const Login = () => {
       email: valuesRegister.email,
       password: valuesRegister.password,
     });
+    dispatch(action.setToken(true));
+    dispatch(action.setEmail(valuesRegister.email));
+    history.push("/schools");
     // history.push("/login");
     // document.getElementById("container").classList.remove("right-panel-active");
   }
@@ -162,7 +172,9 @@ const Login = () => {
           {errorsLogin.passLogin && (
             <p className="help is-danger">{errorsLogin.passLogin}</p>
           )}
-          <a href="#">Forgot your password?</a>
+          <a style={{ fontSize: "14px" }} href="#">
+            Forgot your password?
+          </a>
           <button className="btn-login">Sign In</button>
         </form>
       </div>
