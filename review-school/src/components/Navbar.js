@@ -36,7 +36,7 @@ const Navbar = () => {
                     <li className="nav-item">
                       <i className="fas fa-globe-europe" />
                       <a style={aStyle} href="#" className="nav-link">
-                        Stack Overflow
+                        EduReview
                       </a>
                     </li>
                     <li className="nav-item">
@@ -78,25 +78,25 @@ const Navbar = () => {
               <a style={aStyle} href="#" className="nav-icon">
                 <i className="fab fa-stack-overflow" />
                 <div className="nav-icon-text">
-                  stack <span className="nav-bold-text">overflow</span>
+                  Edu <span className="nav-bold-text">Review</span>
                 </div>
               </a>
             </div>
             <div className="nav-base-links">
               <ul className="ul-n">
                 <li>
-                  <a className="ft-sz" style={aStyle} href="#">
-                    About
+                  <a className="ft-sz" style={aStyle} href="/schools">
+                    Review
                   </a>
                 </li>
                 <li>
                   <a className="ft-sz" style={aStyle} href="#">
-                    Products
+                    Forum
                   </a>
                 </li>
                 <li>
                   <a className="ft-sz" style={aStyle} href="#">
-                    For Teams
+                    More
                   </a>
                 </li>
               </ul>

@@ -78,9 +78,9 @@ const userController = {
       }
 
       if (user)
-        return res.status(200).json({ msg: "This email or username is exist" });
+        return res.status(400).json({ msg: "This email or username is exist" });
       if (password.length < 6)
-        return res.status(200).json({ msg: "Password so short" });
+        return res.status(400).json({ msg: "Password so short" });
 
       const passwordHash = await bcrypt.hash(password, 10);
 
@@ -127,10 +127,10 @@ const userController = {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       // console.log({ username, password });
-      if (!user) return res.status(500).json({ msg: "User not exist" });
+      if (!user) return res.status(400).json({ msg: "User not exist" });
       const isMatch = await bcrypt.compare(password, user.password);
       // console.log(isMatch);
-      if (!isMatch) return res.status(500).json({ msg: "Incorrect password" });
+      if (!isMatch) return res.status(400).json({ msg: "Incorrect password" });
 
       const accessToken = createAccessToken({ id: user._id });
       const refreshToken = createRefreshToken({ id: user._id });
@@ -148,7 +148,7 @@ const userController = {
     try {
       const rf_token = req.headers["x-refresh-token"];
       blackListRT.add(rf_token);
-      return res.status(200).json({ msg: "Log out succesful." });
+      return res.status(200).json({ msg: "Log out successful." });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }

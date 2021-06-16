@@ -160,7 +160,7 @@ const ListReview = () => {
   ) : (
     <div
       className="d-flex flex-column align-items-center justify-content-center"
-      style={{ width: "100%" }}
+      style={{ width: "100%", marginTop: "100px" }}
     >
       <div className="up-page" onClick={() => func.scrollTop()}>
         <i
