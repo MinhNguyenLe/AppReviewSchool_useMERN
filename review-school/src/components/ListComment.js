@@ -9,11 +9,13 @@ import Scores from "./Scores.js";
 import Moment from "react-moment";
 import "moment-timezone";
 import $ from "jquery";
+import { useParams } from "react-router-dom";
 
 const ListComment = ({ id, setListCmt, listCmt }) => {
+  const params = useParams();
   const refCmt = useRef();
 
-  const idReview = useSelector((state) => state.idReview);
+  const name = useSelector((state) => state.user.name);
 
   const dispatch = useDispatch();
 
@@ -22,7 +24,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
   useEffect(() => {
     const axiosData = () => {
       Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${idReview}/comments`),
+        axios.get(`http://localhost:9000/api/reviews/${params.id}/comments`),
       ])
         .then(([listCmt]) => {
           setListCmt(listCmt.data);
@@ -34,11 +36,12 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
   }, [addCmt]);
 
   const submitCmt = async (e) => {
+    console.log(params);
     e.preventDefault();
     await axios.post(`http://localhost:9000/api/comments`, {
-      idReview: idReview,
+      idReview: params.id,
       content: refCmt.current.value,
-      name: "MinhLe",
+      name: name || "anonymous",
     });
     setAddCmt(addCmt + 1);
   };
@@ -62,7 +65,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
             ref={refCmt}
             onClick={() => dispatch(action.setIdReview(id))}
             type="text"
-            style={{ width: "100%" }}
+            style={{ width: "100%", fontSize: "18px" }}
           />
         </rb.Form>
       </div>

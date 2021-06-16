@@ -32,9 +32,9 @@
   background-color: #00000080;
 }
 .review-name {
-  color: rgb(66, 66, 66);
-  font-weight: bold;
-  font-size: 16x;
+  color: rgb(73, 73, 73);
+  font-weight: 700;
+  font-size: 16px;
 }
 .review-title {
   font-size: 22px;
@@ -52,6 +52,7 @@
   overflow: hidden;
 }
 .review-detail-content {
+  margin-bottom: 20px !important;
   display: -webkit-box;
   margin-left: 12px;
   color: #686868;
@@ -64,13 +65,14 @@
   font-size: 24px;
 }
 .icon-user {
-  background-color: #c3ccd5;
+  background-color: transparent;
   width: 32px;
   height: 32px;
-  color: #e3e8ed;
-  font-size: 20px;
+  color: rgb(99, 99, 99);
+  border: 1px solid rgb(99, 99, 99);
+  font-size: 16px;
   border-radius: 50%;
-  margin-right: 12px;
+  margin-right: 4px;
 }
 .edit-review {
   display: flex;
@@ -143,7 +145,4 @@
 }
 .tx-b {
   font-size: 14px;
-}
-.f-btn {
-  width: 20%;
 }
