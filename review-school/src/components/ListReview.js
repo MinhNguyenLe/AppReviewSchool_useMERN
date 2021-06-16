@@ -29,7 +29,7 @@ const ListReview = () => {
 
   const idSchool = useSelector((state) => state.idSchool);
   const idReview = useSelector((state) => state.idReview);
-
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [listReview, setListReview] = useState([]);
@@ -111,7 +111,6 @@ const ListReview = () => {
     func.enableScrolling();
   };
   const writeReview = () => {
-    console.log(params);
     func.scrollTop();
     setShowWriteReview(true);
     func.disableScrolling();
@@ -133,8 +132,8 @@ const ListReview = () => {
       )
     );
     await axios.post(`http://localhost:9000/api/reviews/anonymous`, {
-      idSchool: idSchool,
-      name: "Fakee",
+      idSchool: params.id,
+      name: user.name || "anonymous",
       positive: refNewPositive.current.value,
       negative: refNewNegative.current.value,
       advice: refNewAdvice.current.value,
@@ -142,6 +141,7 @@ const ListReview = () => {
     });
     setSuccess(success + 1);
     setShowWriteReview(false);
+    func.enableScrolling();
   };
   const goDetailReview = (id, positive, negative, advice, name, createdAt) => {
     dispatch(
@@ -160,7 +160,7 @@ const ListReview = () => {
   ) : (
     <div
       className="d-flex flex-column align-items-center justify-content-center"
-      style={{ width: "100%" }}
+      style={{ width: "100%", marginTop: "52px" }}
     >
       <div className="up-page" onClick={() => func.scrollTop()}>
         <i
@@ -292,11 +292,13 @@ const ListReview = () => {
       >
         {listReview.map((item, index) => (
           <div
-            className="user"
+            className={`${
+              item.positive || item.negative || item.advice ? "user" : "hidden"
+            }`}
             key={index}
             style={{
               minWidth: "450px",
-              maxWidth: "70%",
+              width: "70%",
               margin: "16px 0",
               padding: "20px",
             }}
@@ -311,14 +313,16 @@ const ListReview = () => {
                 <span className="tx-b">comments</span>
               </button>
             </div>
-            <div>
+            <div style={{ width: "100%" }}>
               <div className="d-flex flex-row align-items-center justify-content-between">
                 <div className="d-flex flex-row align-items-center">
                   <div className="icon-user d-flex align-items-center justify-content-center">
                     <i className="fas fa-user"></i>
                   </div>
-                  <div>
-                    <span className="review-name ">{item.name}</span>
+                  <div className="d-flex flex-column">
+                    <span className="review-name ">
+                      {item.name || "anonymous"}
+                    </span>
                     <Moment className="date-content" format="YYYY/MM/DD">
                       {item.createdAt}
                     </Moment>
@@ -356,7 +360,7 @@ const ListReview = () => {
                 </div>
               </div>
               <span className="review-content">
-                {item.positive || item.negative}
+                {item.positive || item.negative || item.advice}
               </span>
             </div>
           </div>

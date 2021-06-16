@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as rb from "react-bootstrap";
 import "./Navbar.css";
-import Logo from "./Logo.js";
-import Register from "./Register.js";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
 const Navbar = () => {
+  const token = useSelector((state) => state.token);
+
   const aStyle = {
     textDecoration: "none",
     color: "#0077cc",
@@ -36,7 +38,7 @@ const Navbar = () => {
                     <li className="nav-item">
                       <i className="fas fa-globe-europe" />
                       <a style={aStyle} href="#" className="nav-link">
-                        Stack Overflow
+                        EduReview
                       </a>
                     </li>
                     <li className="nav-item">
@@ -78,25 +80,25 @@ const Navbar = () => {
               <a style={aStyle} href="#" className="nav-icon">
                 <i className="fab fa-stack-overflow" />
                 <div className="nav-icon-text">
-                  stack <span className="nav-bold-text">overflow</span>
+                  Edu <span className="nav-bold-text">Review</span>
                 </div>
               </a>
             </div>
             <div className="nav-base-links">
               <ul className="ul-n">
                 <li>
-                  <a className="ft-sz" style={aStyle} href="#">
-                    About
+                  <a className="ft-sz" style={aStyle} href="/schools">
+                    Review
                   </a>
                 </li>
                 <li>
                   <a className="ft-sz" style={aStyle} href="#">
-                    Products
+                    Forum
                   </a>
                 </li>
                 <li>
                   <a className="ft-sz" style={aStyle} href="#">
-                    For Teams
+                    More
                   </a>
                 </li>
               </ul>
@@ -142,25 +144,29 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className="nav-right-buttons">
-              <div className="search-btn-surface">
-                <i className="fas fa-search" />
+            {!token ? (
+              <div className="nav-right-buttons">
+                <div className="search-btn-surface">
+                  <i className="fas fa-search" />
+                </div>
+                <Link
+                  style={aStyle}
+                  to="/login"
+                  className="ft-sz btn-surface btn-surface-login"
+                >
+                  Log in
+                </Link>
+                <Link
+                  style={aStyle}
+                  to="/register"
+                  className="ft-sz btn-surface btn-surface-register"
+                >
+                  Sign up
+                </Link>
               </div>
-              <Link
-                style={aStyle}
-                to="/login"
-                className="ft-sz btn-surface btn-surface-login"
-              >
-                Log in
-              </Link>
-              <Link
-                style={aStyle}
-                to="/register"
-                className="ft-sz btn-surface btn-surface-register"
-              >
-                Sign up
-              </Link>
-            </div>
+            ) : (
+              <div>User!!!</div>
+            )}
           </nav>
         </div>
       </header>

@@ -60,7 +60,7 @@ const DetailReview = () => {
               </div>
               <div>
                 <rb.Card.Text className="review-name ">
-                  {review.name}
+                  {review.name || "anonymous"}
                 </rb.Card.Text>
                 <Moment className="date-content" format="YYYY/MM/DD">
                   {review.createdAt}
@@ -85,17 +85,19 @@ const DetailReview = () => {
               borderTop: "1px solid rgb(184, 184, 184)",
             }}
           >
-            <rb.Card.Text className="review-title">Ưu điểm</rb.Card.Text>
+            <rb.Card.Text style={{ color: "#00a70d" }} className="review-title">
+              Ưu điểm
+            </rb.Card.Text>
             <rb.Card.Text className="review-detail-content">
-              {review.positive}
+              {review.positive || "trống"}
             </rb.Card.Text>
           </div>
           <div>
-            <rb.Card.Text className="review-title">
+            <rb.Card.Text style={{ color: "#d80011" }} className="review-title">
               Điểm cần cải thiện
             </rb.Card.Text>
             <rb.Card.Text className="review-detail-content">
-              {review.negative}
+              {review.negative || "trống"}
             </rb.Card.Text>
           </div>
           <div
@@ -104,16 +106,16 @@ const DetailReview = () => {
               borderBottom: "1px solid rgb(184, 184, 184)",
             }}
           >
-            <rb.Card.Text className="review-title">
+            <rb.Card.Text style={{ color: "#aaac00" }} className="review-title">
               Trải nghiệm và lời khuyên
             </rb.Card.Text>
             <rb.Card.Text className="review-detail-content">
-              {review.advice}
+              {review.advice || "trống"}
             </rb.Card.Text>
           </div>
         </rb.Card>
       </div>
-      <div style={{ width: "70%" }}>
+      <div style={{ width: "70%", marginBottom: "80px" }}>
         <div
           className="n-cmt"
           style={{

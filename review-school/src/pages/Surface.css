@@ -168,12 +168,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-.ft-sz {
-  font-size: 10px !important;
-}
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   color: var(--black-800);
+  font-size: 10px;
 }
 
 .container-surface {
@@ -553,6 +551,7 @@ ul {
   padding: 0.8rem 1rem;
 }
 .btn-surface-login:hover {
+  text-decoration: none;
   background-color: var(--blue-200);
 }
 
@@ -563,7 +562,9 @@ ul {
   padding: 0.8rem 1rem;
 }
 .btn-surface-register:hover {
-  background-color: var(--blue-600);
+  color: white;
+  text-decoration: none;
+  background-color: #69bdf8;
 }
 
 /* End Header */

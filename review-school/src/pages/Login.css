@@ -1,5 +1,5 @@
 .h1-login {
-  font-weight: bold;
+  font-weight: bo ld;
   margin: 0;
 }
 
@@ -70,6 +70,7 @@ h2 {
 }
 
 .input-login {
+  font-size: 14px;
   background-color: #eee;
   border: none;
   padding: 12px 15px;
@@ -216,11 +217,13 @@ h2 {
   width: 40px;
 }
 .any-link {
+  font-size: 14px;
   display: flex;
   width: 100%;
   justify-content: flex-end;
 }
 .spe-any-link {
+  font-size: 16px;
   color: rgb(247, 189, 1);
   font-weight: 500;
   display: flex;

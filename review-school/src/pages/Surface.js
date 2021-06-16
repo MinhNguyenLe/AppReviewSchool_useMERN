@@ -75,25 +75,25 @@ const Surface = () => {
               <a style={aStyle} href="#" className="nav-icon">
                 <i className="fab fa-stack-overflow" />
                 <div className="nav-icon-text">
-                  stack <span className="nav-bold-text">overflow</span>
+                  Edu <span className="nav-bold-text">Review</span>
                 </div>
               </a>
             </div>
             <div className="nav-base-links">
-              <ul>
+              <ul className="ul-n">
                 <li>
-                  <a style={aStyle} href="#">
-                    About
+                  <a className="ft-sz" style={aStyle} href="/schools">
+                    Review
                   </a>
                 </li>
                 <li>
-                  <a style={aStyle} href="#">
-                    Products
+                  <a className="ft-sz" style={aStyle} href="#">
+                    Forum
                   </a>
                 </li>
                 <li>
-                  <a style={aStyle} href="#">
-                    For Teams
+                  <a className="ft-sz" style={aStyle} href="#">
+                    More
                   </a>
                 </li>
               </ul>
@@ -143,18 +143,10 @@ const Surface = () => {
               <div className="search-btn-surface">
                 <i className="fas fa-search" />
               </div>
-              <a
-                style={aStyle}
-                href="#"
-                className="btn-surface btn-surface-login"
-              >
+              <a href="/login" className="btn-surface btn-surface-login">
                 Log in
               </a>
-              <a
-                style={aStyle}
-                href="#"
-                className="btn-surface btn-surface-register"
-              >
+              <a href="/register" className="btn-surface btn-surface-register">
                 Sign up
               </a>
             </div>
@@ -194,7 +186,7 @@ const Surface = () => {
             <h2 className="section-title">For developers, by developers</h2>
             <div className="section-line" />
             <p className="section-description">
-              Stack Overflow is an{" "}
+              Education Review is an{" "}
               <a style={aStyle} href="#">
                 open community
               </a>{" "}
