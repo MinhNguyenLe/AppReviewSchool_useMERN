@@ -11,6 +11,7 @@ import "moment-timezone";
 import { Link, useParams } from "react-router-dom";
 import * as func from "../funcGlobal.js";
 import Loading from "./Loading.js";
+import { apiLocal } from "../dataGlobal.js";
 
 const ListReview = () => {
   let params = useParams();
@@ -43,8 +44,8 @@ const ListReview = () => {
   useEffect(() => {
     const axiosData = () => {
       Promise.all([
-        axios.get(`http://localhost:9000/api/schools/${params.id}`),
-        axios.get(`http://localhost:9000/api/schools/${params.id}/reviews`),
+        axios.get(`${apiLocal}/api/schools/${params.id}`),
+        axios.get(`${apiLocal}/api/schools/${params.id}/reviews`),
       ])
         .then(([school, listReview]) => {
           setSchool(school.data);
@@ -72,7 +73,7 @@ const ListReview = () => {
 
   useEffect(() => {
     const axiosData = () => {
-      Promise.all([axios.get(`http://localhost:9000/api/reviews/${idReview}`)])
+      Promise.all([axios.get(`${apiLocal}/api/reviews/${idReview}`)])
         .then(([dataDetailReview]) => {
           setDetailReview(dataDetailReview.data);
           refPositive.current.value = dataDetailReview.data.positive;
@@ -98,7 +99,7 @@ const ListReview = () => {
         refAdvice.current.value
       )
     );
-    await axios.put(`http://localhost:9000/api/reviews/${idReview}`, {
+    await axios.put(`${apiLocal}/api/reviews/${idReview}`, {
       positive: refPositive.current.value,
       negative: refNegative.current.value,
       advice: refAdvice.current.value,
@@ -131,7 +132,7 @@ const ListReview = () => {
         refAdvice.current.value
       )
     );
-    await axios.post(`http://localhost:9000/api/reviews/anonymous`, {
+    await axios.post(`${apiLocal}/api/reviews/anonymous`, {
       idSchool: params.id,
       name: user.name || "anonymous",
       positive: refNewPositive.current.value,
@@ -177,7 +178,7 @@ const ListReview = () => {
           <span className="big-title">Editor</span>
           <i
             onClick={exitEdit}
-            class="fas fa-times"
+            className="fas fa-times"
             style={{ cursor: "pointer" }}
           ></i>
         </div>
@@ -224,7 +225,7 @@ const ListReview = () => {
           <span className="big-title">Write new review</span>
           <i
             onClick={exitWriteReview}
-            class="fas fa-times"
+            clasNames="fas fa-times"
             style={{ cursor: "pointer" }}
           ></i>
         </div>

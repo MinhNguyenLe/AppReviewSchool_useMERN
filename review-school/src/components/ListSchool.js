@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as action from "../redux/actions.js";
 import * as func from "../funcGlobal.js";
 import Loading from "./Loading.js";
+import { apiLocal } from "../dataGlobal.js";
 
 const ListSchool = () => {
   const email = useSelector((state) => state.email);
@@ -20,7 +21,7 @@ const ListSchool = () => {
 
   useEffect(() => {
     const axiosData = async () => {
-      const result = await axios.get("http://localhost:9000/api/schools");
+      const result = await axios.get(`${apiLocal}/api/schools`);
       setData(result.data);
       setLoading(false);
     };
@@ -30,9 +31,7 @@ const ListSchool = () => {
 
   useEffect(() => {
     const axiosData = async () => {
-      const result = await axios.get(
-        `http://localhost:9000/api/users/email/${email}`
-      );
+      const result = await axios.get(`${apiLocal}/api/users/email/${email}`);
       setUser(result.data);
       dispatch(action.setUser(result.data));
       console.log(result.data);

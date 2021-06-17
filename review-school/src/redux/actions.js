@@ -7,6 +7,15 @@ export const setIdSchool = (id) => {
   };
 };
 
+export const setCmt = (cmt) => {
+  return {
+    type: "SET-CMT",
+    payload: {
+      cmt: cmt,
+    },
+  };
+};
+
 export const setUser = (user) => {
   return {
     type: "SET-USER",

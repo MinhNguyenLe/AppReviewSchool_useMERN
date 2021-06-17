@@ -24,55 +24,8 @@ const Surface = () => {
                   <div className="line ft-sz" />
                   <div className="line ft-sz" />
                 </div>
-                <div className="nav-dropdown-menu">
-                  <a style={aStyle} href="#" className="current-link">
-                    Home
-                  </a>
-                  <h5>Public</h5>
-                  <ul className="nav-ul">
-                    <li className="nav-item">
-                      <i className="fas fa-globe-europe" />
-                      <a style={aStyle} href="#" className="nav-link ft-sz">
-                        Stack Overflow
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a style={aStyle} href="#" className="nav-link">
-                        Tags
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a style={aStyle} href="#" className="nav-link">
-                        Users
-                      </a>
-                    </li>
-                  </ul>
-                  <h5>Find a Job</h5>
-                  <ul className="nav-ul">
-                    <li className="nav-item">
-                      <a style={aStyle} href="#" className="nav-link">
-                        Jobs
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a style={aStyle} href="#" className="nav-link">
-                        Companies
-                      </a>
-                    </li>
-                  </ul>
-                  <h5>
-                    Teams{" "}
-                    <a style={aStyle} href="#">
-                      What's this ?
-                    </a>
-                  </h5>
-                  <a style={aStyle} href="#" className="nav-link">
-                    <i className="fas fa-briefcase" />
-                    <span>Free 30 Day Trial</span>
-                  </a>
-                </div>
               </div>
-              <a style={aStyle} href="#" className="nav-icon">
+              <a style={aStyle} href="/" className="nav-icon">
                 <i className="fab fa-stack-overflow" />
                 <div className="nav-icon-text">
                   Edu <span className="nav-bold-text">Review</span>
@@ -103,41 +56,6 @@ const Surface = () => {
                 <i className="fas fa-search" />
                 <input type="text" id placeholder="Search..." />
               </div>
-              <div className="search-hints">
-                <div className="search-arrow-up" />
-                <div className="search-hint-body">
-                  <div className="hints-grid-column">
-                    <div className="hint-text">
-                      <span>[tag] </span> search within a tag
-                    </div>
-                    <div className="hint-text">
-                      <span>user:1234 </span> search by author
-                    </div>
-                    <div className="hint-text">
-                      <span>"words here"</span> exact phrase{" "}
-                    </div>
-                  </div>
-                  <div className="hints-grid-column">
-                    <div className="hint-text">
-                      <span>answers:0</span> unanswered questions
-                    </div>
-                    <div className="hint-text">
-                      <span> score:3</span> posts with a 3+ score
-                    </div>
-                    <div className="hint-text">
-                      <span>isaccepted:yes </span> search within status
-                    </div>
-                  </div>
-                </div>
-                <div className="search-hint-footer">
-                  <a style={aStyle} href="#" className="btn-surface">
-                    Ask a question
-                  </a>
-                  <a style={aStyle} href="#" className="search-help">
-                    Search help
-                  </a>
-                </div>
-              </div>
             </div>
             <div className="nav-right-buttons">
               <div className="search-btn-surface">
@@ -156,26 +74,24 @@ const Surface = () => {
       <section className="hero">
         <div className="hero-content">
           <h1 className="hero-title">
-            We <span>&lt;3 </span> people who code
+            Now <span>&lt;3 </span> Let 's review your school
           </h1>
-          <p className="hero-paragraph">
-            We build products that empower developers and connect them to
-            solutions that enable productivity, growth, and discovery.
-          </p>
+          <p className="hero-paragraph">...</p>
           <div className="hero-options">
             <a
               style={aStyle}
-              href="#"
+              href="/schools"
               className="btn-surface btn-surface-developers"
             >
-              For developers
+              Write or read some reviews
             </a>
             <a
               style={aStyle}
-              href="#"
+              href="/forum"
               className="btn-surface btn-surface-businesses"
+              style={{ color: "white" }}
             >
-              For businesses
+              Go to Forum now !
             </a>
           </div>
         </div>

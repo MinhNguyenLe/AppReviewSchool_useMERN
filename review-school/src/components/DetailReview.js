@@ -10,22 +10,17 @@ import Loading from "./Loading.js";
 import "./DetailReview.css";
 import Scores from "./Scores.js";
 import ListComment from "./ListComment.js";
-
+import { apiLocal } from "../dataGlobal.js";
 const DetailReview = () => {
-  const [listCmt, setListCmt] = useState([]);
-
+  const listCmt = useSelector((state) => state.cmt);
   const [loading, setLoading] = useState(true);
   const [review, setReview] = useState({});
   const params = useParams();
   useEffect(() => {
     const axiosData = () => {
-      Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${params.id}`),
-        axios.get(`http://localhost:9000/api/reviews/${params.id}/comments`),
-      ])
+      Promise.all([axios.get(`${apiLocal}/api/reviews/${params.id}`)])
         .then(([review, comment]) => {
           setReview(review.data);
-          setListCmt(comment.data);
           setLoading(false);
         })
         .catch();
@@ -125,13 +120,7 @@ const DetailReview = () => {
         >
           {listCmt.length} comments
         </div>
-        {
-          <ListComment
-            id={params.id}
-            setListCmt={setListCmt}
-            listCmt={listCmt}
-          ></ListComment>
-        }
+        {<ListComment></ListComment>}
       </div>
     </div>
   );

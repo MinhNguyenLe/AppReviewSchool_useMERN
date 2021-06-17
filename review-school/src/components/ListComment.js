@@ -10,24 +10,24 @@ import Moment from "react-moment";
 import "moment-timezone";
 import $ from "jquery";
 import { useParams } from "react-router-dom";
+import { apiLocal } from "../dataGlobal.js";
 
-const ListComment = ({ id, setListCmt, listCmt }) => {
+const ListComment = () => {
   const params = useParams();
   const refCmt = useRef();
 
   const name = useSelector((state) => state.user.name);
-
+  const cmt = useSelector((state) => state.cmt);
   const dispatch = useDispatch();
 
   const [addCmt, setAddCmt] = useState(0);
 
   useEffect(() => {
     const axiosData = () => {
-      Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${params.id}/comments`),
-      ])
-        .then(([listCmt]) => {
-          setListCmt(listCmt.data);
+      Promise.all([axios.get(`${apiLocal}/api/reviews/${params.id}/comments`)])
+        .then(([cmt]) => {
+          console.log(cmt.data);
+          dispatch(action.setCmt(cmt.data));
         })
         .catch((err) => console.log(err));
     };
@@ -38,7 +38,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
   const submitCmt = async (e) => {
     console.log(params);
     e.preventDefault();
-    await axios.post(`http://localhost:9000/api/comments`, {
+    await axios.post(`${apiLocal}/api/comments`, {
       idReview: params.id,
       content: refCmt.current.value,
       name: name || "anonymous",
@@ -63,14 +63,14 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
         >
           <rb.Form.Control
             ref={refCmt}
-            onClick={() => dispatch(action.setIdReview(id))}
+            onClick={() => dispatch(action.setIdReview(params.id))}
             type="text"
             style={{ width: "100%", fontSize: "18px" }}
           />
         </rb.Form>
       </div>
       <div className="ske-cmt">
-        {listCmt.map((item, index) => (
+        {cmt.map((item, index) => (
           <div key={index} className="d-flex flex-row ske-cmt-c">
             <div>
               <Moment

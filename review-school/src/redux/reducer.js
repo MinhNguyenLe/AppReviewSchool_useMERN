@@ -16,6 +16,7 @@ const INITIAL_STATE = {
     name: "",
     createdAt: "",
   },
+  cmt: [],
 };
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -55,6 +56,11 @@ export default function reducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         email: action.payload.email,
+      };
+    case "SET-CMT":
+      return {
+        ...state,
+        cmt: action.payload.cmt,
       };
     case "SET-USER":
       return {

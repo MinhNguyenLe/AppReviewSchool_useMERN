@@ -10,6 +10,7 @@ import validateLogin from "../validateLogin";
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as action from "../redux/actions.js";
+import { apiLocal } from "../dataGlobal.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Login = () => {
   const { valuesLogin, errorsLogin, handleChangeLogin, handleSubmitLogin } =
     useFormLogin(login, validateLogin);
   async function login() {
-    await axios.post(`http://localhost:9000/api/users/login`, {
+    await axios.post(`${apiLocal}/api/users/login`, {
       email: valuesLogin.emailLogin,
       password: valuesLogin.passLogin,
     });
@@ -37,7 +38,7 @@ const Login = () => {
   } = useForm(register, validate);
 
   async function register() {
-    await axios.post(`http://localhost:9000/api/users/register`, {
+    await axios.post(`${apiLocal}/api/users/register`, {
       name: valuesRegister.name,
       username: valuesRegister.username,
       email: valuesRegister.email,
