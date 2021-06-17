@@ -171,7 +171,7 @@
 html {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   color: var(--black-800);
-  font-size: 10px;
+  font-size: 10px !important;
 }
 
 .container-surface {
