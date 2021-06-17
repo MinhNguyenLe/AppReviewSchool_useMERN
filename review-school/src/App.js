@@ -8,6 +8,9 @@ import ListSchool from "./components/ListSchool.js";
 import DetailReview from "./components/DetailReview.js";
 import ListReview from "./components/ListReview.js";
 import Footer from "./components/Footer.js";
+import ListThread from "./components/ListThread.js";
+import NewThread from "./components/NewThread.js"
+import ListPost from "./components/ListPost.js"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
@@ -29,6 +32,21 @@ const App = () => {
         <Route exact path="/schools/:id/reviews">
           <Navbar></Navbar>
           <ListReview></ListReview>
+          <Footer></Footer>
+        </Route>
+        <Route exact path="/forum">
+          <Navbar></Navbar>
+          <ListThread></ListThread>
+          <Footer></Footer>
+        </Route>
+        <Route exact path="/forum/new-thread">
+        <Navbar></Navbar>
+          <NewThread></NewThread>
+          <Footer></Footer>
+        </Route>
+        <Route exact path="/forum/thread/:id">
+          <Navbar></Navbar>
+          <ListPost></ListPost>
           <Footer></Footer>
         </Route>
       </Switch>
