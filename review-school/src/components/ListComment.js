@@ -32,6 +32,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
     };
     axiosData();
     refCmt.current.value = "";
+    console.log(params.id, "listtttttttttt", listCmt);
   }, [addCmt]);
 
   const submitCmt = async (e) => {
@@ -69,21 +70,23 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
         </rb.Form>
       </div>
       <div className="ske-cmt">
-        {listCmt.map((item, index) => (
-          <div key={index} className="d-flex flex-row ske-cmt-c">
-            <div>
-              <Moment
-                className="date-content"
-                format="YYYY/MM/DD"
-                style={{ marginRight: "20px" }}
-              >
-                {item.createdAt}
-              </Moment>
-              <span className="cmt-name">{item.name || "anonymous"}</span>
-              <span className="cmt-content">{item.content}</span>
-            </div>
-          </div>
-        ))}
+        {
+          // listCmt.map((item, index) => (
+          // <div key={index} className="d-flex flex-row ske-cmt-c">
+          //   <div>
+          //     <Moment
+          //       className="date-content"
+          //       format="YYYY/MM/DD"
+          //       style={{ marginRight: "20px" }}
+          //     >
+          //       {item.createdAt}
+          //     </Moment>
+          //     <span className="cmt-name">{item.name || "anonymous"}</span>
+          //     <span className="cmt-content">{item.content}</span>
+          //   </div>
+          // </div>
+          // ))
+        }
       </div>
     </div>
   );

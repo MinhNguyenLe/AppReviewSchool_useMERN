@@ -178,7 +178,7 @@ const ListReview = () => {
           <span className="big-title">Editor</span>
           <i
             onClick={exitEdit}
-            class="fas fa-times"
+            className="fas fa-times"
             style={{ cursor: "pointer" }}
           ></i>
         </div>
@@ -225,7 +225,7 @@ const ListReview = () => {
           <span className="big-title">Write new review</span>
           <i
             onClick={exitWriteReview}
-            class="fas fa-times"
+            clasNames="fas fa-times"
             style={{ cursor: "pointer" }}
           ></i>
         </div>
