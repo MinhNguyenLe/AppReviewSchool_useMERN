@@ -10,7 +10,7 @@ import Loading from "./Loading.js";
 import "./DetailReview.css";
 import Scores from "./Scores.js";
 import ListComment from "./ListComment.js";
-
+import { apiLocal } from "../dataGlobal.js";
 const DetailReview = () => {
   const [listCmt, setListCmt] = useState([]);
 
@@ -20,8 +20,8 @@ const DetailReview = () => {
   useEffect(() => {
     const axiosData = () => {
       Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${params.id}`),
-        axios.get(`http://localhost:9000/api/reviews/${params.id}/comments`),
+        axios.get(`${apiLocal}/api/reviews/${params.id}`),
+        axios.get(`${apiLocal}/app.com/api/reviews/${params.id}/comments`),
       ])
         .then(([review, comment]) => {
           setReview(review.data);

@@ -5,6 +5,7 @@ import axios from "axios";
 import "moment-timezone";
 import useForm from "../useForm";
 import validate from "../validate";
+import { apiLocal } from "../dataGlobal.js";
 
 const Register = () => {
   const { values, errors, handleChange, handleSubmit } = useForm(
@@ -13,7 +14,7 @@ const Register = () => {
   );
 
   async function register() {
-    await axios.post(`http://localhost:9000/api/users/register`, {
+    await axios.post(`${apiLocal}/api/users/register`, {
       name: values.name,
       username: values.username,
       email: values.email,

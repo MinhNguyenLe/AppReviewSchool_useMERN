@@ -10,6 +10,7 @@ import Moment from "react-moment";
 import "moment-timezone";
 import $ from "jquery";
 import { useParams } from "react-router-dom";
+import { apiLocal } from "../dataGlobal.js";
 
 const ListComment = ({ id, setListCmt, listCmt }) => {
   const params = useParams();
@@ -23,9 +24,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
 
   useEffect(() => {
     const axiosData = () => {
-      Promise.all([
-        axios.get(`http://localhost:9000/api/reviews/${params.id}/comments`),
-      ])
+      Promise.all([axios.get(`${apiLocal}/api/reviews/${params.id}/comments`)])
         .then(([listCmt]) => {
           setListCmt(listCmt.data);
         })
@@ -38,7 +37,7 @@ const ListComment = ({ id, setListCmt, listCmt }) => {
   const submitCmt = async (e) => {
     console.log(params);
     e.preventDefault();
-    await axios.post(`http://localhost:9000/api/comments`, {
+    await axios.post(`${apiLocal}/api/comments`, {
       idReview: params.id,
       content: refCmt.current.value,
       name: name || "anonymous",
