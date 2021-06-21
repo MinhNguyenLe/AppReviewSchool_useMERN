@@ -12,6 +12,7 @@ import ListThread from "./components/ListThread.js";
 import NewThread from "./components/NewThread.js"
 import ListPost from "./components/ListPost.js"
 import "bootstrap/dist/css/bootstrap.min.css";
+import NewSchool from "./components/NewSchool.js";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact path="/" component={Surface}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/register" component={Login}></Route>
+        <Route exact path="/admin/new-school" component={NewSchool}></Route>
         <Route exact path="/schools" component={ListSchool}>
           <Navbar></Navbar>
           <ListSchool></ListSchool>

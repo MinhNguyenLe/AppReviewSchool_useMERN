@@ -16,6 +16,7 @@
     cursor: pointer;
     color: black;
     font-weight: bold;
+    font-size:small;
   }
   
   .forum-avatar {
@@ -64,7 +65,7 @@
     font-size: 12px;
   }
   
-  .forum-meta b{
+  .forum-meta i{
     color: gray !important;
     font-size: 10px;
     margin-top: 500px;
@@ -144,88 +145,4 @@
 .tt-badge:not([class^=tt-color]) {
 	background-color: #d7dadc;
 	color: #182730
-}
-
-.tt-badge.tt-color01 {
-	background-color: #2e3192
-}
-
-.tt-badge.tt-color02 {
-	background-color: #4436f8
-}
-
-.tt-badge.tt-color03 {
-	background-color: #3ebafa
-}
-
-.tt-badge.tt-color04 {
-	background-color: #777da7
-}
-
-.tt-badge.tt-color05 {
-	background-color: #f26522
-}
-
-.tt-badge.tt-color06 {
-	background-color: #464646
-}
-
-.tt-badge.tt-color07 {
-	background-color: #1cbbb4
-}
-
-.tt-badge.tt-color08 {
-	background-color: #f4555b
-}
-
-.tt-badge.tt-color09 {
-	background-color: #00746b
-}
-
-.tt-badge.tt-color10 {
-	background-color: #f69679
-}
-
-.tt-badge.tt-color11 {
-	background-color: #7e7b47
-}
-
-.tt-badge.tt-color12 {
-	background-color: #5674b9
-}
-
-.tt-badge.tt-color13 {
-	background-color: #3cb878
-}
-
-.tt-badge.tt-color14 {
-	background-color: #92278f
-}
-
-.tt-badge.tt-color15 {
-	background-color: #00a651
-}
-
-.tt-badge.tt-color16 {
-	background-color: #a864a8
-}
-
-.tt-badge.tt-color17 {
-	background-color: #92278f
-}
-
-.tt-badge.tt-color18 {
-	background-color: #448ccb
-}
-
-.tt-badge.tt-color19 {
-	background-color: #39b54a
-}
-
-.tt-badge.tt-color20 {
-	background-color: #ed9731
-}
-
-.tt-badge.tt-color21 {
-	background-color: #8781bd
 }

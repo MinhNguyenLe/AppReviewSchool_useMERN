@@ -17,9 +17,9 @@ const Thread = new Schema(
             type: [String],
         },
         category: {
-            type: String,
+            type: Schema.Types.ObjectId,
             required: true,
-            default: 'Chưa phân loại'
+            ref: 'Category'
         },
         isOpen:{
             type: Boolean,

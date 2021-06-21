@@ -283,6 +283,7 @@ const ListReview = () => {
             {school.website}
           </a>
         </div>
+        
       </div>
       <div className="d-flex flex-row align-items-center justify-content-between">
         <rb.Button onClick={writeReview}>Viết đánh giá</rb.Button>

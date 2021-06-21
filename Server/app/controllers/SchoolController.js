@@ -59,7 +59,6 @@ const schoolController = {
                 typeOfMajor,
                 description,
             } = req.body; // FrontEnd submit object to BackEnd
-
             let school = await School.findOne({ code });
 
             if (school)
@@ -69,7 +68,6 @@ const schoolController = {
             const galleryPaths = req.files['gallery'].map((item) => {
                 return item.path;
             });
-            console.log(logoPath);
 
             const newSchool = new School({
                 code: code,
@@ -78,7 +76,7 @@ const schoolController = {
                 website: website,
                 typeOfSchool: typeOfSchool,
                 level: level,
-                typeOfMajor: typeOfMajor,
+                typeOfMajor: JSON.parse(typeOfMajor),
                 description: description,
                 logo: logoPath,
                 images: galleryPaths,

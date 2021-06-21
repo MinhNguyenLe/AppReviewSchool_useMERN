@@ -11,33 +11,41 @@ import 'semantic-ui-css/semantic.min.css'
 import moment from 'moment';
 import quillEmoji from 'quill-emoji';
 import "quill-emoji/dist/quill-emoji.css";
+import Pagination from "react-js-pagination";
 
 const DetailsThread = () => {
 
-    
+
     const [data, setData] = useState([]);
     const [dataThread, setDataThread] = useState({});
     const params = useParams();
     const [isEdit, setEdit] = useState(false);
     const [idPost, setIdPost] = useState("");
     const [isNewPost, setNewPost] = useState(true);
+    const [numDoc, setNumDoc] = useState(0);
+    const [curPage, setCurPage] = useState(1);
 
-
-    const axiosData = () => {
+    const axiosData = (page) => {
         Promise.all([
             axios.get(`http://localhost:9000/api/threads/${params.id}`),
-            axios.get(`http://localhost:9000/api/threads/${params.id}/posts`),
+            axios.get(`http://localhost:9000/api/threads/${params.id}/posts?page=${page}&limit=10`),
         ])
             .then(([thread, posts]) => {
                 setDataThread(thread.data);
-                setData(posts.data);
+                setData(posts.data.posts);
+                setNumDoc(posts.data.numDoc);
+                setCurPage(page);
             })
             .catch();
     };
 
     useEffect(() => {
-        axiosData();
+        axiosData(1);
     }, [params.id]);
+
+    const handlePageChange = (page) => {
+        axiosData(page);
+    }
 
 
     const [editorHtml, setEditorHtml] = useState("");
@@ -64,7 +72,7 @@ const DetailsThread = () => {
         'emoji-toolbar': true,
         "emoji-textarea": true,
         "emoji-shortname": true,
-        
+
         clipboard: {
             // toggle to add extra line breaks when pasting HTML:
             matchVisual: false,
@@ -84,18 +92,18 @@ const DetailsThread = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(isEdit){
-            let resEdit = await axios.put(`http://localhost:9000/api/posts/${idPost}`, {content: editorHtml})
+        if (isEdit) {
+            let resEdit = await axios.put(`http://localhost:9000/api/posts/${idPost}`, { content: editorHtml })
         }
-        if (isNewPost){
+        if (isNewPost) {
             let res = await axios.post(`http://localhost:9000/api/posts/`, {
-            content: editorHtml,
-            inThread: dataThread._id
-        }, {
-            headers: {
-                'x-access-token': localStorage.getItem('x-access-token')
-            }
-        });
+                content: editorHtml,
+                inThread: dataThread._id
+            }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('x-access-token')
+                }
+            });
         }
         axiosData();
         setEditorHtml("");
@@ -103,12 +111,12 @@ const DetailsThread = () => {
         setNewPost(true);
     }
 
-    const deletePost = async (id) =>{
+    const deletePost = async (id) => {
         let res = await axios.delete(`http://localhost:9000/api/posts/${id}`);
         axiosData();
     }
 
-    const editContent = (id) =>{
+    const editContent = (id) => {
         setEdit(true);
         setNewPost(false);
         const data = document.querySelector(".data-content-".concat(id))
@@ -116,19 +124,34 @@ const DetailsThread = () => {
         setEditorHtml(data.innerHTML);
     }
 
-    const actions = (id) => (
+    const reply = (id, name) => {
+
+        const data = document.querySelector(".data-content-".concat(id))
+        // let ele = document.createElement("data-content-60cb6db2125a953988f5db40")
+        // const newData = ele.appendChild(data)
+        let newData = "<blockquote> <p> " + name + " said: </p>" + data.innerHTML + "</blockquote>"
+        //console.log(data.innerHTML);
+        setEditorHtml(newData);
+    }
+
+    const actions = (id, name) => (
         <div className="post-dropdown">
             <Dropdown simple icon="caret down" direction="left">
                 <Dropdown.Menu>
                     <Dropdown.Item
-                        onClick={() => {deletePost(id) }}
+                        onClick={() => { deletePost(id) }}
                         icon="delete"
                         text="Delete Post"
                     />
                     <Dropdown.Item
-                        onClick={() => {editContent(id) }}
+                        onClick={() => { editContent(id) }}
                         icon="edit"
                         text="Edit Post"
+                    />
+                    <Dropdown.Item
+                        onClick={() => { reply(id, name) }}
+                        icon="reply"
+                        text="Reply"
                     />
                 </Dropdown.Menu>
             </Dropdown>
@@ -143,70 +166,87 @@ const DetailsThread = () => {
                 </div>
             </div>
             <Container>
-                {data.map((item, index) => 
-                    item.isDeleted === false?
-                (    
-                    <Segment key={index} color={index === 0 ? "black" : null}>
-                        <Grid textAlign="left" padded="horizontally">
-                            <Grid.Column width={4}>
-                                <Grid.Row>
-                                    <div className="post-row">
-                                        <Link to="#">
-                                            <Image className="post-avatar" src={item.byUser.avatar} />
-                                        </Link>
-                                        <div className="post-column">
-                                            <div className="post-name">{item.byUser.name}</div>
-                                            <div className="post-username">
+                {data.map((item, index) =>
+                    item.isDeleted === false ?
+                        (
+                            <Segment key={index} color={index === 0 ? "black" : null}>
+                                <Grid textAlign="left" padded="horizontally">
+                                    <Grid.Column width={4}>
+                                        <Grid.Row>
+                                            <div className="post-row">
                                                 <Link to="#">
-                                                    <Icon name="user" />
-                                                    {item.byUser.username}
+                                                    <Image className="post-avatar" src={item.byUser.avatar} />
                                                 </Link>
+                                                <div className="post-column">
+                                                    <div className="post-name">{item.byUser.name}</div>
+                                                    <div className="post-username">
+                                                        <Link to="#">
+                                                            <Icon name="user" />
+                                                            {item.byUser.username}
+                                                        </Link>
+                                                    </div>
+                                                    <div className="post-status">
+                                                        {item.byUser.permission === 1 ?
+                                                            <b className="staff">{' (Admin) '}</b>
+                                                            : "Member"}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="post-status">
-                                                Member
-                                            </div>
+                                        </Grid.Row>
+                                    </Grid.Column>
+                                    <Grid.Column width={12}>
+                                        <div className="post-time">
+                                            {moment(item.createdAt).fromNow()}
+                                            {actions(item._id, item.byUser.username)}
                                         </div>
-                                    </div>
-                                </Grid.Row>
-                            </Grid.Column>
-                            <Grid.Column width={12}>
-                                <div className="post-time">
-                                    {moment(item.createdAt).fromNow()}
-                                    {actions(item._id)}
-                                </div>
-                                <div className={"data-content-".concat(item._id)} dangerouslySetInnerHTML={{ __html: item.content }}></div>
-                            </Grid.Column>
-                        </Grid>
-                    </Segment>
-                    
-                ): <div>
-                    <Segment key={index} color={index === 0 ? "black" : null}>
-                        <Grid textAlign="left" padded="horizontally">
-                            <Grid.Column width={12}>
-                                <div className="data-content">This message has been deleted</div>
-                            </Grid.Column>
-                        </Grid>
-                    </Segment>
-                </div>)}
-            </Container>
-            <Container>
-                <Card>
-                    <span>Reply thread</span>
-                    <ReactQuill
-                        id="htmlContent"
-                        theme="snow"
-                        onChange={handleContent}
-                        value={editorHtml}
-                        modules={modules}
-                        formats={formats}
-                        placeholder="Content thread here..."
+                                        <div className="data">
+                                            <div className={"data-content-".concat(item._id)} dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                                        </div>
+                                    </Grid.Column>
+                                </Grid>
+                            </Segment>
+
+                        ) : <div>
+                            <Segment key={index} color={index === 0 ? "black" : null}>
+                                <Grid textAlign="left" padded="horizontally">
+                                    <Grid.Column width={12}>
+                                        <div className="data-content">This message has been deleted</div>
+                                    </Grid.Column>
+                                </Grid>
+                            </Segment>
+                        </div>)}
+                <div style={{ float: 'right', paddingTop: 15, paddingBottom: 15 }}>
+                    <Pagination
+                        activePage={curPage}
+                        itemsCountPerPage={10}
+                        totalItemsCount={numDoc}
+                        pageRangeDisplayed={5}
+                        onChange={handlePageChange}
+                        itemClass="page-item"
+                        linkClass="page-link"
                     />
-                    <Form onSubmit={handleSubmit}>
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                    </Form>
-                </Card>
+                </div>
+            </Container>
+
+            <Container>
+                {dataThread.isOpen === false ? <h3>Thread closed</h3> :
+                    <Card>
+                        <span>Reply thread</span>
+                        <ReactQuill
+                            id="htmlContent"
+                            theme="snow"
+                            onChange={handleContent}
+                            value={editorHtml}
+                            modules={modules}
+                            formats={formats}
+                            placeholder="Content thread here..."
+                        />
+                        <Form onSubmit={handleSubmit}>
+                            <Button variant="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
+                    </Card>}
             </Container>
         </div>
     );
