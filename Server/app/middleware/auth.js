@@ -11,7 +11,7 @@ const auth =(req, res, next)=>{
       return res.status(400).json({msg: "You are not login, please login."});
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=>{
-      if(err) return res.status(500).json({msg : err})
+      if(err) return res.status(200).json({msg : err, code: -1})
 
       req.user = user
       next()

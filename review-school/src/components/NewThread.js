@@ -14,7 +14,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 const FormThread = () => {
     const [isRedirect, setIsRedirect] = useState(0);
 
-    const [tags, setTags] = useState({data: [], suggestion: []});
+    const [tags, setTags] = useState({ data: [], suggestion: [] });
     const [categories, setCategories] = useState([]);
     var listCategory = [];
     const title = useRef();
@@ -66,13 +66,13 @@ const FormThread = () => {
             return item.text;
         }))
 
-        let newTagList = Array.from(difference(setB, setA)).map((item) =>{
+        let newTagList = Array.from(difference(setB, setA)).map((item) => {
             return {
                 tagName: item
             }
         });
-        console.log(newTagList);
-        
+        //console.log(newTagList);
+
         let res = await axios.post(`http://localhost:9000/api/threads/`, {
             title: title.current.value,
             content: editorHtml.current.state.value,
@@ -84,13 +84,13 @@ const FormThread = () => {
                 'x-access-token': localStorage.getItem('x-access-token')
             }
         });
-        if (res.data.code === 1){
-            setGotoThread(res.data.id)
+        if (res.data.code === 1) {
+            setGotoThread(res.data.id);
             setIsRedirect(true);
         } else {
-            alert("error");
+            alert("error:" + JSON.stringify(res.data.msg));
         }
-        
+
     }
 
 
@@ -113,7 +113,7 @@ const FormThread = () => {
     }
 
     const handleAddition = (tag) => {
-        setTags({ data: [...tags.data, tag], suggestion: suggestions})
+        setTags({ data: [...tags.data, tag], suggestion: suggestions })
     }
 
     const handleDrag = (tag, currPos, newPos) => {
@@ -124,10 +124,10 @@ const FormThread = () => {
         newTags.splice(newPos, 0, tag);
 
         // re-render
-        setTags({ data: newTags, suggestion: suggestions});
+        setTags({ data: newTags, suggestion: suggestions });
     }
 
-    
+
 
     useEffect(() => {
         Promise.all([
@@ -150,7 +150,7 @@ const FormThread = () => {
                         text: item.tagName
                     }
                 }))
-                setTags({data: [], suggestion: suggestions})
+                setTags({ data: [], suggestion: suggestions })
             })
             .catch();
     }, [])

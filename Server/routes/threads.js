@@ -11,9 +11,9 @@ router.get('/:id', threadController.getById);
 
 router.get('/:id/posts', threadController.getAllPostsByIdThread);
 
-router.get('/:id/category', threadController.getAllThreadByIdCategory);
+router.get('/:id/categories', threadController.getAllThreadByIdCategory);
 //router.get('/:id/comments', threadController.getCommentsByIdReview);
-//router.use(authMiddleWare);
+router.use(authMiddleWare);
 
 router.post('/', threadController.create);
 

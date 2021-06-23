@@ -30,11 +30,11 @@ const PostCtrl = {
                 content,
             } = req.body;
 
-            const postUser = await User.findById('6093aca55a313c3e7cbcd59b')
+            const postUser = await User.findById(req.user.id)
             const thread = await Thread.findById(inThread);
             
             const newPost = new Post({
-                // idUser: req.user.id,
+                //idUser: req.user.id,
                 byUser: postUser._id,
                 inThread : inThread,
                 content: content

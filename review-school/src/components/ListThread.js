@@ -1,25 +1,53 @@
 import axios from "axios"
 import { React, useEffect, useState } from "react"
 import { Container, Row, Col, Card, Button } from "react-bootstrap"
-import { Segment, Grid, Icon, Image, Dropdown } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Image, Dropdown, Input } from 'semantic-ui-react';
 import './ListThread.css'
 import { Link } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css'
 import moment from 'moment';
 const ListThread = () => {
 
+    const [data, setData] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [userData, setUserData] = useState({permission: 0})
+    const [isLogin, setIsLogin] = useState(false);
+
+    const fetchData = (idCategory) =>{
+        Promise.all([axios.get(`http://localhost:9000/api/threads/${idCategory}/categories`)])
+        .then(([results])=>{
+            setData(results.data);
+        })
+        .catch()
+    }
+
+    const fetchUser = async () =>{
+        let res = await axios.get(`http://localhost:9000/api/users/me`, { headers: { "x-access-token": localStorage.getItem('x-access-token') } });
+        if(res.data.code === -1)
+            console.log('you not login')
+        else{
+            setUserData(res.data);
+            setIsLogin(true);
+        }
+    }
 
     const axiosData = async () => {
-        const result = await axios.get("http://localhost:9000/api/threads");
-        setData(result.data);
+        Promise.all([axios.get(`http://localhost:9000/api/categories/`), 
+                    axios.get(`http://localhost:9000/api/threads/`)])
+        .then(([categories, threads])=>{
+            setData(threads.data);
+            setCategories(categories.data)
+        })
+        .catch()
+        //const result = await axios.get("http://localhost:9000/api/threads");
     };
 
-    const [data, setData] = useState([]);
+    
     useEffect(() => {
         axiosData();
+        fetchUser();
         //console.log(data)
     }, []);
-
 
     const deleteThread = async (id) => {
         let res = await axios.delete(`http://localhost:9000/api/threads/${id}`);
@@ -30,6 +58,10 @@ const ListThread = () => {
         let res = await axios.put(`http://localhost:9000/api/threads/${id}`, { isOpen: !status });
         axiosData();
     }
+    const handleFilterCategory = (e, data) =>{
+        fetchData(data.children.key)
+        //console.log()
+    }
 
     return (
         <div>
@@ -39,9 +71,31 @@ const ListThread = () => {
             <h1>aaa</h1>
             <h1>aaa</h1>
             <h1>aaa</h1>
-            <Link to='/forum/new-thread' className="login-btn">New thread</Link>
+            {isLogin?<Link to='/forum/new-thread' className="login-btn">New thread</Link>:null}
+            
             <Container>
                 <div className="forumContainer">
+                    <div>
+                        <Dropdown
+                            text='Filter'
+                            icon='filter'
+                            floating
+                            labeled
+                            button
+                            className='icon'
+                        >
+                            <Dropdown.Menu>
+                                <Dropdown.Header icon='tags' content='Filter by category' />
+                                <Dropdown.Divider />
+                                { categories.map((item, index) =>(
+                                     <Dropdown.Item onClick={handleFilterCategory}>
+                                         <span key={item._id}>{item.category}</span>
+                                 </Dropdown.Item>
+                                ))}
+                               
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
                     <Segment.Group className="forum-list">
                         <Segment vertical>
                             <Grid textAlign="left" padded="horizontally">
@@ -138,7 +192,7 @@ const ListThread = () => {
                                             </div>
                                         </Grid.Column>
                                         <Grid.Column width={1}>
-                                            <div className="post-dropdown">
+                                            { userData.permission === 1?<div className="post-dropdown">
                                                 <Dropdown simple icon="caret down" direction="left">
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item
@@ -151,14 +205,14 @@ const ListThread = () => {
                                                             icon={item.isOpen === true ? "lock" : "unlock"}
                                                             text={item.isOpen === true ? "Close" : "Open"}
                                                         />
-                                                        <Dropdown.Item
+                                                        {/* <Dropdown.Item
                                                             onClick={() => { }}
                                                             icon="pin"
                                                             text="Sticky"
-                                                        />
+                                                        /> */}
                                                     </Dropdown.Menu>
                                                 </Dropdown>
-                                            </div>
+                                            </div>:null}
                                         </Grid.Column>
                                     </Grid>
                                 </Segment>

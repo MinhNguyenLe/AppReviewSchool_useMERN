@@ -14,8 +14,6 @@ import "quill-emoji/dist/quill-emoji.css";
 import Pagination from "react-js-pagination";
 
 const DetailsThread = () => {
-
-
     const [data, setData] = useState([]);
     const [dataThread, setDataThread] = useState({});
     const params = useParams();
@@ -24,6 +22,8 @@ const DetailsThread = () => {
     const [isNewPost, setNewPost] = useState(true);
     const [numDoc, setNumDoc] = useState(0);
     const [curPage, setCurPage] = useState(1);
+    const [userData, setUserData] = useState({permission: 0})
+    const [isLogin, setIsLogin] = useState(false);
 
     const axiosData = (page) => {
         Promise.all([
@@ -38,9 +38,19 @@ const DetailsThread = () => {
             })
             .catch();
     };
+    const fetchUser = async () =>{
+        let res = await axios.get(`http://localhost:9000/api/users/me`, { headers: { "x-access-token": localStorage.getItem('x-access-token') } });
+        if(res.data.code === -1)
+            console.log('you not login')
+        else{
+            setUserData(res.data);
+            setIsLogin(true);
+        }
+    }
 
     useEffect(() => {
         axiosData(1);
+        fetchUser();
     }, [params.id]);
 
     const handlePageChange = (page) => {
@@ -93,7 +103,8 @@ const DetailsThread = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isEdit) {
-            let resEdit = await axios.put(`http://localhost:9000/api/posts/${idPost}`, { content: editorHtml })
+            let resEdit = await axios.put(`http://localhost:9000/api/posts/${idPost}`, { content: editorHtml },
+            { headers: { "x-access-token": localStorage.getItem('x-access-token') } })
         }
         if (isNewPost) {
             let res = await axios.post(`http://localhost:9000/api/posts/`, {
@@ -112,7 +123,7 @@ const DetailsThread = () => {
     }
 
     const deletePost = async (id) => {
-        let res = await axios.delete(`http://localhost:9000/api/posts/${id}`);
+        let res = await axios.delete(`http://localhost:9000/api/posts/${id}`, { headers: { "x-access-token": localStorage.getItem('x-access-token') } });
         axiosData();
     }
 
@@ -134,20 +145,24 @@ const DetailsThread = () => {
         setEditorHtml(newData);
     }
 
-    const actions = (id, name) => (
+    const actions = (id, name, userLogin, userPost) => (
         <div className="post-dropdown">
             <Dropdown simple icon="caret down" direction="left">
                 <Dropdown.Menu>
-                    <Dropdown.Item
+                    {userLogin.permission === 1 || userLogin._id === userPost._id?
+                        <Dropdown.Item
                         onClick={() => { deletePost(id) }}
                         icon="delete"
                         text="Delete Post"
                     />
-                    <Dropdown.Item
+                    :null}
+                    {userLogin._id === userPost._id?
+                        <Dropdown.Item
                         onClick={() => { editContent(id) }}
                         icon="edit"
                         text="Edit Post"
-                    />
+                    />:null
+                    }
                     <Dropdown.Item
                         onClick={() => { reply(id, name) }}
                         icon="reply"
@@ -179,6 +194,7 @@ const DetailsThread = () => {
                                                 </Link>
                                                 <div className="post-column">
                                                     <div className="post-name">{item.byUser.name}</div>
+                                                    {/* <div className="user-banned">Banned</div> */}
                                                     <div className="post-username">
                                                         <Link to="#">
                                                             <Icon name="user" />
@@ -197,7 +213,8 @@ const DetailsThread = () => {
                                     <Grid.Column width={12}>
                                         <div className="post-time">
                                             {moment(item.createdAt).fromNow()}
-                                            {actions(item._id, item.byUser.username)}
+                                            {console.log(userData, item.byUser)}
+                                            {isLogin == true?actions(item._id, item.byUser.username, userData, item.byUser):null}
                                         </div>
                                         <div className="data">
                                             <div className={"data-content-".concat(item._id)} dangerouslySetInnerHTML={{ __html: item.content }}></div>
@@ -230,6 +247,7 @@ const DetailsThread = () => {
 
             <Container>
                 {dataThread.isOpen === false ? <h3>Thread closed</h3> :
+                    isLogin === false ? <h3>You must login to reply this thread</h3>:
                     <Card>
                         <span>Reply thread</span>
                         <ReactQuill

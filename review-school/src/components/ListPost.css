@@ -68,12 +68,37 @@
     margin-top: auto;
     margin-bottom: auto;
   }
+  .post-name-banned {
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: rgb(0, 0, 0) !important;
+    text-decoration: line-through;
+  }
+  
+  .user-banned{
+    font-weight:initial;
+    font-size: 13px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: rgb(0, 0, 0) !important;
+    text-align: center;
+  }
   
   .post-username a{
     font-size: 14px;
     margin-top: auto;
     margin-bottom: auto;
     color: gray !important;
+  }
+
+  .post-username-banned a{
+    font-size: 14px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: rgb(0, 0, 0) !important;
+    text-decoration: line-through;
   }
   
   .post-status {

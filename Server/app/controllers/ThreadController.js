@@ -7,7 +7,7 @@ const Tag = require("../models/Tag");
 const ThreadCtrl = {
     getAll: async (req, res) => {
         try {
-            const threads = await Thread.find({}).populate('byUser', 'name avatar username')
+            const threads = await Thread.find({}).populate('byUser', 'name avatar username permission')
                                                  .populate('category', 'category color').exec();
             console
             return res.json(threads);
@@ -36,7 +36,7 @@ const ThreadCtrl = {
                 content,
                 newTag
             } = req.body;
-            const postUser = await User.findById('6093aca55a313c3e7cbcd59b')
+            const postUser = await User.findById(req.user.id)
             let newThread = new Thread({
                 byUser: postUser._id,
                 title: title,
@@ -49,7 +49,7 @@ const ThreadCtrl = {
             await newThread.save();
 
             const newPost = new Post({
-                byUser: '6093aca55a313c3e7cbcd59b',
+                byUser: postUser._id,
                 inThread: newThread.id,
                 content: content,
             });
@@ -121,7 +121,8 @@ const ThreadCtrl = {
     getAllThreadByIdCategory: async(req, res)=>{
         try {
             const id = req.params.id;
-            const threads = await Thread.find({category:{_id: id}});
+            const threads = await Thread.find({category:{_id: id}}).populate('byUser', 'name avatar username permission')
+                                                .populate('category', 'category color').exec();;
             //console.log(threads);
 
             return res.status(200).json(threads);
